@@ -83,7 +83,7 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
           override val authConnector = new FakeFailingAuthConnector(new BearerTokenExpired)
 
           status(result) mustBe SEE_OTHER
-          redirectLocation(result) mustBe Some("http://localhost:9949/auth-login-stub/gg-sign-in?continue=http%3A%2F%2Flocalhost%3A8319%2Femcs%2Falert-rejection%2Ftrader%2Fern%2Fmovement%2Farc")
+          redirectLocation(result) mustBe Some("http://localhost:9949/auth-login-stub/gg-sign-in?continue=http%3A%2F%2Flocalhost%3A8320%2Femcs%2Falert-rejection%2Ftrader%2Fern%2Fmovement%2Farc")
         }
       }
 

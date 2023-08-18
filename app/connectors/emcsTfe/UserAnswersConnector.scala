@@ -35,20 +35,20 @@ class UserAnswersConnector @Inject()(val http: HttpClient,
   def get(ern: String, arc: String)
          (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, Option[UserAnswers]]] =
     http.GET[Either[ErrorResponse, Option[UserAnswers]]](
-      url = s"$baseUrl/user-answers/alert-rejection/$ern/$arc"
+      url = s"$baseUrl/user-answers/alert-or-rejection/$ern/$arc"
     )(GetUserAnswersReads, hc, ec)
 
   def put(userAnswers: UserAnswers)
          (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, UserAnswers]] =
     http.PUT[UserAnswers, Either[ErrorResponse, UserAnswers]](
-      url = s"$baseUrl/user-answers/alert-rejection/${userAnswers.ern}/${userAnswers.arc}",
+      url = s"$baseUrl/user-answers/alert-or-rejection/${userAnswers.ern}/${userAnswers.arc}",
       body = userAnswers
     )(UserAnswers.writes, PutUserAnswersReads, hc, ec)
 
   def delete(ern: String, arc: String)
             (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Either[ErrorResponse, Boolean]] =
     http.DELETE[Either[ErrorResponse, Boolean]](
-      url = s"$baseUrl/user-answers/alert-rejection/$ern/$arc"
+      url = s"$baseUrl/user-answers/alert-or-rejection/$ern/$arc"
     )(DeleteUserAnswersReads, hc, ec)
 
 }
