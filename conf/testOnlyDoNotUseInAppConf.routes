@@ -10,12 +10,12 @@
 # Failing to follow this rule may result in test routes deployed in production.
 
 # Add all the application routes to the prod.routes file
-GET        /emcs/alert-rejection/test-only/construction            testOnly.controllers.UnderConstructionController.onPageLoad()
+GET        /emcs/alert-or-rejection/test-only/construction            testOnly.controllers.UnderConstructionController.onPageLoad()
 
-GET        /emcs/alert-rejection/test-only/feature-switches        featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
-POST       /emcs/alert-rejection/test-only/feature-switches        featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
-GET        /emcs/alert-rejection/test-only/api/feature-switches    featureswitch.api.controllers.FeatureSwitchApiController.getFeatureSwitches()
+GET        /emcs/alert-or-rejection/test-only/feature-switches        featureswitch.frontend.controllers.FeatureSwitchFrontendController.show()
+POST       /emcs/alert-or-rejection/test-only/feature-switches        featureswitch.frontend.controllers.FeatureSwitchFrontendController.submit()
+GET        /emcs/alert-or-rejection/test-only/api/feature-switches    featureswitch.api.controllers.FeatureSwitchApiController.getFeatureSwitches()
 + nocsrf
-POST       /emcs/alert-rejection/test-only/api/feature-switches    featureswitch.api.controllers.FeatureSwitchApiController.updateFeatureSwitches()
+POST       /emcs/alert-or-rejection/test-only/api/feature-switches    featureswitch.api.controllers.FeatureSwitchApiController.updateFeatureSwitches()
 
 ->         /                          prod.Routes
