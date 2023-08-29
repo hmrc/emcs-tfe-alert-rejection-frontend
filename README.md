@@ -1,7 +1,7 @@
 
 # emcs-tfe-alert-rejection-frontend
 
-Contains the frontend journey for EMCS TFE to cancel a movement. Using hmrc-scaffold-g8.
+Contains the frontend journey for EMCS TFE to submit an alert or rejection. Using hmrc-scaffold-g8.
 
 ## How to build pages with the Scaffolding
 
