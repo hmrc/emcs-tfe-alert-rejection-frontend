@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
+import javax.inject.Inject
+
+import forms.mappings.Mappings
+import play.api.data.Form
 import models.SelectAlertReject
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
-import pages.SelectAlertRejectPage
-import play.api.libs.json.{JsValue, Json}
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+class SelectAlertRejectFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitrarySelectAlertRejectPageUserAnswersEntry: Arbitrary[(SelectAlertRejectPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page <- arbitrary[SelectAlertRejectPage.type]
-        value <- arbitrary[SelectAlertReject].map(Json.toJson(_))
-      } yield (page, value)
-    }
-
+  def apply(): Form[SelectAlertReject] =
+    Form(
+      "value" -> enumerable[SelectAlertReject]("selectAlertRejectPage.error.required")
+    )
 }

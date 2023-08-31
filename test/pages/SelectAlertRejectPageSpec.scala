@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
 import models.SelectAlertReject
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
-import pages.SelectAlertRejectPage
-import play.api.libs.json.{JsValue, Json}
+import pages.behaviour.PageBehaviours
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+class SelectAlertRejectPageSpec extends PageBehaviours {
 
-  implicit lazy val arbitrarySelectAlertRejectPageUserAnswersEntry: Arbitrary[(SelectAlertRejectPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page <- arbitrary[SelectAlertRejectPage.type]
-        value <- arbitrary[SelectAlertReject].map(Json.toJson(_))
-      } yield (page, value)
-    }
+  "SelectAlertReject" - {
 
+    beRetrievable[SelectAlertReject](SelectAlertRejectPage)
+
+    beSettable[SelectAlertReject](SelectAlertRejectPage)
+
+    beRemovable[SelectAlertReject](SelectAlertRejectPage)
+  }
 }

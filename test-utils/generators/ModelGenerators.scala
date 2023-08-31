@@ -16,9 +16,15 @@
 
 package generators
 
+import models.SelectAlertReject
+import org.scalacheck.{Arbitrary, Gen}
+
 trait ModelGenerators {
 
-
+  implicit lazy val arbitrarySelectAlertReject: Arbitrary[SelectAlertReject] =
+    Arbitrary {
+      Gen.oneOf(SelectAlertReject.values)
+    }
 
 
 }

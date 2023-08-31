@@ -17,13 +17,12 @@
 package controllers
 
 import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction}
-import models.UserAnswers
+import models.{NormalMode, UserAnswers}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.UserAnswersService
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
-import views.html.IndexPage
 
 import javax.inject.Inject
 import scala.concurrent.Future
@@ -33,24 +32,17 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
                                 val controllerComponents: MessagesControllerComponents,
                                 authAction: AuthAction,
                                 withMovement: MovementAction,
-                                getData: DataRetrievalAction,
-                                view: IndexPage
+                                getData: DataRetrievalAction
                                ) extends BaseController with Logging {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     (authAction(ern, arc) andThen withMovement.fromCache(arc) andThen getData).async { implicit request =>
       request.userAnswers match {
 
-        // TODO: Remove this case match when we have the 1st controller to redirect to
-        case Some(answers) if answers.data.fields.isEmpty =>
+        case Some(answers) if answers.data.fields.nonEmpty =>
           Future.successful(
-            Ok(view())
+            Redirect(routes.SelectAlertRejectPageController.onPageLoad(ern, arc, NormalMode))
           )
-
-//        case Some(answers) if answers.data.fields.nonEmpty =>
-//          Future.successful(
-//            Redirect(routes.ChangeDestination.onPageLoad(ern, arc))
-//          )
 
         case _ =>
           initialiseAndRedirect(UserAnswers(request.ern, request.arc))
@@ -59,7 +51,7 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
 
   private def initialiseAndRedirect(answers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
     userAnswersService.set(answers).map { _ =>
-      Redirect(routes.IndexController.onPageLoad(answers.ern, answers.arc))
+      Redirect(routes.SelectAlertRejectPageController.onPageLoad(answers.ern, answers.arc, NormalMode))
     }
 
 }

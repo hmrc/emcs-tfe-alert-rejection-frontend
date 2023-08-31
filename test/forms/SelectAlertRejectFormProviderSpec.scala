@@ -14,22 +14,32 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
+import forms.behaviours.OptionFieldBehaviours
 import models.SelectAlertReject
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
-import pages.SelectAlertRejectPage
-import play.api.libs.json.{JsValue, Json}
+import play.api.data.FormError
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+class SelectAlertRejectFormProviderSpec extends OptionFieldBehaviours {
 
-  implicit lazy val arbitrarySelectAlertRejectPageUserAnswersEntry: Arbitrary[(SelectAlertRejectPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page <- arbitrary[SelectAlertRejectPage.type]
-        value <- arbitrary[SelectAlertReject].map(Json.toJson(_))
-      } yield (page, value)
-    }
+  val form = new SelectAlertRejectFormProvider()()
 
+  ".value" - {
+
+    val fieldName = "value"
+    val requiredKey = "selectAlertRejectPage.error.required"
+
+    behave like optionsField[SelectAlertReject](
+      form,
+      fieldName,
+      validValues  = SelectAlertReject.values,
+      invalidError = FormError(fieldName, "error.invalid")
+    )
+
+    behave like mandatoryField(
+      form,
+      fieldName,
+      requiredError = FormError(fieldName, requiredKey)
+    )
+  }
 }

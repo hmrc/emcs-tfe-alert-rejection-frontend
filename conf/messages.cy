@@ -79,7 +79,7 @@ timeout.timedOut.title = For your security we signed you out
 timeout.timedOut.heading = For your security we signed you out
 timeout.timedOut.p1 = We did not save your answers.
 
-arc.subHeading = Explanation for delay to {0}
+arc.subHeading = Alert or rejection for {0}
 
 error.browser.title.prefix = Error:
 
@@ -96,3 +96,13 @@ journeyRecovery.p3 = You can also choose to
 journeyRecovery.p3.viewAccountLink = view all your account information
 journeyRecovery.p3.or = or
 journeyRecovery.p3.signOutLink = sign out
+
+selectAlertRejectPage.title = Do you want to receive the movement?
+selectAlertRejectPage.heading = Alert or reject a movement
+selectAlertRejectPage.p1 = Use an alert or rejection to tell HMRC and the consignor about a problem with a movement. You must do this as soon as you become aware of the problem.
+selectAlertRejectPage.p2 = You can only submit an alert or rejection while the movement is in transit. If it''s been delivered, you can refuse goods or tell the consignor about an issue when submitting a report of receipt.
+selectAlertRejectPage.alert = Yes, but I want to alert the consignor to an issue
+selectAlertRejectPage.reject = No, I want to reject the movement
+selectAlertRejectPage.checkYourAnswersLabel = Alert or rejection
+selectAlertRejectPage.error.required = Select yes if you want to receive the movement and alert the consignor to an issue
+selectAlertRejectPage.change.hidden = SelectAlertRejectPage
