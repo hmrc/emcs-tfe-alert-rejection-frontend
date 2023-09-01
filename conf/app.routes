@@ -19,3 +19,8 @@ GET        /trader/:ern/movement/:arc                                   controll
 
 GET        /trader/:ern/movement/:arc/no-information-delay              controllers.JourneyRecoveryController.onPageLoad(ern: String, arc: String)
 
+
+GET        /trader/:ern/movement/:arc/select-alert-reject                       controllers.SelectAlertRejectPageController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/select-alert-reject                       controllers.SelectAlertRejectPageController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/select-alert-reject/change                controllers.SelectAlertRejectPageController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/select-alert-reject/change                controllers.SelectAlertRejectPageController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)

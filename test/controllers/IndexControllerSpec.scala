@@ -18,6 +18,9 @@ package controllers
 
 import base.SpecBase
 import mocks.services.MockUserAnswersService
+import models.NormalMode
+import models.SelectAlertReject.Alert
+import pages.SelectAlertRejectPage
 import play.api.http.Status.SEE_OTHER
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -34,7 +37,7 @@ class IndexControllerSpec extends SpecBase with MockUserAnswersService {
 
       "when existing UserAnswers don't exist" - {
 
-        "must Initialise the UserAnswers and redirect to the IndexController" in {
+        "must Initialise the UserAnswers and redirect to the SelectAlertRejectController" in {
 
           MockUserAnswersService.set(emptyUserAnswers).returns(Future.successful(emptyUserAnswers))
 
@@ -48,12 +51,30 @@ class IndexControllerSpec extends SpecBase with MockUserAnswersService {
             val result = route(application, request).value
 
             status(result) mustEqual SEE_OTHER
-            redirectLocation(result) mustBe Some(routes.IndexController.onPageLoad(testErn, testArc).url)
+            redirectLocation(result) mustBe Some(routes.SelectAlertRejectPageController.onPageLoad(testErn, testArc, NormalMode).url)
           }
         }
       }
 
+      "when existing UserAnswers exist" - {
 
+        "must redirect to the SelectAlertRejectController" in {
+
+          val userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert)
+
+          val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+          running(application) {
+
+            val request = FakeRequest(GET, routes.IndexController.onPageLoad(testErn, testArc).url)
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+            redirectLocation(result) mustBe Some(routes.SelectAlertRejectPageController.onPageLoad(testErn, testArc, NormalMode).url)
+          }
+        }
+      }
     }
 
   }

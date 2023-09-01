@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
 import models.SelectAlertReject
-import org.scalacheck.Arbitrary
-import org.scalacheck.Arbitrary.arbitrary
-import pages.SelectAlertRejectPage
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.JsPath
 
-trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
-
-  implicit lazy val arbitrarySelectAlertRejectPageUserAnswersEntry: Arbitrary[(SelectAlertRejectPage.type, JsValue)] =
-    Arbitrary {
-      for {
-        page <- arbitrary[SelectAlertRejectPage.type]
-        value <- arbitrary[SelectAlertReject].map(Json.toJson(_))
-      } yield (page, value)
-    }
-
+case object SelectAlertRejectPage extends QuestionPage[SelectAlertReject] {
+  override def path: JsPath = JsPath \ toString
+  override def toString: String = "selectAlertRejectPage"
 }

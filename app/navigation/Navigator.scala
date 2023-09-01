@@ -26,6 +26,11 @@ import javax.inject.Inject
 class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
+
+    //TODO: Route to the next page as part of future story
+    case SelectAlertRejectPage => (_: UserAnswers) =>
+      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
