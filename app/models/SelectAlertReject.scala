@@ -24,8 +24,8 @@ sealed trait SelectAlertReject
 
 object SelectAlertReject extends Enumerable.Implicits {
 
-  case object Alert extends WithName("alert") with SelectAlertReject
-  case object Reject extends WithName("reject") with SelectAlertReject
+  case object Alert extends WithName("0") with SelectAlertReject
+  case object Reject extends WithName("1") with SelectAlertReject
 
   val values: Seq[SelectAlertReject] = Seq(
     Alert, Reject

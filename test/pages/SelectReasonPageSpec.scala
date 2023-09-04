@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages.{SelectAlertRejectPage, SelectReasonPage}
+import models.SelectReason
+import pages.behaviour.PageBehaviours
 
-trait PageGenerators {
+class SelectReasonPageSpec extends PageBehaviours {
 
-  implicit lazy val arbitrarySelectReasonPage: Arbitrary[SelectReasonPage.type] =
-    Arbitrary(SelectReasonPage)
+  "SelectReasonPage" - {
 
-  implicit lazy val arbitrarySelectAlertRejectPage: Arbitrary[SelectAlertRejectPage.type] =
-    Arbitrary(SelectAlertRejectPage)
+    beRetrievable[Set[SelectReason]](SelectReasonPage)
 
+    beSettable[Set[SelectReason]](SelectReasonPage)
 
+    beRemovable[Set[SelectReason]](SelectReasonPage)
+  }
 }
