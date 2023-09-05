@@ -16,13 +16,21 @@
 
 package generators
 
-import models.SelectAlertReject
+import models.{SelectAlertReject, SelectReason}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Arbitrary.arbitrary
-import pages.SelectAlertRejectPage
+import pages.{SelectAlertRejectPage, SelectReasonPage}
 import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
+
+  implicit lazy val arbitrarySelectReasonUserAnswersEntry: Arbitrary[(SelectReasonPage.type, JsValue)] =
+    Arbitrary {
+      for {
+        page  <- arbitrary[SelectReasonPage.type]
+        value <- arbitrary[SelectReason].map(Json.toJson(_))
+      } yield (page, value)
+    }
 
   implicit lazy val arbitrarySelectAlertRejectPageUserAnswersEntry: Arbitrary[(SelectAlertRejectPage.type, JsValue)] =
     Arbitrary {

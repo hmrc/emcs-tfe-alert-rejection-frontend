@@ -24,3 +24,8 @@ GET        /trader/:ern/movement/:arc/select-alert-reject                       
 POST       /trader/:ern/movement/:arc/select-alert-reject                       controllers.SelectAlertRejectPageController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
 GET        /trader/:ern/movement/:arc/select-alert-reject/change                controllers.SelectAlertRejectPageController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/select-alert-reject/change                controllers.SelectAlertRejectPageController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+
+GET        /trader/:ern/movement/:arc/select-reason                             controllers.SelectReasonController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/select-reason                             controllers.SelectReasonController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/select-reason/change                      controllers.SelectReasonController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/select-reason/change                      controllers.SelectReasonController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)

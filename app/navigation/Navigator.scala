@@ -17,6 +17,7 @@
 package navigation
 
 import controllers.routes
+import models.SelectReason.Other
 import models.{Mode, NormalMode, UserAnswers}
 import pages._
 import play.api.mvc.Call
@@ -27,9 +28,18 @@ class Navigator @Inject()() extends BaseNavigator {
 
   private val normalRoutes: Page => UserAnswers => Call = {
 
-    //TODO: Route to the next page as part of future story
-    case SelectAlertRejectPage => (_: UserAnswers) =>
-      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+    case SelectAlertRejectPage => (userAnswers: UserAnswers) =>
+      routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+
+    case SelectReasonPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(SelectReasonPage) match {
+        case Some(selectedOptions) if selectedOptions.contains(Other) =>
+          // TODO route to AR04 once developed
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          // TODO route to AR03 once developed
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+      }
 
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)

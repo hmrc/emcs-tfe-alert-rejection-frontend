@@ -18,6 +18,8 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
+import models.SelectAlertReject.Alert
+import models.SelectReason.{ConsigneeDetailsWrong, Other}
 import models._
 import pages._
 
@@ -35,6 +37,40 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, emptyUserAnswers) mustBe
           routes.IndexController.onPageLoad(testErn, testArc)
       }
+
+      "for the SelectAlertReject page" - {
+
+        "must go to the SelectReason page" in {
+          navigator.nextPage(SelectAlertRejectPage, NormalMode, emptyUserAnswers) mustBe
+            routes.SelectReasonController.onPageLoad(testErn, testArc, NormalMode)
+        }
+      }
+
+      "for the SelectReasonController page" - {
+
+        "must go to UnderConstruction page" - {
+
+          "when the user has chosen `Other`" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(Other))
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+
+          "when the user has chosen an option that doesn't contain `Other`" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
+
+      }
+
 
     }
 
