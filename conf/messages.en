@@ -34,7 +34,6 @@ notAnOrganisation.bullet2.link = register for a business tax account and enrol f
 
 noEnrolment.title = There is a problem
 noEnrolment.heading = There is a problem
-noEnrolment.p1 = You are not enrolled for the Excise Movement and Control System (EMCS).
 noEnrolment.p2 = To use this service you or the account administrator must either:
 noEnrolment.bullet1.link = enrol for EMCS
 noEnrolment.bullet2.link = sign in to a business tax account that has an EMCS enrolment
@@ -71,13 +70,21 @@ notOnPrivateBeta.notSignedUp.p1.afterLink = if you are not already involved.
 notOnPrivateBeta.notSignedUp.p2 = To take part you must currently submit EMCS receipts using the HMRC platform.
 
 timeout.title = You’re about to be signed out
-timeout.message = For security reasons, you will be signed out of this service in
+timeout.message = For your security, we will sign you out in
 timeout.keepAlive = Stay signed in
 timeout.signOut = Sign out
 
 timeout.timedOut.title = For your security we signed you out
 timeout.timedOut.heading = For your security we signed you out
-timeout.timedOut.p1 = We did not save your answers.
+timeout.timedOut.p1 = We have not saved your answers.
+
+global.error.InternalServerError500.title=Sorry, there is a problem with the service
+global.error.InternalServerError500.heading=Sorry, there is a problem with the service
+global.error.InternalServerError500.message=Try again later.
+global.error.InternalServerError500.p1.href.text=Use fallback procedures for the Excise Movement and Control System (EMCS)
+global.error.InternalServerError500.p1.href.suffix=if you need to create a movement and the digital service is unavailable.
+global.error.InternalServerError500.p2.href.text=Contact the EMCS helpdesk
+global.error.InternalServerError500.p2.href.suffix=if you need to speak to someone about your account.
 
 arc.subHeading = Alert or rejection for {0}
 

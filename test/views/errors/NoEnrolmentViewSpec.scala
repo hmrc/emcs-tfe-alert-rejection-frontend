@@ -47,11 +47,10 @@ class NoEnrolmentViewSpec extends ViewSpecBase with ViewBehaviours {
         behave like pageWithExpectedElementsAndMessages(Seq(
           Selectors.title -> messagesForLanguage.title,
           Selectors.h1 -> messagesForLanguage.heading,
-          Selectors.p(1) -> messagesForLanguage.p1,
-          Selectors.p(2) -> messagesForLanguage.p2,
+          Selectors.p(1) -> messagesForLanguage.p2,
           Selectors.bullet(1) -> messagesForLanguage.bullet1,
           Selectors.bullet(2) -> messagesForLanguage.bullet2,
-          Selectors.p(3) -> messagesForLanguage.p3
+          Selectors.p(2) -> messagesForLanguage.p3
         ))
 
         "have the correct guidance link to register for EMCS" in {
