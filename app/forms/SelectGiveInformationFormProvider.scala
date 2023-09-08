@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages.{SelectGiveInformationPage, SelectAlertRejectPage, SelectReasonPage}
+import javax.inject.Inject
+import forms.mappings.Mappings
+import models.SelectAlertReject
+import play.api.data.Form
 
-trait PageGenerators {
+class SelectGiveInformationFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitrarySelectGiveInformationPage: Arbitrary[SelectGiveInformationPage.type] =
-    Arbitrary(SelectGiveInformationPage)
-
-  implicit lazy val arbitrarySelectReasonPage: Arbitrary[SelectReasonPage.type] =
-    Arbitrary(SelectReasonPage)
-
-  implicit lazy val arbitrarySelectAlertRejectPage: Arbitrary[SelectAlertRejectPage.type] =
-    Arbitrary(SelectAlertRejectPage)
-
-
+  def apply(alertOrReject: SelectAlertReject): Form[Boolean] =
+    Form(
+      "value" -> boolean(s"selectGiveInformation.error.required.$alertOrReject")
+    )
 }

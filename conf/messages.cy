@@ -124,5 +124,15 @@ selectReason.2 = Goods types do not match the order
 selectReason.3 = Goods quantities do not match the order
 selectReason.4 = Other
 selectReason.checkYourAnswersLabel = selectReason
-selectReason.error.required = Select selectReason
+selectReason.error.required.0 = Select why you are alerting the consignor to an issue
+selectReason.error.required.1 = Select why you are rejecting the movement
 selectReason.change.hidden = SelectReason
+
+selectGiveInformation.title.0 = Do you want to give more information about the alert?
+selectGiveInformation.title.1 = Do you want to give more information about the rejection?
+selectGiveInformation.heading.0 = Do you want to give more information about the alert?
+selectGiveInformation.heading.1 = Do you want to give more information about the rejection?
+selectGiveInformation.checkYourAnswersLabel = selectGiveInformation
+selectGiveInformation.error.required.0 = Select yes if you want to give more information about the alert
+selectGiveInformation.error.required.1 = Select yes if you want to give more information about the rejection
+selectGiveInformation.change.hidden = SelectGiveInformation

@@ -48,6 +48,7 @@ class NavigatorSpec extends SpecBase {
 
       "for the SelectReasonController page" - {
 
+        // TODO update to redirect to new page when it is created
         "must go to UnderConstruction page" - {
 
           "when the user has chosen `Other`" in {
@@ -58,6 +59,9 @@ class NavigatorSpec extends SpecBase {
             navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
               testOnly.controllers.routes.UnderConstructionController.onPageLoad()
           }
+        }
+
+        "must go to the SelectGiveInformation page" - {
 
           "when the user has chosen an option that doesn't contain `Other`" in {
             val userAnswers = emptyUserAnswers
@@ -65,18 +69,41 @@ class NavigatorSpec extends SpecBase {
               .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
 
             navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              controllers.routes.SelectGiveInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
-
       }
-
-
     }
 
-    "in Check mode" - {
+    "for the SelectGiveInformation page" - {
 
+      // TODO update to redirect to new pages when they are created
+      "must go to UnderConstruction page" - {
 
+        "when the user has chosen Yes to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(Other))
+            .set(SelectGiveInformationPage, true)
+
+          navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user has chosen No to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+            .set(SelectGiveInformationPage, false)
+
+          navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+            controllers.routes.SelectGiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+      }
     }
+  }
+
+  "in Check mode" - {
+
   }
 }

@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import org.scalacheck.Arbitrary
-import pages.{SelectGiveInformationPage, SelectAlertRejectPage, SelectReasonPage}
+import pages.behaviour.PageBehaviours
 
-trait PageGenerators {
+class SelectGiveInformationPageSpec extends PageBehaviours {
 
-  implicit lazy val arbitrarySelectGiveInformationPage: Arbitrary[SelectGiveInformationPage.type] =
-    Arbitrary(SelectGiveInformationPage)
+  "SelectGiveInformationPage" - {
 
-  implicit lazy val arbitrarySelectReasonPage: Arbitrary[SelectReasonPage.type] =
-    Arbitrary(SelectReasonPage)
+    beRetrievable[Boolean](SelectGiveInformationPage)
 
-  implicit lazy val arbitrarySelectAlertRejectPage: Arbitrary[SelectAlertRejectPage.type] =
-    Arbitrary(SelectAlertRejectPage)
+    beSettable[Boolean](SelectGiveInformationPage)
 
-
+    beRemovable[Boolean](SelectGiveInformationPage)
+  }
 }

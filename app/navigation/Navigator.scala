@@ -37,7 +37,16 @@ class Navigator @Inject()() extends BaseNavigator {
           // TODO route to AR04 once developed
           testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         case _ =>
-          // TODO route to AR03 once developed
+          controllers.routes.SelectGiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      }
+
+    case SelectGiveInformationPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(SelectGiveInformationPage) match {
+        case Some(true) =>
+          // TODO route to more information page when finished
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          // TODO route to CYA page when finished
           testOnly.controllers.routes.UnderConstructionController.onPageLoad()
       }
 
