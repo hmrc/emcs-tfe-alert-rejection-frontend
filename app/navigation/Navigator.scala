@@ -34,8 +34,7 @@ class Navigator @Inject()() extends BaseNavigator {
     case SelectReasonPage => (userAnswers: UserAnswers) =>
       userAnswers.get(SelectReasonPage) match {
         case Some(selectedOptions) if selectedOptions.contains(Other) =>
-          // TODO route to AR04 once developed
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           controllers.routes.SelectGiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
       }
@@ -43,12 +42,16 @@ class Navigator @Inject()() extends BaseNavigator {
     case SelectGiveInformationPage => (userAnswers: UserAnswers) =>
       userAnswers.get(SelectGiveInformationPage) match {
         case Some(true) =>
-          // TODO route to more information page when finished
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           // TODO route to CYA page when finished
           testOnly.controllers.routes.UnderConstructionController.onPageLoad()
       }
+
+    case GiveInformationPage => (userAnswers: UserAnswers) =>
+      // TODO route to CYA page when finished
+      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+
 
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
