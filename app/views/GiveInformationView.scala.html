@@ -32,7 +32,7 @@
 
 @(form: Form[_], alertReject: SelectAlertReject, hasOther: Boolean, onSubmit: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"giveInformation.heading.${if(hasOther) "" else "more."}$alertReject"))) {
+@layout(pageTitle = title(form, heading)) {
 
     @formHelper(action = onSubmit) {
 
@@ -42,12 +42,11 @@
 
         @h2(messages("arc.subHeading", request.arc), "govuk-caption-l")
 
-        @h1(s"giveInformation.heading.${if(hasOther) "" else "more."}$alertReject")
-
         @{govukCharacterCount(CharacterCount(
             id = "value",
             name = "value",
             maxLength = Some(350),
+            label = LabelViewModel(Text(heading)).asPageHeading(LabelSize.Large),
             hint = Option(HintViewModel(Text(messages(s"giveInformation.hint.$hasOther")))),
             value = form("value").value,
             errorMessage = form.errors("value") match {
@@ -57,8 +56,11 @@
         ))}
 
         @continue()
-
     }
+}
+
+@heading = @{
+    messages(s"giveInformation.heading.${if(hasOther) "" else "more."}$alertReject")
 }
 
 @{
