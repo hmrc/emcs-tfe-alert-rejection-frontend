@@ -17,9 +17,8 @@
 package views
 
 import base.ViewSpecBase
-import fixtures.messages.{SelectGiveInformationMessages, SelectReasonMessages}
-import forms.{SelectGiveInformationFormProvider, SelectReasonFormProvider}
-import models.{NormalMode, SelectAlertReject}
+import fixtures.messages.SelectGiveInformationMessages
+import forms.SelectGiveInformationFormProvider
 import models.SelectAlertReject.{Alert, Reject}
 import models.requests.DataRequest
 import org.jsoup.Jsoup
@@ -27,7 +26,7 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import views.html.{SelectGiveInformationView, SelectReasonView}
+import views.html.SelectGiveInformationView
 
 
 class SelectGiveInformationViewSpec extends ViewSpecBase with ViewBehaviours {

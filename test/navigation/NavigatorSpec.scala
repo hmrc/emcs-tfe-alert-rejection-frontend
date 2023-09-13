@@ -48,16 +48,15 @@ class NavigatorSpec extends SpecBase {
 
       "for the SelectReasonController page" - {
 
-        // TODO update to redirect to new page when it is created
-        "must go to UnderConstruction page" - {
+        "must go to GiveInformation page" - {
 
-          "when the user has chosen `Other`" in {
+          "when the user has chosen an option that does contain `Other`" in {
             val userAnswers = emptyUserAnswers
               .set(SelectAlertRejectPage, Alert)
               .set(SelectReasonPage, Set(Other))
 
             navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
 
@@ -77,8 +76,7 @@ class NavigatorSpec extends SpecBase {
 
     "for the SelectGiveInformation page" - {
 
-      // TODO update to redirect to new pages when they are created
-      "must go to UnderConstruction page" - {
+      "must go to GiveInformation page" - {
 
         "when the user has chosen Yes to giving more information" in {
           val userAnswers = emptyUserAnswers
@@ -87,7 +85,7 @@ class NavigatorSpec extends SpecBase {
             .set(SelectGiveInformationPage, true)
 
           navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
 
         "when the user has chosen No to giving more information" in {
@@ -96,9 +94,23 @@ class NavigatorSpec extends SpecBase {
             .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
             .set(SelectGiveInformationPage, false)
 
-          navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-            controllers.routes.SelectGiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+          navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
+      }
+    }
+
+    //TODO: GIVE INFORMATION PAGE NAV SPEC
+    "for  the GiveInformation page" - {
+      "must go to the CheckYourAnswers page" - {
+
+        val userAnswers = emptyUserAnswers
+          .set(SelectAlertRejectPage, Alert)
+          .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+          .set(SelectGiveInformationPage, false)
+          .set(GiveInformationPage, Some(""))
+        navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
       }
     }
   }

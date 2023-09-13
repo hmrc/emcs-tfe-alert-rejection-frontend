@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import forms.SelectGiveInformationFormProvider
-import models.{Mode, NormalMode, SelectAlertReject}
+import models.{Mode, SelectAlertReject}
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.{SelectAlertRejectPage, SelectGiveInformationPage}

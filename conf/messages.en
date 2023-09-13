@@ -136,3 +136,16 @@ selectGiveInformation.checkYourAnswersLabel = selectGiveInformation
 selectGiveInformation.error.required.0 = Select yes if you want to give more information about the alert
 selectGiveInformation.error.required.1 = Select yes if you want to give more information about the rejection
 selectGiveInformation.change.hidden = SelectGiveInformation
+
+giveInformation.heading.0 = Give information about the alert
+giveInformation.heading.more.0 = Give more information about the alert
+giveInformation.heading.1 = Give information about the rejection
+giveInformation.heading.more.1 = Give more information about the rejection
+giveInformation.checkYourAnswersLabel = giveInformation
+giveInformation.hint.true = Give information.
+giveInformation.hint.false = Give information (optional).
+giveInformation.error.required = Enter information
+giveInformation.error.length = Information must be 350 characters or less
+giveInformation.error.character = Information must contain letters or numbers
+giveInformation.error.xss = Information must not include < and > and : and ;
+giveInformation.change.hidden = GiveInformation
