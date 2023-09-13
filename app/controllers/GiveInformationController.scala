@@ -18,18 +18,17 @@ package controllers
 
 import controllers.actions._
 import forms.GiveInformationFormProvider
+import models.Mode
 import models.SelectReason.Other
-
-import javax.inject.Inject
-import models.{Mode, SelectAlertReject, SelectReason}
 import navigation.Navigator
 import pages.{GiveInformationPage, SelectAlertRejectPage, SelectReasonPage}
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import utils.JsonOptionFormatter.optionFormat
 import views.html.GiveInformationView
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class GiveInformationController @Inject()(

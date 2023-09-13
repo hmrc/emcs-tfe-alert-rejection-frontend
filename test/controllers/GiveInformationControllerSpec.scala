@@ -23,13 +23,13 @@ import models.SelectAlertReject.Alert
 import models.SelectReason.Other
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import pages.{GiveInformationPage, SelectAlertRejectPage, SelectGiveInformationPage, SelectReasonPage}
+import pages.{GiveInformationPage, SelectAlertRejectPage, SelectReasonPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.UserAnswersService
-import views.html.{GiveInformationView, SelectGiveInformationView}
+import views.html.GiveInformationView
 
 import scala.concurrent.Future
 
@@ -87,8 +87,6 @@ class GiveInformationControllerSpec extends SpecBase with MockUserAnswersService
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[GiveInformationView]
-
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad(testErn, testArc).url
       }
@@ -102,8 +100,6 @@ class GiveInformationControllerSpec extends SpecBase with MockUserAnswersService
         val request = FakeRequest(GET, giveInformationRoute)
 
         val result = route(application, request).value
-
-        val view = application.injector.instanceOf[GiveInformationView]
 
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad(testErn, testArc).url

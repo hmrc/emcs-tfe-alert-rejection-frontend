@@ -20,7 +20,6 @@ import base.ViewSpecBase
 import fixtures.messages.GiveInformationMessages
 import forms.GiveInformationFormProvider
 import models.SelectAlertReject.{Alert, Reject}
-import models.NormalMode
 import models.requests.DataRequest
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
