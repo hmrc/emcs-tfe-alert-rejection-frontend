@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-        h1: components.h1
-)
+package utils
 
-@(
-        headingMsg: String
-)(implicit messages: Messages)
+import play.api.i18n.Messages
 
-<div class="govuk-panel govuk-panel--confirmation">
- @h1(messages(headingMsg), classes = "govuk-panel__title")
-</div>
+import java.time.LocalDate
 
- @{
-  //$COVERAGE-OFF$
- }
+trait DateUtils {
+  implicit class LocalDateExtensions(date: LocalDate) {
+    def formatDateForUIOutput()(implicit messages: Messages): String = {
+      val monthMessage = messages(s"date.month.${date.getMonthValue}")
+      s"${date.getDayOfMonth} $monthMessage ${date.getYear}"
+    }
+  }
+}

@@ -175,3 +175,6 @@ chooseGoodsQuantitiesInformation.heading = Do you want to give information about
 chooseGoodsQuantitiesInformation.checkYourAnswersLabel = chooseGoodsQuantitiesInformation
 chooseGoodsQuantitiesInformation.error.required = Select yes if you want to give information about the goods quantities not matching the order
 chooseGoodsQuantitiesInformation.change.hidden = ChooseGoodsQuantitiesInformation
+
+confirmation.title = confirmation
+confirmation.heading = confirmation

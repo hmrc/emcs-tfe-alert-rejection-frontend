@@ -59,3 +59,5 @@ GET        /trader/:ern/movement/:arc/choose-goods-quantities-information       
 POST       /trader/:ern/movement/:arc/choose-goods-quantities-information           controllers.ChooseGoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
 GET        /trader/:ern/movement/:arc/choose-goods-quantities-information/change    controllers.ChooseGoodsQuantitiesInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/choose-goods-quantities-information/change    controllers.ChooseGoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+
+GET        /trader/:ern/movement/:arc/confirmation                              controllers.ConfirmationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
