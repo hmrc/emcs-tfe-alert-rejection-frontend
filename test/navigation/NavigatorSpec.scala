@@ -63,7 +63,7 @@ class NavigatorSpec extends SpecBase {
         "must go to the SelectGiveInformation page" - {
 
           // TODO remove this once AR stories are completed
-          "when the user has chosen an option that doesn't contain `Other` or Consignee details wrong" in {
+          "when the user has chosen an option that doesn't contain `Other` or `Some or all of the consignee details are wrong`" in {
             val userAnswers = emptyUserAnswers
               .set(SelectAlertRejectPage, Alert)
               .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
@@ -75,7 +75,7 @@ class NavigatorSpec extends SpecBase {
 
         "must go to the ChooseConsigneeInformation page" - {
 
-          "when the user has chosen that the consignee details are wrong" in {
+          "when the user has chosen `Some or all of the consignee details are wrong`" in {
             val userAnswers = emptyUserAnswers
               .set(SelectAlertRejectPage, Alert)
               .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
@@ -84,7 +84,6 @@ class NavigatorSpec extends SpecBase {
               controllers.routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
-
 
       }
     }

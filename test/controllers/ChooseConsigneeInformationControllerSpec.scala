@@ -51,7 +51,6 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
   val formProvider = new ChooseConsigneeInformationFormProvider()
   val form = formProvider(Alert)
 
-
   lazy val chooseConsigneeInformationRoute  = routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode).url
 
   "ChooseConsigneeInformation Controller" - {
