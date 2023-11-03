@@ -19,7 +19,7 @@ package navigation
 import base.SpecBase
 import controllers.routes
 import models.SelectAlertReject.Alert
-import models.SelectReason.{ConsigneeDetailsWrong, Other}
+import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other}
 import models._
 import pages._
 
@@ -73,15 +73,30 @@ class NavigatorSpec extends SpecBase {
 
         "must go to the SelectGiveInformation page" - {
 
-          "when the user has chosen an option that doesn't contain `Other`" in {
+          // TODO remove this once AR stories are completed
+          "when the user has chosen an option that doesn't contain `Other` or Consignee details wrong" in {
             val userAnswers = emptyUserAnswers
               .set(SelectAlertRejectPage, Alert)
-              .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+              .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
 
             navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
               controllers.routes.SelectGiveInformationController.onPageLoad(testErn, testArc, NormalMode)
           }
         }
+
+        "must go to the ChooseConsigneeInformation page" - {
+
+          "when the user has chosen that the consignee details are wrong" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              controllers.routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
+        }
+
+
       }
     }
 
