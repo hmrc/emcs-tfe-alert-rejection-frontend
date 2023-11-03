@@ -126,6 +126,30 @@ class NavigatorSpec extends SpecBase {
       }
     }
 
+    "for the ChooseConsigneeInformation page" - {
+
+        // TODO route to consignee information page AR04 when finished
+        "when the user has chosen Yes to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+            .set(ChooseConsigneeInformationPage, true)
+
+          navigator.nextPage(ChooseConsigneeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user has chosen No to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+            .set(ChooseConsigneeInformationPage, false)
+
+          navigator.nextPage(ChooseConsigneeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+    }
+
     //TODO: GIVE INFORMATION PAGE NAV SPEC
     "for  the GiveInformation page" - {
       "must go to the CheckYourAnswers page" - {
