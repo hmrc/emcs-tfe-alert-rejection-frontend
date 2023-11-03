@@ -17,7 +17,7 @@
 package navigation
 
 import controllers.routes
-import models.SelectReason.Other
+import models.SelectReason.{ConsigneeDetailsWrong, Other}
 import models.{Mode, NormalMode, UserAnswers}
 import pages._
 import play.api.mvc.Call
@@ -35,8 +35,20 @@ class Navigator @Inject()() extends BaseNavigator {
       userAnswers.get(SelectReasonPage) match {
         case Some(selectedOptions) if selectedOptions.contains(Other) =>
           controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case Some(selectedOptions) if selectedOptions.contains(ConsigneeDetailsWrong) =>
+          controllers.routes.ChooseConsigneeInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           controllers.routes.SelectGiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      }
+
+    case ChooseConsigneeInformationPage => (userAnswers: UserAnswers) =>
+      userAnswers.get(ChooseConsigneeInformationPage) match {
+        case Some(true) =>
+          // TODO route to consignee information page AR04 when finished
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        case _ =>
+          // TODO route to CYA page when finished
+          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
       }
 
     case SelectGiveInformationPage => (userAnswers: UserAnswers) =>

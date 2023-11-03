@@ -39,3 +39,8 @@ GET        /trader/:ern/movement/:arc/select-give-information                   
 POST       /trader/:ern/movement/:arc/select-give-information					controllers.SelectGiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
 GET        /trader/:ern/movement/:arc/select-give-information/change            controllers.SelectGiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/select-give-information/change            controllers.SelectGiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+
+GET        /trader/:ern/movement/:arc/choose-consignee-information              controllers.ChooseConsigneeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/choose-consignee-information				controllers.ChooseConsigneeInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/choose-consignee-information/change       controllers.ChooseConsigneeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/choose-consignee-information/change       controllers.ChooseConsigneeInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
