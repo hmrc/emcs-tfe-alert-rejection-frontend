@@ -20,7 +20,7 @@ import pages.behaviour.PageBehaviours
 
 class ChooseConsigneeInformationPageSpec extends PageBehaviours {
 
-  "SelectGiveInformationPage" - {
+  "ChooseConsigneeInformationPage" - {
 
     beRetrievable[Boolean](ChooseConsigneeInformationPage)
 
