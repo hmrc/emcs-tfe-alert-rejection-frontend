@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import models.{DestinationOffice, SelectAlertReject, SelectReason}
-import org.scalacheck.{Arbitrary, Gen}
+import models.DestinationOffice
+import pages.behaviour.PageBehaviours
 
-trait ModelGenerators {
+class DestinationOfficeSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryDestinationOffice: Arbitrary[DestinationOffice] =
-    Arbitrary {
-      Gen.oneOf(DestinationOffice.values.toSeq)
-    }
+  "DestinationOfficePage" - {
 
-  implicit lazy val arbitrarySelectReason: Arbitrary[SelectReason] =
-    Arbitrary {
-      Gen.oneOf(SelectReason.values)
-    }
+    beRetrievable[DestinationOffice](DestinationOfficePage)
 
-  implicit lazy val arbitrarySelectAlertReject: Arbitrary[SelectAlertReject] =
-    Arbitrary {
-      Gen.oneOf(SelectAlertReject.values)
-    }
+    beSettable[DestinationOffice](DestinationOfficePage)
 
-
+    beRemovable[DestinationOffice](DestinationOfficePage)
+  }
 }

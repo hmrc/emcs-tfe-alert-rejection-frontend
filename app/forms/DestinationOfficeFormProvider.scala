@@ -14,27 +14,18 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import models.{DestinationOffice, SelectAlertReject, SelectReason}
-import org.scalacheck.{Arbitrary, Gen}
+import javax.inject.Inject
 
-trait ModelGenerators {
+import forms.mappings.Mappings
+import play.api.data.Form
+import models.DestinationOffice
 
-  implicit lazy val arbitraryDestinationOffice: Arbitrary[DestinationOffice] =
-    Arbitrary {
-      Gen.oneOf(DestinationOffice.values.toSeq)
-    }
+class DestinationOfficeFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitrarySelectReason: Arbitrary[SelectReason] =
-    Arbitrary {
-      Gen.oneOf(SelectReason.values)
-    }
-
-  implicit lazy val arbitrarySelectAlertReject: Arbitrary[SelectAlertReject] =
-    Arbitrary {
-      Gen.oneOf(SelectAlertReject.values)
-    }
-
-
+  def apply(): Form[DestinationOffice] =
+    Form(
+      "value" -> enumerable[DestinationOffice]("destinationOffice.error.required")
+    )
 }

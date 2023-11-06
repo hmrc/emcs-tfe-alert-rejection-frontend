@@ -114,6 +114,14 @@ selectAlertRejectPage.checkYourAnswersLabel = Alert or rejection
 selectAlertRejectPage.error.required = Select yes if you want to receive the movement and alert the consignor to an issue
 selectAlertRejectPage.change.hidden = SelectAlertRejectPage
 
+destinationOffice.title = Were the goods received in Great Britain or Northern Ireland?
+destinationOffice.heading = Were the goods received in Great Britain or Northern Ireland?
+destinationOffice.GB = Great Britain
+destinationOffice.XI = Northern Ireland
+destinationOffice.checkYourAnswersLabel = Were the goods received in Great Britain or Northern Ireland?
+destinationOffice.error.required = Select if the goods were received in Great Britain or Northern Ireland
+destinationOffice.change.hidden = DestinationOffice
+
 selectReason.title.0 = Why are you alerting the consignor to an issue?
 selectReason.title.1 = Why are you rejecting the movement?
 selectReason.heading.0 = Why are you alerting the consignor to an issue?

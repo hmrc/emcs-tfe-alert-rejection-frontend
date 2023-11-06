@@ -68,10 +68,12 @@ trait SpecBase
         bind[MovementAction].toInstance(new FakeMovementAction(getMovementResponseModel))
       )
 
-  def userRequest[A](request: Request[A]): UserRequest[A] = UserRequest(request, testErn, testInternalId, testCredId)
+  def userRequest[A](request: Request[A], ern: String = testErn): UserRequest[A] =
+    UserRequest(request, ern, testInternalId, testCredId)
 
-  def movementRequest[A](request: Request[A]): MovementRequest[A] = MovementRequest(userRequest(request), testArc, getMovementResponseModel)
+  def movementRequest[A](request: Request[A], ern: String = testErn): MovementRequest[A] =
+    MovementRequest(userRequest(request, ern), testArc, getMovementResponseModel)
 
-  def dataRequest[A](request: Request[A], answers: UserAnswers = emptyUserAnswers): DataRequest[A] =
-    DataRequest(movementRequest(request), answers)
+  def dataRequest[A](request: Request[A], answers: UserAnswers = emptyUserAnswers, ern: String = testErn): DataRequest[A] =
+    DataRequest(movementRequest(request, ern), answers)
 }
