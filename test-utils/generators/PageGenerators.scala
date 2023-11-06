@@ -17,7 +17,7 @@
 package generators
 
 import org.scalacheck.Arbitrary
-import pages.{DestinationOfficePage, GiveInformationPage, SelectAlertRejectPage, SelectGiveInformationPage, SelectReasonPage}
+import pages.{DestinationOfficePage, GiveInformationPage, SelectAlertRejectPage, SelectGiveInformationPage, SelectReasonPage, ChooseConsigneeInformationPage}
 
 trait PageGenerators {
 
@@ -36,5 +36,7 @@ trait PageGenerators {
   implicit lazy val arbitrarySelectAlertRejectPage: Arbitrary[SelectAlertRejectPage.type] =
     Arbitrary(SelectAlertRejectPage)
 
+  implicit lazy val chooseConsigneeInformationPage: Arbitrary[ChooseConsigneeInformationPage.type] =
+    Arbitrary(ChooseConsigneeInformationPage)
 
 }

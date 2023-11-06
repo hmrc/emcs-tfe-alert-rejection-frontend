@@ -157,3 +157,9 @@ giveInformation.error.length = Information must be 350 characters or less
 giveInformation.error.character = Information must contain letters or numbers
 giveInformation.error.xss = Information must not include < and > and : and ;
 giveInformation.change.hidden = GiveInformation
+
+chooseConsigneeInformation.title = Do you want to give information about the consignee details being wrong?
+chooseConsigneeInformation.heading = Do you want to give information about the consignee details being wrong?
+chooseConsigneeInformation.checkYourAnswersLabel = chooseConsigneeInformation
+chooseConsigneeInformation.error.required = Select yes if you want to give information about the consignee details being wrong
+chooseConsigneeInformation.change.hidden = ChooseConsigneeInformation
