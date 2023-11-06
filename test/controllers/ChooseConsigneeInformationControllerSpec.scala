@@ -49,7 +49,7 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
   def onwardRoute = Call("GET", "/foo")
 
   val formProvider = new ChooseConsigneeInformationFormProvider()
-  val form = formProvider(Alert)
+  val form = formProvider()
 
   lazy val chooseConsigneeInformationRoute  = routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode).url
 
@@ -67,7 +67,6 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(
-          alertOrReject = Alert,
           form = form,
           onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString
@@ -100,7 +99,6 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(
-          alertOrReject = Alert,
           form = form.fill(true),
           onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString
@@ -156,7 +154,6 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
 
         status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual view(
-          alertOrReject = Alert,
           form = boundForm,
           onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString

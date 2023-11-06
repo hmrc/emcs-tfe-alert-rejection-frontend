@@ -23,19 +23,14 @@ import models.SelectAlertReject.{Alert, Reject}
 object ChooseConsigneeInformationMessages {
   sealed trait ViewMessages { _: i18n =>
 
-    def title() : String = "Do you want to give information about the consignee details being wrong?"
+    def title(): String = "Do you want to give information about the consignee details being wrong?"
 
-    def heading() : String = "Do you want to give information about the consignee details being wrong?"
+    def heading(): String = "Do you want to give information about the consignee details being wrong?"
 
-    def errorMessage(selectAlertReject: SelectAlertReject): String = {
-      selectAlertReject match {
-        case Alert => "Select yes if you want to give more information about the alert"
-        case Reject => "Select yes if you want to give more information about the rejection"
-      }
-    }
+    def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
   }
+
   object English extends ViewMessages with BaseEnglish {}
 
   object Welsh extends ViewMessages with BaseWelsh {}
-
 }

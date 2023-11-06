@@ -49,9 +49,9 @@ class ChooseConsigneeInformationViewSpec extends ViewSpecBase with ViewBehaviour
 
           s"when SelectAlertReject reason is is $reason" - {
 
-            val form = app.injector.instanceOf[ChooseConsigneeInformationFormProvider].apply(reason)
+            val form = app.injector.instanceOf[ChooseConsigneeInformationFormProvider].apply()
 
-            implicit val doc: Document = Jsoup.parse(view(reason, form, testOnwardRoute).toString())
+            implicit val doc: Document = Jsoup.parse(view(form, testOnwardRoute).toString())
 
             behave like pageWithExpectedElementsAndMessages(Seq(
               Selectors.title -> messagesForLanguage.title,

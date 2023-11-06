@@ -47,18 +47,18 @@ class ChooseConsigneeInformationController @Inject()(
 
   def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] = {
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      withAnswer(SelectAlertRejectPage) { alertOrReject =>
-        Future(renderView(Ok, alertOrReject, fillForm(ChooseConsigneeInformationPage, formProvider(alertOrReject)), mode))
+      withAnswer(SelectAlertRejectPage) { _ =>
+        Future(renderView(Ok, fillForm(ChooseConsigneeInformationPage, formProvider()), mode))
       }
     }
   }
 
   def onSubmit(ern: String, arc: String, mode: Mode): Action[AnyContent] = {
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      withAnswer(SelectAlertRejectPage) { alertOrReject =>
-        formProvider(alertOrReject).bindFromRequest().fold(
+      withAnswer(SelectAlertRejectPage) { _ =>
+        formProvider().bindFromRequest().fold(
           formWithErrors =>
-            Future(renderView(BadRequest, alertOrReject, formWithErrors, mode)),
+            Future(renderView(BadRequest, formWithErrors, mode)),
           value =>
             saveAndRedirect(ChooseConsigneeInformationPage, value, mode)
         )
@@ -66,9 +66,8 @@ class ChooseConsigneeInformationController @Inject()(
     }
   }
 
-  private def renderView(status: Status, alertOrReject: SelectAlertReject, form: Form[_], mode: Mode)(implicit request: DataRequest[_]): Result =
+  private def renderView(status: Status, form: Form[_], mode: Mode)(implicit request: DataRequest[_]): Result =
     status(view(
-      alertOrReject = alertOrReject,
       form = form,
       onSubmitCall = routes.ChooseConsigneeInformationController.onSubmit(request.ern, request.arc, mode)
     ))

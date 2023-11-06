@@ -18,13 +18,12 @@ package forms
 
 import javax.inject.Inject
 import forms.mappings.Mappings
-import models.SelectAlertReject
 import play.api.data.Form
 
 class ChooseConsigneeInformationFormProvider @Inject() extends Mappings {
 
-  def apply(alertOrReject: SelectAlertReject): Form[Boolean] =
+  def apply(): Form[Boolean] =
     Form(
-      "value" -> boolean(s"chooseConsigneeInformation.error.required.$alertOrReject")
+      "value" -> boolean(s"chooseConsigneeInformation.error.required")
     )
 }

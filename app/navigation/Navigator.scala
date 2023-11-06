@@ -40,10 +40,10 @@ class Navigator @Inject()() extends BaseNavigator {
 
     case SelectReasonPage => (userAnswers: UserAnswers) =>
       userAnswers.get(SelectReasonPage) match {
-        case Some(selectedOptions) if selectedOptions.contains(Other) =>
-          controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case Some(selectedOptions) if selectedOptions.contains(ConsigneeDetailsWrong) =>
           controllers.routes.ChooseConsigneeInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+        case Some(selectedOptions) if selectedOptions.contains(Other) =>
+          controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
           controllers.routes.SelectGiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
       }

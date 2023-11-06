@@ -29,10 +29,10 @@ class ChooseConsigneeInformationFormProviderSpec extends BooleanFieldBehaviours 
 
     s"when the SelectAlertReject answer is $selectedReasonType" - {
 
-      val requiredKey = s"chooseConsigneeInformation.error.required.$selectedReasonType"
+      val requiredKey = s"chooseConsigneeInformation.error.required"
       val invalidKey = "error.boolean"
 
-      val form = new ChooseConsigneeInformationFormProvider()(selectedReasonType)
+      val form = new ChooseConsigneeInformationFormProvider()()
 
       s".value" - {
 
@@ -60,7 +60,7 @@ class ChooseConsigneeInformationFormProviderSpec extends BooleanFieldBehaviours 
           s"when output for language code '${messagesForLanguage.lang.code}'" - {
 
             "should have the correct content" in {
-              messages(s"chooseConsigneeInformation.error.required.$selectedReasonType") mustBe messagesForLanguage.errorMessage(selectedReasonType)
+              messages(s"chooseConsigneeInformation.error.required") mustBe messagesForLanguage.errorMessage()
             }
           }
         }

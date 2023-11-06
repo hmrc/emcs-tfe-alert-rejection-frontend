@@ -161,6 +161,5 @@ giveInformation.change.hidden = GiveInformation
 chooseConsigneeInformation.title = Do you want to give information about the consignee details being wrong?
 chooseConsigneeInformation.heading = Do you want to give information about the consignee details being wrong?
 chooseConsigneeInformation.checkYourAnswersLabel = selectGiveInformation
-chooseConsigneeInformation.error.required.0 = Select yes if you want to give more information about the alert
-chooseConsigneeInformation.error.required.1 = Select yes if you want to give more information about the rejection
+chooseConsigneeInformation.error.required = Select yes if you want to give information about the consignee details being wrong
 chooseConsigneeInformation.change.hidden = ChooseConsigneeInformation
