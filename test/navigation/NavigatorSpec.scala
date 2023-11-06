@@ -40,9 +40,20 @@ class NavigatorSpec extends SpecBase {
 
       "for the SelectAlertReject page" - {
 
-        "must go to the SelectReason page" in {
-          navigator.nextPage(SelectAlertRejectPage, NormalMode, emptyUserAnswers) mustBe
-            routes.SelectReasonController.onPageLoad(testErn, testArc, NormalMode)
+        "must go to the SelectReason page" - {
+          "when the trader is a GB trader" in {
+            navigator.nextPage(SelectAlertRejectPage, NormalMode, emptyUserAnswers) mustBe
+              routes.SelectReasonController.onPageLoad(testErn, testArc, NormalMode)
+          }
+        }
+
+        "must go to the DestinationOffice page" - {
+          "when the trader is an XI trader" in {
+            val northernIrelandERN = "XI1234567890"
+
+            navigator.nextPage(SelectAlertRejectPage, NormalMode, emptyUserAnswers.copy(ern = northernIrelandERN)) mustBe
+              routes.DestinationOfficeController.onPageLoad(northernIrelandERN, testArc, NormalMode)
+          }
         }
       }
 

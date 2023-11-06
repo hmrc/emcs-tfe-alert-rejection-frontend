@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import models.{DestinationOffice, SelectAlertReject, SelectReason}
-import org.scalacheck.{Arbitrary, Gen}
+import models.DestinationOffice
+import play.api.libs.json.JsPath
 
-trait ModelGenerators {
+case object DestinationOfficePage extends QuestionPage[DestinationOffice] {
 
-  implicit lazy val arbitraryDestinationOffice: Arbitrary[DestinationOffice] =
-    Arbitrary {
-      Gen.oneOf(DestinationOffice.values.toSeq)
-    }
+  override def path: JsPath = JsPath \ toString
 
-  implicit lazy val arbitrarySelectReason: Arbitrary[SelectReason] =
-    Arbitrary {
-      Gen.oneOf(SelectReason.values)
-    }
-
-  implicit lazy val arbitrarySelectAlertReject: Arbitrary[SelectAlertReject] =
-    Arbitrary {
-      Gen.oneOf(SelectAlertReject.values)
-    }
-
-
+  override def toString: String = "destinationOffice"
 }

@@ -27,6 +27,8 @@ final case class UserAnswers(ern: String,
                              data: JsObject = Json.obj(),
                              lastUpdated: Instant = Instant.now) {
 
+  def isNorthernIrelandTrader: Boolean = ern.startsWith("XI")
+
   private[models] def handleResult: JsResult[JsObject] => UserAnswers = {
     case JsSuccess(updatedAnswers, _) =>
       copy(data = updatedAnswers)

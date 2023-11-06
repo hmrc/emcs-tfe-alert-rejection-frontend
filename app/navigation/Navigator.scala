@@ -29,6 +29,13 @@ class Navigator @Inject()() extends BaseNavigator {
   private val normalRoutes: Page => UserAnswers => Call = {
 
     case SelectAlertRejectPage => (userAnswers: UserAnswers) =>
+      if (userAnswers.isNorthernIrelandTrader) {
+        routes.DestinationOfficeController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      } else {
+        routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
+      }
+
+    case DestinationOfficePage => (userAnswers: UserAnswers) =>
       routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
 
     case SelectReasonPage => (userAnswers: UserAnswers) =>
