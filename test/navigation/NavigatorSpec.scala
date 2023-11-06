@@ -57,32 +57,25 @@ class NavigatorSpec extends SpecBase {
         }
       }
 
+      "for the DestinationOfficePage" - {
+
+        "must go to the SelectReasonController" - {
+
+          "when the trader is a GB trader" in {
+            navigator.nextPage(DestinationOfficePage, NormalMode, emptyUserAnswers.copy(ern = "GB1234567890")) mustBe
+              routes.SelectReasonController.onPageLoad("GB1234567890", testArc, NormalMode)
+          }
+
+          "when the trader is an XI trader" in {
+            navigator.nextPage(DestinationOfficePage, NormalMode, emptyUserAnswers.copy(ern = "XI1234567890")) mustBe
+              routes.SelectReasonController.onPageLoad("XI1234567890", testArc, NormalMode)
+          }
+
+        }
+
+      }
+
       "for the SelectReasonController page" - {
-
-        "must go to GiveInformation page" - {
-
-          "when the user has chosen an option that does contain `Other`" in {
-            val userAnswers = emptyUserAnswers
-              .set(SelectAlertRejectPage, Alert)
-              .set(SelectReasonPage, Set(Other))
-
-            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-              controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
-          }
-        }
-
-        "must go to the SelectGiveInformation page" - {
-
-          // TODO remove this once AR stories are completed
-          "when the user has chosen an option that doesn't contain `Other` or `Some or all of the consignee details are wrong`" in {
-            val userAnswers = emptyUserAnswers
-              .set(SelectAlertRejectPage, Alert)
-              .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
-
-            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-              controllers.routes.SelectGiveInformationController.onPageLoad(testErn, testArc, NormalMode)
-          }
-        }
 
         "must go to the ChooseConsigneeInformation page" - {
 
@@ -96,36 +89,37 @@ class NavigatorSpec extends SpecBase {
           }
         }
 
-      }
-    }
+        "must go to the ChooseGoodsTypesInformation page" - {
 
-    "for the SelectGiveInformation page" - {
+          "when the user has chosen `Goods types do not match the order`" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
 
-      "must go to GiveInformation page" - {
-
-        "when the user has chosen Yes to giving more information" in {
-          val userAnswers = emptyUserAnswers
-            .set(SelectAlertRejectPage, Alert)
-            .set(SelectReasonPage, Set(Other))
-            .set(SelectGiveInformationPage, true)
-
-          navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
-            controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
         }
 
-        "when the user has chosen No to giving more information" in {
-          val userAnswers = emptyUserAnswers
-            .set(SelectAlertRejectPage, Alert)
-            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
-            .set(SelectGiveInformationPage, false)
-
-          navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        "must go to the ChooseQuantitiesInformation page" - {
+          // TODO
         }
-      }
-    }
 
-    "for the ChooseConsigneeInformation page" - {
+        "must go to GiveInformation page" - {
+
+          "when the user has chosen an option that does contain `Other`" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(Other))
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
+        }
+
+      }
+
+      "for the ChooseConsigneeInformation page" - {
 
         // TODO route to consignee information page AR04 when finished
         "when the user has chosen Yes to giving more information" in {
@@ -147,19 +141,81 @@ class NavigatorSpec extends SpecBase {
           navigator.nextPage(ChooseConsigneeInformationPage, NormalMode, userAnswers) mustBe
             testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
-    }
 
-    //TODO: GIVE INFORMATION PAGE NAV SPEC
-    "for  the GiveInformation page" - {
-      "must go to the CheckYourAnswers page" - {
+        "when the user hasn't answered YES or NO to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
 
-        val userAnswers = emptyUserAnswers
-          .set(SelectAlertRejectPage, Alert)
-          .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
-          .set(SelectGiveInformationPage, false)
-          .set(GiveInformationPage, Some(""))
-        navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          navigator.nextPage(ChooseConsigneeInformationPage, NormalMode, userAnswers) mustBe
+            controllers.routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+
+      }
+
+      "for the ChooseGoodTypesInformation page" - {
+
+        // TODO route to goods types information page AR06 when finished
+        "when the user has chosen Yes to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
+            .set(ChooseGoodsTypeInformationPage, true)
+
+          navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user has chosen No to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
+            .set(ChooseGoodsTypeInformationPage, false)
+
+          navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user hasn't answered YES or NO to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
+
+          navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+
+      }
+
+      "for the ChooseQuantitiesInformation page" - {
+        // TODO
+      }
+
+      "for the SelectGiveInformation page" - {
+
+        "must go to GiveInformation page" - {
+
+          "when the user has chosen Yes to giving more information" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(Other))
+              .set(SelectGiveInformationPage, true)
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
+
+          "when the user has chosen No to giving more information" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+              .set(SelectGiveInformationPage, false)
+
+            navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
+              // TODO redirect to CYA page
+              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+          }
+        }
       }
     }
   }

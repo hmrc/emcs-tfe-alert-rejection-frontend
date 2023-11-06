@@ -25,11 +25,11 @@
     h1: components.h1
 )
 
-@(form: Form[_], onSubmitCall: Call)(implicit request: DataRequest[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"chooseConsigneeInformation.title"))) {
+@layout(pageTitle = title(form, messages("chooseGoodsTypeInformation.title"))) {
 
-    @formHelper(action = onSubmitCall, 'autoComplete -> "off") {
+    @formHelper(action = routes.ChooseGoodsTypeInformationController.onSubmit(request.ern, request.arc, mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -49,10 +49,9 @@
 }
 
 @heading = {
-    @h1(messages(s"chooseConsigneeInformation.heading"), Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
+    @h1("chooseGoodsTypeInformation.heading", Some(messages("arc.subHeading", request.arc)), "govuk-fieldset__heading")
 }
 
 @{
     //$COVERAGE-OFF$
 }
-

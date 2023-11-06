@@ -18,12 +18,12 @@ package fixtures.messages
 
 import fixtures.i18n
 
-object ChooseConsigneeInformationMessages {
+object ChooseGoodsTypesInformationMessages {
   sealed trait ViewMessages { _: i18n =>
 
-    def title(): String = "Do you want to give information about the consignee details being wrong?"
+    def title(): String = "Do you want to give information about the goods types not matching the order?"
 
-    def heading(): String = "Do you want to give information about the consignee details being wrong?"
+    def heading(): String = "Do you want to give information about the goods types not matching the order?"
 
     def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
   }

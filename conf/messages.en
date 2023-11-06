@@ -163,3 +163,9 @@ chooseConsigneeInformation.heading = Do you want to give information about the c
 chooseConsigneeInformation.checkYourAnswersLabel = chooseConsigneeInformation
 chooseConsigneeInformation.error.required = Select yes if you want to give information about the consignee details being wrong
 chooseConsigneeInformation.change.hidden = ChooseConsigneeInformation
+
+chooseGoodsTypeInformation.title = Do you want to give information about the goods types not matching the order?
+chooseGoodsTypeInformation.heading = Do you want to give information about the goods types not matching the order?
+chooseGoodsTypeInformation.checkYourAnswersLabel = chooseGoodsTypeInformation
+chooseGoodsTypeInformation.error.required = Select yes if you want to give information about the goods types not matching the order
+chooseGoodsTypeInformation.change.hidden = ChooseGoodsTypeInformation

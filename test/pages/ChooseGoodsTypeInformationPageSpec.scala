@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package fixtures.messages
+package pages
 
-import fixtures.i18n
+import pages.behaviour.PageBehaviours
 
-object ChooseConsigneeInformationMessages {
-  sealed trait ViewMessages { _: i18n =>
+class ChooseGoodsTypeInformationPageSpec extends PageBehaviours {
 
-    def title(): String = "Do you want to give information about the consignee details being wrong?"
+  "ChooseGoodsTypeInformationPage" - {
 
-    def heading(): String = "Do you want to give information about the consignee details being wrong?"
+    beRetrievable[Boolean](ChooseGoodsTypeInformationPage)
 
-    def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
+    beSettable[Boolean](ChooseGoodsTypeInformationPage)
+
+    beRemovable[Boolean](ChooseGoodsTypeInformationPage)
   }
-
-  object English extends ViewMessages with BaseEnglish {}
-
-  object Welsh extends ViewMessages with BaseWelsh {}
 }
