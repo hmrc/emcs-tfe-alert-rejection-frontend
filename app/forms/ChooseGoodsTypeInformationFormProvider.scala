@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package fixtures.messages
+package forms
 
-import fixtures.i18n
+import javax.inject.Inject
 
-object ChooseConsigneeInformationMessages {
-  sealed trait ViewMessages { _: i18n =>
+import forms.mappings.Mappings
+import play.api.data.Form
 
-    def title(): String = "Do you want to give information about the consignee details being wrong?"
+class ChooseGoodsTypeInformationFormProvider @Inject() extends Mappings {
 
-    def heading(): String = "Do you want to give information about the consignee details being wrong?"
-
-    def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
-  }
-
-  object English extends ViewMessages with BaseEnglish {}
-
-  object Welsh extends ViewMessages with BaseWelsh {}
+  def apply(): Form[Boolean] =
+    Form(
+      "value" -> boolean("chooseGoodsTypeInformation.error.required")
+    )
 }

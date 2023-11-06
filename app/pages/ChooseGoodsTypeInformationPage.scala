@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package fixtures.messages
+package pages
 
-import fixtures.i18n
+import play.api.libs.json.JsPath
 
-object ChooseConsigneeInformationMessages {
-  sealed trait ViewMessages { _: i18n =>
+case object ChooseGoodsTypeInformationPage extends QuestionPage[Boolean] {
 
-    def title(): String = "Do you want to give information about the consignee details being wrong?"
+  override def path: JsPath = JsPath \ toString
 
-    def heading(): String = "Do you want to give information about the consignee details being wrong?"
-
-    def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
-  }
-
-  object English extends ViewMessages with BaseEnglish {}
-
-  object Welsh extends ViewMessages with BaseWelsh {}
+  override def toString: String = "chooseGoodsTypeInformation"
 }

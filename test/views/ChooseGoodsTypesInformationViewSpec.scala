@@ -17,8 +17,9 @@
 package views
 
 import base.ViewSpecBase
-import fixtures.messages.ChooseConsigneeInformationMessages
-import forms.ChooseConsigneeInformationFormProvider
+import fixtures.messages.ChooseGoodsTypesInformationMessages
+import forms.ChooseGoodsTypeInformationFormProvider
+import models.NormalMode
 import models.SelectAlertReject.{Alert, Reject}
 import models.requests.DataRequest
 import org.jsoup.Jsoup
@@ -26,32 +27,31 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import views.html.ChooseConsigneeInformationView
+import views.html.ChooseGoodsTypeInformationView
 
 
-class ChooseConsigneeInformationViewSpec extends ViewSpecBase with ViewBehaviours {
+class ChooseGoodsTypesInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   object Selectors extends BaseSelectors
 
-  lazy val view = app.injector.instanceOf[ChooseConsigneeInformationView]
+  lazy val view = app.injector.instanceOf[ChooseGoodsTypeInformationView]
 
-  "ChooseConsigneeInformationView" - {
+  "ChooseGoodsTypeInformationView" - {
 
-    Seq(ChooseConsigneeInformationMessages.English, ChooseConsigneeInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ChooseGoodsTypesInformationMessages.English, ChooseGoodsTypesInformationMessages.Welsh).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 
         implicit val msgs: Messages = messages(app, messagesForLanguage.lang)
         implicit val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
 
-
         Seq(Alert, Reject).foreach { reason =>
 
-          s"when SelectAlertReject reason is is $reason" - {
+          s"when SelectAlertReject reason is $reason" - {
 
-            val form = app.injector.instanceOf[ChooseConsigneeInformationFormProvider].apply()
+            val form = app.injector.instanceOf[ChooseGoodsTypeInformationFormProvider].apply()
 
-            implicit val doc: Document = Jsoup.parse(view(form, testOnwardRoute).toString())
+            implicit val doc: Document = Jsoup.parse(view(form, NormalMode).toString())
 
             behave like pageWithExpectedElementsAndMessages(Seq(
               Selectors.title -> messagesForLanguage.title,
