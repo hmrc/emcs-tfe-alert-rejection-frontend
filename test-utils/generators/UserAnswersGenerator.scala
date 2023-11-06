@@ -28,6 +28,7 @@ trait UserAnswersGenerator extends TryValues with BaseFixtures {
   self: Generators =>
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
+    arbitrary[(ChooseGoodsQuantitiesInformationPage.type, JsValue)] ::
     arbitrary[(ChooseGoodsTypeInformationPage.type, JsValue)] ::
     arbitrary[(DestinationOfficePage.type, JsValue)] ::
     arbitrary[(GiveInformationPage.type, JsValue)] ::
