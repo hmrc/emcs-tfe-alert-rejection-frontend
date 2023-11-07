@@ -18,46 +18,27 @@ package fixtures.messages
 
 import fixtures.i18n
 import fixtures.messages.BaseEnglish.titleHelper
-import models.SelectAlertReject
-import models.SelectAlertReject.{Alert, Reject}
 
-object GiveInformationMessages {
+object GoodsTypeInformationMessages {
 
   sealed trait ViewMessages { _: i18n =>
 
-    def title(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = titleHelper(heading(selectAlertReject,hasOther))
+    def title: String = titleHelper(heading)
 
-    def heading(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = {
-      (selectAlertReject, hasOther) match {
-        case (Alert, true) => "Give information about the alert"
-        case (Reject, true) =>"Give information about the rejection"
-        case (Alert, false) => "Give more information about the alert"
-        case (Reject, false) => "Give more information about the rejection"
-      }
-    }
+    def heading: String = "Give information about the goods types not matching the order (optional)"
 
-    def hint(hasOther: Boolean): String = {
-      hasOther match {
-        case true => "Give information."
-        case _ => "Give information (optional)."
-      }
-    }
-
-    val errorRequired: String
     val errorLength: String
     val errorCharacter: String
     val errorXss: String
   }
 
   object English extends ViewMessages with BaseEnglish {
-    override val errorRequired = "Enter information"
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters or numbers"
     override val errorXss = "Information must not include < and > and : and ;"
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
-    override val errorRequired = "Enter information"
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters or numbers"
     override val errorXss = "Information must not include < and > and : and ;"
