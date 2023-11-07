@@ -175,7 +175,7 @@ class NavigatorSpec extends SpecBase {
 
       }
 
-      "for the GoodsTypeInformation Page" - {
+      "for the GiveGoodsTypeInformation Page" - {
         "must go to the Choose Goods Type Information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
