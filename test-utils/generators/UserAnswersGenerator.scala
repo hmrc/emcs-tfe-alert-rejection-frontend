@@ -34,6 +34,7 @@ trait UserAnswersGenerator extends TryValues with BaseFixtures {
     arbitrary[(GiveInformationPage.type, JsValue)] ::
     arbitrary[(SelectGiveInformationPage.type, JsValue)] ::
     arbitrary[(ChooseConsigneeInformationPage.type, JsValue )] ::
+    arbitrary[(ConsigneeInformationPage.type, JsValue)] ::
     arbitrary[(SelectReasonPage.type, JsValue)] ::
     arbitrary[(SelectAlertRejectPage.type, JsValue)] ::
     Nil

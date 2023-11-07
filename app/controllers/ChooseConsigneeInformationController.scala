@@ -18,7 +18,7 @@ package controllers
 
 import controllers.actions._
 import forms.ChooseConsigneeInformationFormProvider
-import models.{Mode, SelectAlertReject}
+import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
 import pages.{SelectAlertRejectPage, ChooseConsigneeInformationPage}
