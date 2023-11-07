@@ -19,10 +19,11 @@ package controllers
 import base.SpecBase
 import forms.ChooseConsigneeInformationFormProvider
 import mocks.services.MockUserAnswersService
-import models.{NormalMode, UserAnswers}
 import models.SelectAlertReject.Alert
+import models.SelectReason.ConsigneeDetailsWrong
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import pages.{SelectAlertRejectPage, ChooseConsigneeInformationPage}
+import pages.{ChooseConsigneeInformationPage, ConsigneeInformationPage, SelectAlertRejectPage, SelectReasonPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -122,6 +123,36 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
         status(result) mustEqual SEE_OTHER
         redirectLocation(result).value mustEqual onwardRoute.url
       }
+    }
+
+    "must cleanse the consignee information free text" -{
+
+      val userAnswersSoFar = emptyUserAnswers
+        .set(SelectAlertRejectPage, Alert)
+        .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+        .set(ChooseConsigneeInformationPage, true)
+        .set(ConsigneeInformationPage, Some("user entered free text"))
+
+      "when changing the answer to `No`" in new Fixture(Some(userAnswersSoFar)) {
+        val expectedAnswersToSave = userAnswersSoFar
+          .set(ChooseConsigneeInformationPage, false)
+          .set(ConsigneeInformationPage, None)
+
+        running(application) {
+
+          MockUserAnswersService.set(expectedAnswersToSave).returns(Future.successful(expectedAnswersToSave))
+
+          val request =
+            FakeRequest(POST, chooseConsigneeInformationRoute)
+              .withFormUrlEncodedBody(("value", "false"))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+          redirectLocation(result).value mustEqual onwardRoute.url
+        }
+      }
+
     }
 
     "must redirect to the JourneyRecoveryController when valid data is submitted but no SelectAlertReject answer" in new Fixture(Some(emptyUserAnswers)) {
