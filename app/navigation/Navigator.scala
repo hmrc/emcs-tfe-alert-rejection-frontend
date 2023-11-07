@@ -50,13 +50,7 @@ class Navigator @Inject()() extends BaseNavigator {
         }
 
     case ConsigneeInformationPage => (userAnswers: UserAnswers) =>
-      userAnswers.get(SelectReasonPage) match {
-        case Some(answers) if answers.contains(GoodTypesNotMatchOrder) =>
-          redirectToNextWrongPage(Some(ConsigneeDetailsWrong))(userAnswers)
-        case _ =>
-          // TODO route to CYA page when finished
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-      }
+      redirectToNextWrongPage(Some(ConsigneeDetailsWrong))(userAnswers)
 
     case ChooseGoodsTypeInformationPage => (userAnswers: UserAnswers) =>
       userAnswers.get(ChooseGoodsTypeInformationPage) match {
