@@ -144,11 +144,4 @@ trait Constraints {
         Valid
     }
 
-  protected def mandatoryCheckTemp(isMandatory: Boolean): Constraint[Option[String]] =
-    Constraint {
-      case value if isMandatory && (value.isEmpty || value.exists(_.isEmpty)) =>
-        Invalid("consigneeInformation.error.required")
-      case _ =>
-        Valid
-    }
 }

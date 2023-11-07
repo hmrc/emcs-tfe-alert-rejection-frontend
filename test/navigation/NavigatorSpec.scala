@@ -124,7 +124,6 @@ class NavigatorSpec extends SpecBase {
                 controllers.routes.ConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode)
             }
           }
-
         }
 
 
