@@ -44,12 +44,13 @@ class Navigator @Inject()() extends BaseNavigator {
     case ChooseConsigneeInformationPage => (userAnswers: UserAnswers) =>
         userAnswers.get(ChooseConsigneeInformationPage) match {
           case Some(true) =>
-            // TODO route to consignee information page AR04 when finished
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-
+            controllers.routes.ConsigneeInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
           case Some(false) => redirectToNextWrongPage(Some(ConsigneeDetailsWrong))(userAnswers)
           case _ => routes.ChooseConsigneeInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         }
+
+    case ConsigneeInformationPage => (userAnswers: UserAnswers) =>
+      redirectToNextWrongPage(Some(ConsigneeDetailsWrong))(userAnswers)
 
     case ChooseGoodsTypeInformationPage => (userAnswers: UserAnswers) =>
       userAnswers.get(ChooseGoodsTypeInformationPage) match {

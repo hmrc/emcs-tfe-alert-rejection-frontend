@@ -17,10 +17,10 @@
 package controllers
 
 import base.SpecBase
-import forms.ChooseConsigneeInformationFormProvider
+import forms.GiveInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.SelectAlertReject.Alert
-import models.SelectReason.ConsigneeDetailsWrong
+import models.SelectReason.Other
 import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import pages.{ChooseConsigneeInformationPage, ConsigneeInformationPage, SelectAlertRejectPage, SelectReasonPage}
@@ -29,11 +29,11 @@ import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.UserAnswersService
-import views.html.ChooseConsigneeInformationView
+import views.html.ConsigneeInformationView
 
 import scala.concurrent.Future
 
-class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAnswersService {
+class ConsigneeInformationControllerSpec extends SpecBase with MockUserAnswersService {
 
   class Fixture(val userAnswers: Option[UserAnswers] = Some(emptyUserAnswers)) {
 
@@ -44,41 +44,59 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
       )
       .build()
 
-    val view = application.injector.instanceOf[ChooseConsigneeInformationView]
+    val view = application.injector.instanceOf[ConsigneeInformationView]
   }
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new ChooseConsigneeInformationFormProvider()
-  val form = formProvider()
+  val formProvider = new GiveInformationFormProvider()
+  val form = formProvider(true)
 
-  lazy val chooseConsigneeInformationRoute  = routes.ChooseConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode).url
+  lazy val consigneeInformationRoute = routes.ConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode).url
 
-  "ChooseConsigneeInformation Controller" - {
+  "ConsigneeInformation Controller" - {
 
-    "must return OK and the correct view for a GET when the SelectAlertReject has been answered" in new Fixture(Some(emptyUserAnswers
-      .set(SelectAlertRejectPage, Alert))
-    ) {
+    "must return OK and the correct view for a GET" in new Fixture(Some(emptyUserAnswers
+      .set(SelectAlertRejectPage, Alert)
+      .set(SelectReasonPage, Set(Other))
+      .set(ChooseConsigneeInformationPage, true)
+    )) {
 
       running(application) {
-
-        val request = FakeRequest(GET, chooseConsigneeInformationRoute)
+        val request = FakeRequest(GET, consigneeInformationRoute)
 
         val result = route(application, request).value
+
+        val view = application.injector.instanceOf[ConsigneeInformationView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(
           form = form,
-          onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
+          onSubmit = controllers.routes.ConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString
       }
     }
 
-    "must Redirect to JourneyCorrectionController for a GET when the SelectAlertReject has NOT been answered" in new Fixture() {
+    "must return 303 and redirect to the Journey Recovery when accept or reject has not been answered" in new Fixture(Some(emptyUserAnswers
+      .set(SelectReasonPage, Set(Other))
+    )) {
 
       running(application) {
+        val request = FakeRequest(GET, consigneeInformationRoute)
 
-        val request = FakeRequest(GET, chooseConsigneeInformationRoute)
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad(testErn, testArc).url
+      }
+    }
+
+    "must return 303 and redirect to the Journey Recovery when Select Reason has not been answered" in new Fixture(Some(emptyUserAnswers
+      .set(SelectAlertRejectPage, Alert)
+    )) {
+
+      running(application) {
+        val request = FakeRequest(GET, consigneeInformationRoute)
 
         val result = route(application, request).value
 
@@ -88,35 +106,39 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
     }
 
     "must populate the view correctly on a GET when the question has previously been answered" in new Fixture(Some(emptyUserAnswers
+      .set(ConsigneeInformationPage, Some("answer"))
+      .set(SelectReasonPage, Set(Other))
       .set(SelectAlertRejectPage, Alert)
       .set(ChooseConsigneeInformationPage, true)
     )) {
 
       running(application) {
+        val request = FakeRequest(GET, consigneeInformationRoute)
 
-        val request = FakeRequest(GET, chooseConsigneeInformationRoute)
+        val view = application.injector.instanceOf[ConsigneeInformationView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(
-          form = form.fill(true),
-          onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
+          form.fill(Some("answer")),
+          controllers.routes.ConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString
       }
     }
 
-    "must redirect to the the next page when valid data has been submitted" in new Fixture(Some(emptyUserAnswers
+    "must redirect to the next page when valid data is submitted" in new Fixture(Some(emptyUserAnswers
+      .set(SelectReasonPage, Set(Other))
       .set(SelectAlertRejectPage, Alert)
+      .set(ChooseConsigneeInformationPage, true)
     )) {
 
       MockUserAnswersService.set().returns(Future.successful(emptyUserAnswers))
 
       running(application) {
-
         val request =
-          FakeRequest(POST, chooseConsigneeInformationRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, consigneeInformationRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -125,43 +147,30 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
       }
     }
 
-    "must cleanse the consignee information free text" -{
-
-      val userAnswersSoFar = emptyUserAnswers
-        .set(SelectAlertRejectPage, Alert)
-        .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
-        .set(ChooseConsigneeInformationPage, true)
-        .set(ConsigneeInformationPage, Some("user entered free text"))
-
-      "when changing the answer to `No`" in new Fixture(Some(userAnswersSoFar)) {
-        val expectedAnswersToSave = userAnswersSoFar
-          .set(ChooseConsigneeInformationPage, false)
-          .set(ConsigneeInformationPage, None)
-
-        running(application) {
-
-          MockUserAnswersService.set(expectedAnswersToSave).returns(Future.successful(expectedAnswersToSave))
-
-          val request =
-            FakeRequest(POST, chooseConsigneeInformationRoute)
-              .withFormUrlEncodedBody(("value", "false"))
-
-          val result = route(application, request).value
-
-          status(result) mustEqual SEE_OTHER
-          redirectLocation(result).value mustEqual onwardRoute.url
-        }
-      }
-
-    }
-
-    "must redirect to the JourneyRecoveryController when valid data is submitted but no SelectAlertReject answer" in new Fixture(Some(emptyUserAnswers)) {
+    "must redirect to the Journey Recovery page when Select Reason is not answered" in new Fixture(Some(emptyUserAnswers
+      .set(SelectAlertRejectPage, Alert)
+    )) {
 
       running(application) {
-
         val request =
-          FakeRequest(POST, chooseConsigneeInformationRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, consigneeInformationRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad(testErn, testArc).url
+      }
+    }
+
+    "must redirect to the Journey Recovery page when alert or reject is not answered" in new Fixture(Some(emptyUserAnswers
+      .set(SelectReasonPage, Set(Other))
+    )) {
+
+      running(application) {
+        val request =
+          FakeRequest(POST, consigneeInformationRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 
@@ -171,22 +180,27 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
     }
 
     "must return a Bad Request and errors when invalid data is submitted" in new Fixture(Some(emptyUserAnswers
+      .set(SelectReasonPage, Set(Other))
       .set(SelectAlertRejectPage, Alert)
+      .set(ChooseConsigneeInformationPage, true)
+
     )) {
 
       running(application) {
         val request =
-          FakeRequest(POST, chooseConsigneeInformationRoute)
-            .withFormUrlEncodedBody(("value", ""))
+          FakeRequest(POST, consigneeInformationRoute)
+            .withFormUrlEncodedBody(("value", ">"))
 
-        val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> ">"))
+
+        val view = application.injector.instanceOf[ConsigneeInformationView]
 
         val result = route(application, request).value
 
         status(result) mustEqual BAD_REQUEST
         contentAsString(result) mustEqual view(
-          form = boundForm,
-          onSubmitCall = controllers.routes.ChooseConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
+          boundForm,
+          controllers.routes.ConsigneeInformationController.onSubmit(testErn, testArc, NormalMode)
         )(dataRequest(request), messages(application)).toString
       }
     }
@@ -194,8 +208,7 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
     "must redirect to Journey Recovery for a GET if no existing data is found" in new Fixture(None) {
 
       running(application) {
-
-        val request = FakeRequest(GET, chooseConsigneeInformationRoute)
+        val request = FakeRequest(GET, consigneeInformationRoute)
 
         val result = route(application, request).value
 
@@ -208,8 +221,8 @@ class ChooseConsigneeInformationControllerSpec extends SpecBase with MockUserAns
 
       running(application) {
         val request =
-          FakeRequest(POST, chooseConsigneeInformationRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          FakeRequest(POST, consigneeInformationRoute)
+            .withFormUrlEncodedBody(("value", "answer"))
 
         val result = route(application, request).value
 

@@ -175,3 +175,13 @@ chooseGoodsQuantitiesInformation.heading = Do you want to give information about
 chooseGoodsQuantitiesInformation.checkYourAnswersLabel = chooseGoodsQuantitiesInformation
 chooseGoodsQuantitiesInformation.error.required = Select yes if you want to give information about the goods quantities not matching the order
 chooseGoodsQuantitiesInformation.change.hidden = ChooseGoodsQuantitiesInformation
+
+consigneeInformation.heading = Give information about the consignee details being wrong (optional)
+consigneeInformation.heading.more = Give information about the consignee details being wrong (optional)
+consigneeInformation.checkYourAnswersLabel = consigneeInformation
+consigneeInformation.hint = Give information (optional).
+consigneeInformation.error.required = Enter information
+consigneeInformation.error.length = Information must be 350 characters or less
+consigneeInformation.error.character = Information must contain letters or numbers
+consigneeInformation.error.xss = Information must not include < and > and : and ;
+consigneeInformation.change.hidden = ConsigneeInformation

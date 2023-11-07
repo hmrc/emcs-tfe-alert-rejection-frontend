@@ -18,10 +18,10 @@ package controllers
 
 import controllers.actions._
 import forms.ChooseConsigneeInformationFormProvider
-import models.{Mode, SelectAlertReject}
+import models.Mode
 import models.requests.DataRequest
 import navigation.Navigator
-import pages.{SelectAlertRejectPage, ChooseConsigneeInformationPage}
+import pages.{ChooseConsigneeInformationPage, ConsigneeInformationPage, SelectAlertRejectPage}
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -59,8 +59,13 @@ class ChooseConsigneeInformationController @Inject()(
         formProvider().bindFromRequest().fold(
           formWithErrors =>
             Future(renderView(BadRequest, formWithErrors, mode)),
-          value =>
-            saveAndRedirect(ChooseConsigneeInformationPage, value, mode)
+          {
+            case true =>
+              saveAndRedirect(ChooseConsigneeInformationPage, true, mode)
+            case false =>
+              val removedMoreInfo = request.userAnswers.set(ConsigneeInformationPage, None)
+              saveAndRedirect(ChooseConsigneeInformationPage, false, removedMoreInfo, mode)
+          }
         )
       }
     }
