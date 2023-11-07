@@ -176,6 +176,29 @@ class NavigatorSpec extends SpecBase {
 
       }
 
+      "for the ConsigneeInformation page" - {
+
+        "when the user submits more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
+            .set(ChooseConsigneeInformationPage, true)
+
+          navigator.nextPage(ConsigneeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user submits more information, with the `Goods types do not match the order` checkbox ticked on the select reason page" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(ConsigneeDetailsWrong, GoodTypesNotMatchOrder))
+            .set(ChooseConsigneeInformationPage, true)
+
+          navigator.nextPage(ConsigneeInformationPage, NormalMode, userAnswers) mustBe
+             controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+      }
+
       "for the ChooseGoodTypesInformation page" - {
 
         // TODO route to goods types information page AR06 when finished
@@ -272,20 +295,6 @@ class NavigatorSpec extends SpecBase {
           }
         }
       }
-
-      "for the ConsigneeInformation page" - {
-
-        "when the user submits more information" in {
-          val userAnswers = emptyUserAnswers
-            .set(SelectAlertRejectPage, Alert)
-            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
-            .set(ChooseConsigneeInformationPage, true)
-
-          navigator.nextPage(ConsigneeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-        }
-      }
-
 
       //TODO: GIVE INFORMATION PAGE NAV SPEC
       "for  the GiveInformation page" - {
