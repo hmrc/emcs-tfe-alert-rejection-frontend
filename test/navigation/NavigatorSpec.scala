@@ -19,7 +19,7 @@ package navigation
 import base.SpecBase
 import controllers.routes
 import models.SelectAlertReject.Alert
-import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other}
+import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
 import models._
 import pages._
 
@@ -102,7 +102,16 @@ class NavigatorSpec extends SpecBase {
         }
 
         "must go to the ChooseQuantitiesInformation page" - {
-          // TODO
+
+          "when the user has chosen `Goods quantities do not match the order`" in {
+            val userAnswers = emptyUserAnswers
+              .set(SelectAlertRejectPage, Alert)
+              .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
+
+            navigator.nextPage(SelectReasonPage, NormalMode, userAnswers) mustBe
+              controllers.routes.ChooseGoodsQuantitiesInformationController.onPageLoad(testErn, testArc, NormalMode)
+          }
+
         }
 
         "must go to GiveInformation page" - {
@@ -132,6 +141,7 @@ class NavigatorSpec extends SpecBase {
             testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
 
+        // TODO if only 1 reason then next page should be CYA once built
         "when the user has chosen No to giving more information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
@@ -172,6 +182,7 @@ class NavigatorSpec extends SpecBase {
             .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
             .set(ChooseGoodsTypeInformationPage, false)
 
+          // TODO if only 1 reason then next page should be CYA once built
           navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
             testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
@@ -188,7 +199,38 @@ class NavigatorSpec extends SpecBase {
       }
 
       "for the ChooseQuantitiesInformation page" - {
-        // TODO
+
+        // TODO route to goods types information page AR08 when finished
+        "when the user has chosen Yes to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
+            .set(ChooseGoodsQuantitiesInformationPage, true)
+
+          navigator.nextPage(ChooseGoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user has chosen No to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
+            .set(ChooseGoodsQuantitiesInformationPage, false)
+
+          // TODO if only 1 reason then next page should be CYA once built
+          navigator.nextPage(ChooseGoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user hasn't answered YES or NO to giving more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
+
+          navigator.nextPage(ChooseGoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
+            controllers.routes.ChooseGoodsQuantitiesInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+
       }
 
       "for the SelectGiveInformation page" - {

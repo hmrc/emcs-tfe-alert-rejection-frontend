@@ -169,3 +169,9 @@ chooseGoodsTypeInformation.heading = Do you want to give information about the g
 chooseGoodsTypeInformation.checkYourAnswersLabel = chooseGoodsTypeInformation
 chooseGoodsTypeInformation.error.required = Select yes if you want to give information about the goods types not matching the order
 chooseGoodsTypeInformation.change.hidden = ChooseGoodsTypeInformation
+
+chooseGoodsQuantitiesInformation.title = Do you want to give information about the goods quantities not matching the order?
+chooseGoodsQuantitiesInformation.heading = Do you want to give information about the goods quantities not matching the order?
+chooseGoodsQuantitiesInformation.checkYourAnswersLabel = chooseGoodsQuantitiesInformation
+chooseGoodsQuantitiesInformation.error.required = Select yes if you want to give information about the goods quantities not matching the order
+chooseGoodsQuantitiesInformation.change.hidden = ChooseGoodsQuantitiesInformation
