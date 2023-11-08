@@ -17,19 +17,20 @@
 package controllers
 
 import controllers.actions._
-import forms.ChooseGoodsQuantitiesInformationFormProvider
+import forms.GiveInformationFormProvider
 import models.Mode
 import navigation.Navigator
 import pages.{ChooseGoodsQuantitiesInformationPage, GoodsQuantitiesInformationPage}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
-import views.html.ChooseGoodsQuantitiesInformationView
+import utils.JsonOptionFormatter.optionFormat
+import views.html.GoodsQuantitiesInformationView
 
 import javax.inject.Inject
 import scala.concurrent.Future
 
-class ChooseGoodsQuantitiesInformationController @Inject()(
+class GoodsQuantitiesInformationController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        override val userAnswersService: UserAnswersService,
                                        override val navigator: Navigator,
@@ -38,25 +39,25 @@ class ChooseGoodsQuantitiesInformationController @Inject()(
                                        override val getData: DataRetrievalAction,
                                        override val requireData: DataRequiredAction,
                                        override val userAllowList: UserAllowListAction,
-                                       formProvider: ChooseGoodsQuantitiesInformationFormProvider,
+                                       formProvider: GiveInformationFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: ChooseGoodsQuantitiesInformationView
+                                       view: GoodsQuantitiesInformationView
                                      ) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] =
-    authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
-      Ok(view(fillForm(ChooseGoodsQuantitiesInformationPage, formProvider()), mode))
+    authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
+      withAnswer(ChooseGoodsQuantitiesInformationPage) { _ =>
+        Future(Ok(view(fillForm(GoodsQuantitiesInformationPage, formProvider(isMandatory = false)), mode)))
+      }
     }
 
   def onSubmit(ern: String, arc: String, mode: Mode): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      formProvider().bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
-        provideMoreInformation => {
-          val cleansedAnswers = if(provideMoreInformation) request.userAnswers else request.userAnswers.remove(GoodsQuantitiesInformationPage)
-          saveAndRedirect(ChooseGoodsQuantitiesInformationPage, provideMoreInformation, cleansedAnswers, mode)
-        }
-      )
+      withAnswer(ChooseGoodsQuantitiesInformationPage) { _ =>
+        formProvider(isMandatory = false).bindFromRequest().fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          saveAndRedirect(GoodsQuantitiesInformationPage, _, mode)
+        )
+      }
     }
 }

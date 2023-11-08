@@ -31,9 +31,6 @@ class GiveInformationFormProviderSpec extends StringFieldBehaviours with GuiceOn
   val maxLength = 350
   val fieldName = "value"
 
-
-
-
   ".value" - {
 
     "when value is mandatory" - {

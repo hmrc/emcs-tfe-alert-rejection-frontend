@@ -18,35 +18,24 @@ package fixtures.messages
 
 import fixtures.i18n
 import fixtures.messages.BaseEnglish.titleHelper
-import models.SelectAlertReject
-import models.SelectAlertReject.{Alert, Reject}
 
-object GiveInformationMessages {
+object GoodsQuantitiesInformationMessages {
 
   sealed trait ViewMessages { _: i18n =>
 
-    def title(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = titleHelper(heading(selectAlertReject,hasOther))
+    lazy val title: String = titleHelper(heading)
 
-    def heading(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = {
-      (selectAlertReject, hasOther) match {
-        case (Alert, true) => "Give information about the alert"
-        case (Reject, true) =>"Give information about the rejection"
-        case (Alert, false) => "Give more information about the alert"
-        case (Reject, false) => "Give more information about the rejection"
-      }
-    }
-
-    def hint(hasOther: Boolean): String = {
-      hasOther match {
-        case true => "Give information."
-        case _ => "Give information (optional)."
-      }
-    }
+    lazy val heading: String = "Give information about the goods quantities not matching the order (optional)"
 
     val errorRequired: String
     val errorLength: String
     val errorCharacter: String
     val errorXss: String
+
+    val cyaLabel: String
+    val valueWhenAnswerNotPresent: String
+    val cyaChangeHidden: String
+    val change: String
   }
 
   object English extends ViewMessages with BaseEnglish {
@@ -54,6 +43,10 @@ object GiveInformationMessages {
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters and numbers"
     override val errorXss = "Information must not include < and > and : and ;"
+    override val cyaLabel: String = "Information about goods quantities"
+    override val valueWhenAnswerNotPresent: String = "Enter information about goods quantities"
+    override val cyaChangeHidden: String = "information about goods quantities"
+    override val change: String = "Change"
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
@@ -61,5 +54,9 @@ object GiveInformationMessages {
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters and numbers"
     override val errorXss = "Information must not include < and > and : and ;"
+    override val cyaLabel: String = "Information about goods quantities"
+    override val valueWhenAnswerNotPresent: String = "Enter information about goods quantities"
+    override val cyaChangeHidden: String = "information about goods quantities"
+    override val change: String = "Change"
   }
 }

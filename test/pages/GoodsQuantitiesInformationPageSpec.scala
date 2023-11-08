@@ -19,14 +19,14 @@ package pages
 import pages.behaviour.PageBehaviours
 import utils.JsonOptionFormatter.optionFormat
 
-class ConsigneeInformationPageSpec extends PageBehaviours {
+class GoodsQuantitiesInformationPageSpec extends PageBehaviours {
 
-  "GiveInformationPage" - {
+  "GoodsQuantitiesInformationPage" - {
 
-    beRetrievable[Option[String]](ConsigneeInformationPage)
+    beRetrievable[Option[String]](GoodsQuantitiesInformationPage)
 
-    beSettable[Option[String]](ConsigneeInformationPage)
+    beSettable[Option[String]](GoodsQuantitiesInformationPage)
 
-    beRemovable[Option[String]](ConsigneeInformationPage)
+    beRemovable[Option[String]](GoodsQuantitiesInformationPage)
   }
 }

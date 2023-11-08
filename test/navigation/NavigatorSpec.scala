@@ -257,7 +257,6 @@ class NavigatorSpec extends SpecBase {
 
       "for the ChooseQuantitiesInformation page" - {
 
-        // TODO route to goods types information page AR08 when finished
         "when the user has chosen Yes to giving more information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
@@ -265,7 +264,7 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseGoodsQuantitiesInformationPage, true)
 
           navigator.nextPage(ChooseGoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.GoodsQuantitiesInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
 
         "when the user has chosen No to giving more information" in {
@@ -288,6 +287,41 @@ class NavigatorSpec extends SpecBase {
             controllers.routes.ChooseGoodsQuantitiesInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
 
+      }
+
+      "for the GoodsQuantitiesInformation page" - {
+
+        "when the user submits more information" - {
+
+          "navigate to the 'Other' information page (AR09)" - {
+
+            "when the user selects 'Other' on the alert selection page" in {
+              val userAnswers = emptyUserAnswers
+                .set(SelectAlertRejectPage, Alert)
+                .set(SelectReasonPage, Set(QuantitiesNotMatchOrder, Other))
+                .set(ChooseGoodsQuantitiesInformationPage, true)
+                .set(GoodsQuantitiesInformationPage, Some("answer"))
+
+              //TODO: address when AR09 is in place (don't think this is the correct page)
+              navigator.nextPage(GoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
+                controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+            }
+          }
+
+          "navigate to the CYA page (AR10)" - {
+
+            "when the user hasn't selected 'Other' on the alert selection page" in {
+              val userAnswers = emptyUserAnswers
+                .set(SelectAlertRejectPage, Alert)
+                .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
+                .set(ChooseGoodsQuantitiesInformationPage, true)
+                .set(GoodsQuantitiesInformationPage, Some("answer"))
+
+              navigator.nextPage(GoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
+                testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            }
+          }
+        }
       }
 
       "for the SelectGiveInformation page" - {

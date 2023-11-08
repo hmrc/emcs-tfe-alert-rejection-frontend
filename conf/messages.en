@@ -154,7 +154,7 @@ giveInformation.hint.true = Give information.
 giveInformation.hint.false = Give information (optional).
 giveInformation.error.required = Enter information
 giveInformation.error.length = Information must be 350 characters or less
-giveInformation.error.character = Information must include letters or numbers
+giveInformation.error.character = Information must include letters and numbers
 giveInformation.error.xss = Information must not include < and > and : and ;
 giveInformation.change.hidden = GiveInformation
 
@@ -186,3 +186,9 @@ consigneeInformation.error.xss = Information must not include < and > and : and 
 consigneeInformation.change.hidden = ConsigneeInformation
 
 goodsTypeInformation.heading = Give information about the goods types not matching the order (optional)
+
+goodsQuantitiesInformation.title = Give information about the goods quantities not matching the order (optional)
+goodsQuantitiesInformation.heading = Give information about the goods quantities not matching the order (optional)
+goodsQuantitiesInformation.checkYourAnswersLabel = Information about goods quantities
+goodsQuantitiesInformation.checkYourAnswersValue.noAnswer = Enter information about goods quantities
+goodsQuantitiesInformation.change.hidden = information about goods quantities
