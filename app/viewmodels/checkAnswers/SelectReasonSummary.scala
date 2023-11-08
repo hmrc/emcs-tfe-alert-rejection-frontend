@@ -17,7 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.requests.DataRequest
+import models.{CheckMode, SelectAlertReject}
 import pages.SelectReasonPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -26,10 +27,12 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object SelectReasonSummary  {
+import javax.inject.Inject
 
-  def row(userAnswers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    userAnswers.get(SelectReasonPage).map {
+class SelectReasonSummary @Inject()()  {
+
+  def row(alertOrReject: SelectAlertReject)(implicit request: DataRequest[_], messages: Messages): Option[SummaryListRow] =
+    request.userAnswers.get(SelectReasonPage).map {
       answers =>
 
         val value = ValueViewModel(
@@ -37,16 +40,19 @@ object SelectReasonSummary  {
             answers.map {
               answer => HtmlFormat.escape(messages(s"selectReason.$answer")).toString
             }
-            .mkString(",<br>")
+            .mkString("<br><br>")
           )
         )
 
         SummaryListRowViewModel(
-          key     = "selectReason.checkYourAnswersLabel",
+          key     = s"selectReason.checkYourAnswersLabel.$alertOrReject",
           value   = value,
           actions = Seq(
-            ActionItemViewModel("site.change", routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, CheckMode).url, SelectReasonPage)
-              .withVisuallyHiddenText(messages("selectReason.change.hidden"))
+            ActionItemViewModel(
+              "site.change",
+              routes.SelectReasonController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, CheckMode).url,
+              SelectReasonPage
+            ).withVisuallyHiddenText(messages("selectReason.change.hidden"))
           )
         )
     }

@@ -17,7 +17,8 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, UserAnswers}
+import models.requests.DataRequest
+import models.{CheckMode, SelectAlertReject}
 import pages.SelectAlertRejectPage
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -26,25 +27,30 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-object SelectAlertRejectPageSummary  {
+import javax.inject.Inject
 
-  def row(answers: UserAnswers)(implicit messages: Messages): Option[SummaryListRow] =
-    answers.get(SelectAlertRejectPage).map {
-      answer =>
+class SelectAlertRejectPageSummary @Inject()()  {
 
-        val value = ValueViewModel(
-          HtmlContent(
-            HtmlFormat.escape(messages(s"selectAlertRejectPage.$answer"))
-          )
+  def row(alertOrReject: SelectAlertReject)(implicit request: DataRequest[_], messages: Messages): Option[SummaryListRow] = {
+
+    val value = ValueViewModel(
+      HtmlContent(
+        HtmlFormat.escape(messages(s"selectAlertRejectPage.$alertOrReject.type"))
+      )
+    )
+
+    Some(
+      SummaryListRowViewModel(
+        key = "selectAlertRejectPage.checkYourAnswersLabel",
+        value = value,
+        actions = Seq(
+          ActionItemViewModel(
+            "site.change",
+            routes.SelectAlertRejectPageController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, CheckMode).url,
+            SelectAlertRejectPage
+          ).withVisuallyHiddenText(messages("selectAlertRejectPage.change.hidden"))
         )
-
-        SummaryListRowViewModel(
-          key     = "selectAlertRejectPage.checkYourAnswersLabel",
-          value   = value,
-          actions = Seq(
-            ActionItemViewModel("site.change", routes.SelectAlertRejectPageController.onPageLoad(answers.ern, answers.arc, CheckMode).url, SelectAlertRejectPage)
-              .withVisuallyHiddenText(messages("selectAlertRejectPage.change.hidden"))
-          )
-        )
-    }
+      )
+    )
+  }
 }

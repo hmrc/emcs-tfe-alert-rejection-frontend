@@ -28,7 +28,7 @@ object SelectReason extends Enumerable.Implicits {
   case object ConsigneeDetailsWrong extends WithName("1") with SelectReason
   case object GoodTypesNotMatchOrder extends WithName("2") with SelectReason
   case object QuantitiesNotMatchOrder extends WithName("3") with SelectReason
-  case object Other extends WithName("4") with SelectReason
+  case object Other extends WithName("0") with SelectReason
 
   val values: Seq[SelectReason] = Seq(
     ConsigneeDetailsWrong,
