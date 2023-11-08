@@ -24,9 +24,16 @@ object InformationMessages {
     val heading: String = "Do you want to receive the movement?"
     val title: String = titleHelper(heading)
 
-    val cyaLabel = "Information about consignee details"
-    val cyaHidden = "information about consignee details"
-    val addMoreInformation = "Enter information about consignee details"
+    val cyaConsigneeLabel = "Information about consignee details"
+    val cyaConsigneeHidden = "information about consignee details"
+    val cyaGoodsTypesLabel = "Information about goods types"
+    val cyaGoodsTypesHidden = "information about goods types"
+    val cyaGoodsQuantitiesLabel = "Information about goods quantities"
+    val cyaGoodsQuantitiesHidden = "information about goods quantities"
+
+    val addMoreConsigneeInformation = "Enter information about consignee details"
+    val addMoreGoodsTypesInformation = "Enter information about goods types"
+    val addMoreGoodsQuantitiesInformation = "Enter information about goods quantities"
   }
   object English extends ViewMessages with BaseEnglish {}
 
