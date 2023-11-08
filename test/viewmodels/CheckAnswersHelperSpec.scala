@@ -77,7 +77,7 @@ class CheckAnswersHelperSpec
               ).returns(consigneeInformation)
               MockInformationSummary.row(
                 GoodsTypeInformationPage,
-                testOnly.controllers.routes.UnderConstructionController.onPageLoad(), // TODO once page built
+                controllers.routes.GoodsTypeInformationController.onPageLoad(testErn, testArc, CheckMode),
                 None
               ).returns(goodsTypesInformation)
               MockInformationSummary.row(
@@ -134,7 +134,7 @@ class CheckAnswersHelperSpec
                     case ConsigneeDetailsWrong =>
                       controllers.routes.ConsigneeInformationController.onPageLoad(testErn, testArc, CheckMode)
                     case GoodTypesNotMatchOrder =>
-                      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+                      controllers.routes.GoodsTypeInformationController.onPageLoad(testErn, testArc, CheckMode)
                     case QuantitiesNotMatchOrder =>
                       testOnly.controllers.routes.UnderConstructionController.onPageLoad()
                     case Other =>
