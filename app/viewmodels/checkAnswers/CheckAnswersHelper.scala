@@ -74,7 +74,7 @@ class CheckAnswersHelper @Inject()(
     if (request.userAnswers.get(SelectReasonPage).exists(_.contains(QuantitiesNotMatchOrder))) {
       Some(moreInformationSummary.row(
         page = GoodsQuantitiesInformationPage,
-        changeAction = testOnly.controllers.routes.UnderConstructionController.onPageLoad() // TODO once page built
+        changeAction = controllers.routes.GoodsQuantitiesInformationController.onPageLoad(request.ern, request.arc, CheckMode)
       ))
     } else {
       None
