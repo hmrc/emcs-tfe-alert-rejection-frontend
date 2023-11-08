@@ -292,7 +292,7 @@ class NavigatorSpec extends SpecBase {
 
           "navigate to the 'Other' information page (AR09)" - {
 
-            "when the user selects 'Other' on the alert selection page" in {
+            "when the user also has 'Other' selected on the select reason page" in {
               val userAnswers = emptyUserAnswers
                 .set(SelectAlertRejectPage, Alert)
                 .set(SelectReasonPage, Set(QuantitiesNotMatchOrder, Other))
@@ -315,7 +315,7 @@ class NavigatorSpec extends SpecBase {
                 .set(GoodsQuantitiesInformationPage, Some("answer"))
 
               navigator.nextPage(GoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
-                testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+                controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
             }
           }
         }
