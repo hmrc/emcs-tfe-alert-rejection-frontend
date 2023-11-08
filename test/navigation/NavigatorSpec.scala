@@ -176,13 +176,25 @@ class NavigatorSpec extends SpecBase {
       }
 
       "for the GiveGoodsTypeInformation Page" - {
-        "must go to the Choose Goods Type Information" in {
+
+        "when the user submits more information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
-            .set(SelectReasonPage, Set(ConsigneeDetailsWrong, GoodTypesNotMatchOrder))
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
+            .set(ChooseGoodsTypeInformationPage, true)
 
           navigator.nextPage(GoodsTypeInformationPage, NormalMode, userAnswers) mustBe
-            controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user submits more information, with the `Goods types do not match the order` checkbox ticked on the select reason page" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder, Other))
+            .set(ChooseGoodsTypeInformationPage, true)
+
+          navigator.nextPage(GoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
       }
 
