@@ -21,15 +21,16 @@ import models.requests.DataRequest
 import models.{CheckMode, SelectAlertReject}
 import pages.SelectReasonPage
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
+import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import views.html.components.list
 
 import javax.inject.Inject
 
-class SelectReasonSummary @Inject()()  {
+class SelectReasonSummary @Inject()(list: list)  {
 
   def row(alertOrReject: SelectAlertReject)(implicit request: DataRequest[_], messages: Messages): Option[SummaryListRow] =
     request.userAnswers.get(SelectReasonPage).map {
@@ -37,10 +38,11 @@ class SelectReasonSummary @Inject()()  {
 
         val value = ValueViewModel(
           HtmlContent(
-            answers.map {
-              answer => HtmlFormat.escape(messages(s"selectReason.$answer")).toString
-            }
-            .mkString("<br><br>")
+            list(
+              answers.map {
+                answer => Html(HtmlFormat.escape(messages(s"selectReason.$answer")).toString)
+              }.toSeq
+            )
           )
         )
 
