@@ -179,7 +179,6 @@ chooseGoodsQuantitiesInformation.change.hidden = ChooseGoodsQuantitiesInformatio
 consigneeInformation.heading = Give information about the consignee details being wrong (optional)
 consigneeInformation.heading.more = Give information about the consignee details being wrong (optional)
 consigneeInformation.checkYourAnswersLabel = consigneeInformation
-consigneeInformation.hint = Give information (optional).
 consigneeInformation.error.required = Enter information
 consigneeInformation.error.length = Information must be 350 characters or less
 consigneeInformation.error.character = Information must contain letters or numbers

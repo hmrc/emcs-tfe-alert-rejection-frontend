@@ -47,7 +47,6 @@
             name = "value",
             maxLength = Some(350),
             label = LabelViewModel(Text(heading)).asPageHeading(LabelSize.Large),
-            hint = Option(HintViewModel(Text(messages(s"consigneeInformation.hint")))),
             value = form("value").value,
             errorMessage = form.errors("value") match {
                 case Nil => None

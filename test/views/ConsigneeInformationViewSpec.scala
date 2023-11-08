@@ -50,7 +50,6 @@ class ConsigneeInformationViewSpec extends ViewSpecBase with ViewBehaviours {
               Selectors.title -> messagesForLanguage.title(),
               Selectors.h1 -> messagesForLanguage.heading(),
               Selectors.h2(1) -> messagesForLanguage.arcSubheading(testArc),
-              Selectors.hint -> messagesForLanguage.hint(),
               Selectors.button -> messagesForLanguage.continue
             ))
           }
