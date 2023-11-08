@@ -29,6 +29,11 @@ object SelectAlertRejectMessages {
     val radioOption1: String = "Yes, but I want to alert the consignor to an issue"
     val radioOption2: String = "No, I want to reject the movement"
     val requiredError: String = "Select what’s been delayed"
+
+    val cyaLabel = "Alert or rejection"
+    val cyaAlertValue = "Alert"
+    val cyaRejectValue = "Rejection"
+
   }
   object English extends ViewMessages with BaseEnglish {}
 
