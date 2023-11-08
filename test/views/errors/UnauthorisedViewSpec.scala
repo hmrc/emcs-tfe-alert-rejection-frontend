@@ -23,8 +23,8 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import views.{BaseSelectors, ViewBehaviours}
 import views.html.auth.errors.UnauthorisedView
+import views.{BaseSelectors, ViewBehaviours}
 
 class UnauthorisedViewSpec extends ViewSpecBase with ViewBehaviours {
 

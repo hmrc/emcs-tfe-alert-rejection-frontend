@@ -18,8 +18,8 @@ package views
 
 import base.ViewSpecBase
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.data.Forms._
+import play.api.i18n.Messages
 
 class ViewUtilsSpec extends ViewSpecBase with ViewBehaviours {
 

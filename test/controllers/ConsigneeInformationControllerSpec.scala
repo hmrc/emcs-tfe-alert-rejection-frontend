@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import forms.{ConsigneeInformationFormProvider, GiveInformationFormProvider}
+import forms.ConsigneeInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.SelectAlertReject.Alert
 import models.SelectReason.Other

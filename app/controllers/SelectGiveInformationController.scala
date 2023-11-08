@@ -18,8 +18,8 @@ package controllers
 
 import controllers.actions._
 import forms.SelectGiveInformationFormProvider
-import models.{Mode, SelectAlertReject}
 import models.requests.DataRequest
+import models.{Mode, SelectAlertReject}
 import navigation.Navigator
 import pages.{SelectAlertRejectPage, SelectGiveInformationPage}
 import play.api.data.Form

@@ -17,6 +17,8 @@
 package views
 
 import base.ViewSpecBase
+import fixtures.messages.SelectAlertRejectMessages
+import forms.SelectAlertRejectFormProvider
 import models.NormalMode
 import models.requests.DataRequest
 import org.jsoup.Jsoup
@@ -25,8 +27,6 @@ import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import views.html.SelectAlertRejectView
-import fixtures.messages.SelectAlertRejectMessages
-import forms.SelectAlertRejectFormProvider
 
 
 class SelectAlertRejectViewSpec extends ViewSpecBase with ViewBehaviours {

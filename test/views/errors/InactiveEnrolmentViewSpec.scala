@@ -24,8 +24,8 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import views.{BaseSelectors, ViewBehaviours}
 import views.html.auth.errors.InactiveEnrolmentView
+import views.{BaseSelectors, ViewBehaviours}
 
 class InactiveEnrolmentViewSpec extends ViewSpecBase with ViewBehaviours {
 

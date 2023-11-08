@@ -16,11 +16,12 @@
 
 package forms
 
-import javax.inject.Inject
 import forms.mappings.Mappings
+import models.{SelectAlertReject, SelectReason}
 import play.api.data.Form
 import play.api.data.Forms.set
-import models.{SelectAlertReject, SelectReason}
+
+import javax.inject.Inject
 
 class SelectReasonFormProvider @Inject() extends Mappings {
 
