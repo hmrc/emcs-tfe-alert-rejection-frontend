@@ -21,7 +21,7 @@ import forms.ChooseGoodsQuantitiesInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.NormalMode
 import navigation.{FakeNavigator, Navigator}
-import pages.ChooseGoodsQuantitiesInformationPage
+import pages.{ChooseGoodsQuantitiesInformationPage, GoodsQuantitiesInformationPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -92,6 +92,33 @@ class ChooseGoodsQuantitiesInformationControllerSpec extends SpecBase with MockU
         val request =
           FakeRequest(POST, chooseGoodsQuantitiesInformationRoute)
             .withFormUrlEncodedBody(("value", "true"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
+      }
+    }
+
+    "must remove the GoodsQuantitiesInformation page answer when no is select and redirect to the next page when valid data is submitted" in {
+
+      MockUserAnswersService.set(
+        emptyUserAnswers.set(ChooseGoodsQuantitiesInformationPage, false)
+      ).returns(Future.successful(emptyUserAnswers.set(ChooseGoodsQuantitiesInformationPage, false)))
+
+      val application =
+        applicationBuilder(userAnswers = Some(
+          emptyUserAnswers.set(GoodsQuantitiesInformationPage, Some("answer"))
+        )).overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[UserAnswersService].toInstance(mockUserAnswersService)
+          )
+          .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, chooseGoodsQuantitiesInformationRoute)
+            .withFormUrlEncodedBody(("value", "false"))
 
         val result = route(application, request).value
 

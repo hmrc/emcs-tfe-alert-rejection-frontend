@@ -33,7 +33,6 @@ package controllers
  */
 
 import base.SpecBase
-import controllers.routes
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.http.Status.SEE_OTHER
 import play.api.test.Helpers.{defaultAwaitTimeout, status, writeableOf_AnyContentAsEmpty}

@@ -55,15 +55,20 @@ POST       /trader/:ern/movement/:arc/choose-goods-types-information            
 GET        /trader/:ern/movement/:arc/choose-goods-types-information/change                 controllers.ChooseGoodsTypeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/choose-goods-types-information/change                 controllers.ChooseGoodsTypeInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
+GET        /trader/:ern/movement/:arc/goods-types-information                               controllers.GoodsTypeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/goods-types-information                               controllers.GoodsTypeInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/goods-types-information/change                        controllers.GoodsTypeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/goods-types-information/change                        controllers.GoodsTypeInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+
 GET        /trader/:ern/movement/:arc/choose-goods-quantities-information                   controllers.ChooseGoodsQuantitiesInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
 POST       /trader/:ern/movement/:arc/choose-goods-quantities-information                   controllers.ChooseGoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
 GET        /trader/:ern/movement/:arc/choose-goods-quantities-information/change            controllers.ChooseGoodsQuantitiesInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/choose-goods-quantities-information/change            controllers.ChooseGoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
-GET        /trader/:ern/movement/:arc/goods-types-information                               controllers.GoodsTypeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
-POST       /trader/:ern/movement/:arc/goods-types-information                               controllers.GoodsTypeInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
-GET        /trader/:ern/movement/:arc/goods-types-information/change                        controllers.GoodsTypeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
-POST       /trader/:ern/movement/:arc/goods-types-information/change                        controllers.GoodsTypeInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+GET        /trader/:ern/movement/:arc/goods-quantities-information                          controllers.GoodsQuantitiesInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/goods-quantities-information                          controllers.GoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/goods-quantities-information/change                   controllers.GoodsQuantitiesInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/goods-quantities-information/change                   controllers.GoodsQuantitiesInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
 GET        /trader/:ern/movement/:arc/consignee-information                                 controllers.ConsigneeInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
 POST       /trader/:ern/movement/:arc/consignee-information                                 controllers.ConsigneeInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)

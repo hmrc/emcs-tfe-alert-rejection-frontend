@@ -31,9 +31,9 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.{Request, Result}
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{cookies, defaultAwaitTimeout}
 
 import scala.concurrent.Future
-import play.api.test.Helpers.{cookies, defaultAwaitTimeout}
 
 trait SpecBase
   extends AnyFreeSpec

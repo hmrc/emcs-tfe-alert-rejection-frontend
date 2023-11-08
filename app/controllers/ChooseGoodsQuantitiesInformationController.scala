@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.ChooseGoodsQuantitiesInformationFormProvider
 import models.Mode
 import navigation.Navigator
-import pages.ChooseGoodsQuantitiesInformationPage
+import pages.{ChooseGoodsQuantitiesInformationPage, GoodsQuantitiesInformationPage}
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
@@ -53,8 +53,10 @@ class ChooseGoodsQuantitiesInformationController @Inject()(
       formProvider().bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
-        value =>
-          saveAndRedirect(ChooseGoodsQuantitiesInformationPage, value, mode)
+        provideMoreInformation => {
+          val cleansedAnswers = if(provideMoreInformation) request.userAnswers else request.userAnswers.remove(GoodsQuantitiesInformationPage)
+          saveAndRedirect(ChooseGoodsQuantitiesInformationPage, provideMoreInformation, cleansedAnswers, mode)
+        }
       )
     }
 }

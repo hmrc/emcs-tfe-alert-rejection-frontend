@@ -19,7 +19,6 @@ package pages
 import pages.behaviour.PageBehaviours
 import utils.JsonOptionFormatter.optionFormat
 
-
 class ConsigneeInformationPageSpec extends PageBehaviours {
 
   "GiveInformationPage" - {

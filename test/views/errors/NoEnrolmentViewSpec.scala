@@ -23,8 +23,8 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.test.FakeRequest
-import views.{BaseSelectors, ViewBehaviours}
 import views.html.auth.errors.NoEnrolmentView
+import views.{BaseSelectors, ViewBehaviours}
 
 class NoEnrolmentViewSpec extends ViewSpecBase with ViewBehaviours {
 

@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import forms.DestinationOfficeFormProvider
 import mocks.services.MockUserAnswersService
-import models.{NormalMode, DestinationOffice, UserAnswers}
+import models.{DestinationOffice, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import pages.DestinationOfficePage
 import play.api.inject.bind

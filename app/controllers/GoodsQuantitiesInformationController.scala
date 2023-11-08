@@ -17,21 +17,20 @@
 package controllers
 
 import controllers.actions._
-import forms.SelectGiveInformationFormProvider
-import models.requests.DataRequest
-import models.{Mode, SelectAlertReject}
+import forms.GiveInformationFormProvider
+import models.Mode
 import navigation.Navigator
-import pages.{SelectAlertRejectPage, SelectGiveInformationPage}
-import play.api.data.Form
+import pages.{ChooseGoodsQuantitiesInformationPage, GoodsQuantitiesInformationPage}
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
-import views.html.SelectGiveInformationView
+import utils.JsonOptionFormatter.optionFormat
+import views.html.GoodsQuantitiesInformationView
 
 import javax.inject.Inject
 import scala.concurrent.Future
 
-class SelectGiveInformationController @Inject()(
+class GoodsQuantitiesInformationController @Inject()(
                                        override val messagesApi: MessagesApi,
                                        override val userAnswersService: UserAnswersService,
                                        override val navigator: Navigator,
@@ -40,34 +39,25 @@ class SelectGiveInformationController @Inject()(
                                        override val getData: DataRetrievalAction,
                                        override val requireData: DataRequiredAction,
                                        override val userAllowList: UserAllowListAction,
-                                       formProvider: SelectGiveInformationFormProvider,
+                                       formProvider: GiveInformationFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
-                                       view: SelectGiveInformationView
+                                       view: GoodsQuantitiesInformationView
                                      ) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      withAnswer(SelectAlertRejectPage) { alertOrReject =>
-        Future(renderView(Ok, alertOrReject, fillForm(SelectGiveInformationPage, formProvider(alertOrReject)), mode))
+      withAnswer(ChooseGoodsQuantitiesInformationPage) { _ =>
+        Future(Ok(view(fillForm(GoodsQuantitiesInformationPage, formProvider(isMandatory = false)), mode)))
       }
     }
 
   def onSubmit(ern: String, arc: String, mode: Mode): Action[AnyContent] =
     authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
-      withAnswer(SelectAlertRejectPage) { alertOrReject =>
-        formProvider(alertOrReject).bindFromRequest().fold(
-          formWithErrors =>
-            Future(renderView(BadRequest, alertOrReject, formWithErrors, mode)),
-          value =>
-            saveAndRedirect(SelectGiveInformationPage, value, mode)
+      withAnswer(ChooseGoodsQuantitiesInformationPage) { _ =>
+        formProvider(isMandatory = false).bindFromRequest().fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, mode))),
+          saveAndRedirect(GoodsQuantitiesInformationPage, _, mode)
         )
       }
     }
-
-  private def renderView(status: Status, alertOrReject: SelectAlertReject, form: Form[_], mode: Mode)(implicit request: DataRequest[_]): Result =
-    status(view(
-      alertOrReject = alertOrReject,
-      form = form,
-      onSubmitCall = routes.SelectGiveInformationController.onSubmit(request.ern, request.arc, mode)
-    ))
 }

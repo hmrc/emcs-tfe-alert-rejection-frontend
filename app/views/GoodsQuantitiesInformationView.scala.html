@@ -18,19 +18,22 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.charactercount.CharacterCount
 @import viewmodels.LabelSize
 
-@this(layout: templates.Layout,
+@this(
+        layout: templates.Layout,
         formHelper: FormWithCSRF,
         govukErrorSummary: GovukErrorSummary,
-        govukCharacterCount: GovukCharacterCount,
+        govukCharacterCount : GovukCharacterCount,
         govukButton: GovukButton,
+        h1: components.h1,
         h2: components.h2,
-        continue: components.continue)
+        continue: components.continue
+)
 
-@(form: Form[_], onSubmit: Call)(implicit request: DataRequest[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages("goodsTypeInformation.heading"))) {
+@layout(pageTitle = title(form, messages("goodsQuantitiesInformation.title"))) {
 
-    @formHelper(action = onSubmit) {
+    @formHelper(action = routes.GoodsQuantitiesInformationController.onSubmit(request.ern, request.arc, mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -38,21 +41,20 @@
 
         @h2(messages("arc.subHeading", request.arc), "govuk-caption-l")
 
-        @{
-            govukCharacterCount(CharacterCount(
-                id = "value",
-                name = "value",
-                maxLength = Some(350),
-                label = LabelViewModel(Text(messages("goodsTypeInformation.heading"))).asPageHeading(LabelSize.Large),
-                value = form("value").value,
-                errorMessage = form.errors("value") match {
-                    case Nil => None
-                    case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
-                }
-            ))
-        }
+        @{govukCharacterCount(CharacterCount(
+            id = "value",
+            name = "value",
+            maxLength = Some(350),
+            label = LabelViewModel(Text(messages("goodsQuantitiesInformation.heading"))).asPageHeading(LabelSize.Large),
+            value = form("value").value,
+            errorMessage = form.errors("value") match {
+                case Nil => None
+                case errors => Some(ErrorMessage(content = HtmlContent(errors.map(err => messages(err.message)).mkString("<br>"))))
+            }
+        ))}
 
         @continue()
+
     }
 }
 

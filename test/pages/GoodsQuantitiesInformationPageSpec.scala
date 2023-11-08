@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package forms
+package pages
 
-import forms.mappings.Mappings
-import models.{SelectAlertReject, SelectReason}
-import play.api.data.Form
-import play.api.data.Forms.set
+import pages.behaviour.PageBehaviours
+import utils.JsonOptionFormatter.optionFormat
 
-import javax.inject.Inject
+class GoodsQuantitiesInformationPageSpec extends PageBehaviours {
 
-class SelectReasonFormProvider @Inject() extends Mappings {
+  "GoodsQuantitiesInformationPage" - {
 
-  def apply(alertOrReject: SelectAlertReject): Form[Set[SelectReason]] =
-    Form(
-      "value" -> set(enumerable[SelectReason](s"selectReason.error.required.$alertOrReject"))
-        .verifying(nonEmptySet(s"selectReason.error.required.$alertOrReject"))
-    )
+    beRetrievable[Option[String]](GoodsQuantitiesInformationPage)
+
+    beSettable[Option[String]](GoodsQuantitiesInformationPage)
+
+    beRemovable[Option[String]](GoodsQuantitiesInformationPage)
+  }
 }

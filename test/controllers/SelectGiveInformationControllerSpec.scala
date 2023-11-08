@@ -19,8 +19,8 @@ package controllers
 import base.SpecBase
 import forms.SelectGiveInformationFormProvider
 import mocks.services.MockUserAnswersService
-import models.{NormalMode, UserAnswers}
 import models.SelectAlertReject.Alert
+import models.{NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import pages.{SelectAlertRejectPage, SelectGiveInformationPage}
 import play.api.inject.bind
