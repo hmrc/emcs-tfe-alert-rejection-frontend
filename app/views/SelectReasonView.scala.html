@@ -28,7 +28,7 @@
 
 @(form: Form[_], alertOrReject: SelectAlertReject, action: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"selectReason.heading.$alertOrReject"))) {
+@layout(pageTitle = title(form, messages(s"selectReason.title.$alertOrReject"))) {
 
     @formHelper(action, 'autoComplete -> "off") {
 

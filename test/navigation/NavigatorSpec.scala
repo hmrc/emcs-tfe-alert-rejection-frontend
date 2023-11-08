@@ -153,7 +153,6 @@ class NavigatorSpec extends SpecBase {
             controllers.routes.ConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
 
-        // TODO if only 1 reason then next page should be CYA once built
         "when the user has chosen No to giving more information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
@@ -161,7 +160,7 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseConsigneeInformationPage, false)
 
           navigator.nextPage(ChooseConsigneeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
         }
 
         "when the user hasn't answered YES or NO to giving more information" in {
@@ -184,7 +183,7 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseGoodsTypeInformationPage, true)
 
           navigator.nextPage(GoodsTypeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
         }
 
         "when the user submits more information, with the `Goods types do not match the order` checkbox ticked on the select reason page" in {
@@ -208,7 +207,7 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseConsigneeInformationPage, true)
 
           navigator.nextPage(ConsigneeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
         }
 
         "when the user submits more information, with the `Goods types do not match the order` checkbox ticked on the select reason page" in {
@@ -239,9 +238,8 @@ class NavigatorSpec extends SpecBase {
             .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
             .set(ChooseGoodsTypeInformationPage, false)
 
-          // TODO if only 1 reason then next page should be CYA once built
           navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
         }
 
         "when the user hasn't answered YES or NO to giving more information" in {
@@ -273,9 +271,8 @@ class NavigatorSpec extends SpecBase {
             .set(SelectReasonPage, Set(QuantitiesNotMatchOrder))
             .set(ChooseGoodsQuantitiesInformationPage, false)
 
-          // TODO if only 1 reason then next page should be CYA once built
           navigator.nextPage(ChooseGoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
         }
 
         "when the user hasn't answered YES or NO to giving more information" in {
@@ -295,7 +292,7 @@ class NavigatorSpec extends SpecBase {
 
           "navigate to the 'Other' information page (AR09)" - {
 
-            "when the user selects 'Other' on the alert selection page" in {
+            "when the user also has 'Other' selected on the select reason page" in {
               val userAnswers = emptyUserAnswers
                 .set(SelectAlertRejectPage, Alert)
                 .set(SelectReasonPage, Set(QuantitiesNotMatchOrder, Other))
@@ -318,7 +315,7 @@ class NavigatorSpec extends SpecBase {
                 .set(GoodsQuantitiesInformationPage, Some("answer"))
 
               navigator.nextPage(GoodsQuantitiesInformationPage, NormalMode, userAnswers) mustBe
-                testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+                controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
             }
           }
         }
@@ -345,23 +342,8 @@ class NavigatorSpec extends SpecBase {
               .set(SelectGiveInformationPage, false)
 
             navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
-              // TODO redirect to CYA page
-              testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+              controllers.routes.CheckYourAnswersController.onPageLoad(testErn, testArc)
           }
-        }
-      }
-
-      //TODO: GIVE INFORMATION PAGE NAV SPEC
-      "for  the GiveInformation page" - {
-        "must go to the CheckYourAnswers page" - {
-
-          val userAnswers = emptyUserAnswers
-            .set(SelectAlertRejectPage, Alert)
-            .set(SelectReasonPage, Set(ConsigneeDetailsWrong))
-            .set(SelectGiveInformationPage, false)
-            .set(GiveInformationPage, Some(""))
-          navigator.nextPage(SelectGiveInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
         }
       }
     }

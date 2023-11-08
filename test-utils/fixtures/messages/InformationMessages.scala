@@ -19,21 +19,21 @@ package fixtures.messages
 import fixtures.i18n
 import fixtures.messages.BaseEnglish.titleHelper
 
-object SelectAlertRejectMessages {
+object InformationMessages {
   sealed trait ViewMessages { _: i18n =>
     val heading: String = "Do you want to receive the movement?"
     val title: String = titleHelper(heading)
-    val h1 = "Alert or reject a movement"
-    val p1 = "Use an alert or rejection to tell HMRC and the consignor about a problem with a movement. You must do this as soon as you become aware of the problem."
-    val p2 = "You can only submit an alert or rejection while the movement is in transit. If it's been delivered, you can refuse goods or tell the consignor about an issue when submitting a report of receipt."
-    val radioOption1: String = "Yes, but I want to alert the consignor to an issue"
-    val radioOption2: String = "No, I want to reject the movement"
-    val requiredError: String = "Select what’s been delayed"
 
-    val cyaLabel = "Alert or rejection"
-    val cyaAlertValue = "Alert"
-    val cyaRejectValue = "Rejection"
+    val cyaConsigneeLabel = "Information about consignee details"
+    val cyaConsigneeHidden = "information about consignee details"
+    val cyaGoodsTypesLabel = "Information about goods types"
+    val cyaGoodsTypesHidden = "information about goods types"
+    val cyaGoodsQuantitiesLabel = "Information about goods quantities"
+    val cyaGoodsQuantitiesHidden = "information about goods quantities"
 
+    val addMoreConsigneeInformation = "Enter information about consignee details"
+    val addMoreGoodsTypesInformation = "Enter information about goods types"
+    val addMoreGoodsQuantitiesInformation = "Enter information about goods quantities"
   }
   object English extends ViewMessages with BaseEnglish {}
 

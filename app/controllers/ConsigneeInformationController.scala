@@ -64,7 +64,12 @@ class ConsigneeInformationController @Inject()(
                 routes.ConsigneeInformationController.onSubmit(ern, arc, mode)
               ))),
             value =>
-              saveAndRedirect(ConsigneeInformationPage, value, mode)
+              saveAndRedirect(
+                ConsigneeInformationPage,
+                value,
+                request.userAnswers.set(ChooseConsigneeInformationPage, true),
+                mode
+              )
           )
         }
     }

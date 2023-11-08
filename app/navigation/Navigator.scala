@@ -76,13 +76,10 @@ class Navigator @Inject()() extends BaseNavigator {
         case Some(true) =>
           controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
         case _ =>
-          // TODO route to CYA page when finished
-          testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-      }
+          routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)      }
 
     case GiveInformationPage => (userAnswers: UserAnswers) =>
-      // TODO route to CYA page when finished
-      testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
 
     case GoodsTypeInformationPage => (userAnswers: UserAnswers) =>
       redirectToNextWrongPage(Some(GoodTypesNotMatchOrder))(userAnswers)
@@ -94,7 +91,7 @@ class Navigator @Inject()() extends BaseNavigator {
 
   private val checkRoutes: Page => UserAnswers => Call = {
     case _ => (userAnswers: UserAnswers) =>
-      routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)
+      routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)
   }
 
   override def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
@@ -115,9 +112,7 @@ class Navigator @Inject()() extends BaseNavigator {
           case Some(Other) =>
             controllers.routes.GiveInformationController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
           case None =>
-            // TODO route to CYA page when finished
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
-        }
+            routes.CheckYourAnswersController.onPageLoad(userAnswers.ern, userAnswers.arc)        }
       case _ =>
         routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode)
     }
