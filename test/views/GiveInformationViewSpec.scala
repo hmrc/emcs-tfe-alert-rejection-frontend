@@ -36,7 +36,7 @@ class GiveInformationViewSpec extends ViewSpecBase with ViewBehaviours {
   lazy val form = app.injector.instanceOf[GiveInformationFormProvider].apply(true)
   lazy val view = app.injector.instanceOf[GiveInformationView]
 
-  "SelectAlertRejectView" - {
+  "GiveInformationView" - {
 
     Seq(GiveInformationMessages.English, GiveInformationMessages.Welsh).foreach { messagesForLanguage =>
       Seq(Alert, Reject).foreach { alertOrReject =>

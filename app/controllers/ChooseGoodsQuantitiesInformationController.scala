@@ -18,15 +18,15 @@ package controllers
 
 import controllers.actions._
 import forms.ChooseGoodsQuantitiesInformationFormProvider
-import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
 import pages.ChooseGoodsQuantitiesInformationPage
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import views.html.ChooseGoodsQuantitiesInformationView
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class ChooseGoodsQuantitiesInformationController @Inject()(

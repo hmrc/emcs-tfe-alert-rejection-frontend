@@ -18,30 +18,29 @@ package controllers
 
 import controllers.actions._
 import forms.ChooseGoodsTypeInformationFormProvider
-import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.ChooseGoodsTypeInformationPage
-import play.api.i18n.{I18nSupport, MessagesApi}
+import pages.{ChooseGoodsTypeInformationPage, GoodsTypeInformationPage}
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import views.html.ChooseGoodsTypeInformationView
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
-class ChooseGoodsTypeInformationController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       override val userAnswersService: UserAnswersService,
-                                       override val navigator: Navigator,
-                                       override val auth: AuthAction,
-                                       override val withMovement: MovementAction,
-                                       override val getData: DataRetrievalAction,
-                                       override val requireData: DataRequiredAction,
-                                       override val userAllowList: UserAllowListAction,
-                                       formProvider: ChooseGoodsTypeInformationFormProvider,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: ChooseGoodsTypeInformationView
-                                     ) extends BaseNavigationController with AuthActionHelper {
+class ChooseGoodsTypeInformationController @Inject()(override val messagesApi: MessagesApi,
+                                                     override val userAnswersService: UserAnswersService,
+                                                     override val navigator: Navigator,
+                                                     override val auth: AuthAction,
+                                                     override val withMovement: MovementAction,
+                                                     override val getData: DataRetrievalAction,
+                                                     override val requireData: DataRequiredAction,
+                                                     override val userAllowList: UserAllowListAction,
+                                                     formProvider: ChooseGoodsTypeInformationFormProvider,
+                                                     val controllerComponents: MessagesControllerComponents,
+                                                     view: ChooseGoodsTypeInformationView
+                                                    ) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] =
     authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
@@ -53,8 +52,13 @@ class ChooseGoodsTypeInformationController @Inject()(
       formProvider().bindFromRequest().fold(
         formWithErrors =>
           Future.successful(BadRequest(view(formWithErrors, mode))),
-        value =>
-          saveAndRedirect(ChooseGoodsTypeInformationPage, value, mode)
+        {
+          case true =>
+            saveAndRedirect(ChooseGoodsTypeInformationPage, true, mode)
+          case false =>
+            val removedMoreInfo = request.userAnswers.set(GoodsTypeInformationPage, None)
+            saveAndRedirect(ChooseGoodsTypeInformationPage, false, removedMoreInfo, mode)
+        }
       )
     }
 }

@@ -175,6 +175,30 @@ class NavigatorSpec extends SpecBase {
 
       }
 
+      "for the GiveGoodsTypeInformation Page" - {
+
+        "when the user submits more information" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder))
+            .set(ChooseGoodsTypeInformationPage, true)
+
+          navigator.nextPage(GoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+        }
+
+        "when the user submits more information, with the `Goods types do not match the order` checkbox ticked on the select reason page" in {
+          val userAnswers = emptyUserAnswers
+            .set(SelectAlertRejectPage, Alert)
+            .set(SelectReasonPage, Set(GoodTypesNotMatchOrder, Other))
+            .set(ChooseGoodsTypeInformationPage, true)
+
+          navigator.nextPage(GoodsTypeInformationPage, NormalMode, userAnswers) mustBe
+            controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, NormalMode)
+        }
+      }
+
+
       "for the ConsigneeInformation page" - {
 
         "when the user submits more information" in {
@@ -194,13 +218,11 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseConsigneeInformationPage, true)
 
           navigator.nextPage(ConsigneeInformationPage, NormalMode, userAnswers) mustBe
-             controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
+            controllers.routes.ChooseGoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
       }
 
       "for the ChooseGoodTypesInformation page" - {
-
-        // TODO route to goods types information page AR06 when finished
         "when the user has chosen Yes to giving more information" in {
           val userAnswers = emptyUserAnswers
             .set(SelectAlertRejectPage, Alert)
@@ -208,7 +230,7 @@ class NavigatorSpec extends SpecBase {
             .set(ChooseGoodsTypeInformationPage, true)
 
           navigator.nextPage(ChooseGoodsTypeInformationPage, NormalMode, userAnswers) mustBe
-            testOnly.controllers.routes.UnderConstructionController.onPageLoad()
+            routes.GoodsTypeInformationController.onPageLoad(testErn, testArc, NormalMode)
         }
 
         "when the user has chosen No to giving more information" in {

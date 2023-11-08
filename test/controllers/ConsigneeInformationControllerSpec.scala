@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import forms.GiveInformationFormProvider
+import forms.ConsigneeInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.SelectAlertReject.Alert
 import models.SelectReason.Other
@@ -49,8 +49,8 @@ class ConsigneeInformationControllerSpec extends SpecBase with MockUserAnswersSe
 
   def onwardRoute = Call("GET", "/foo")
 
-  val formProvider = new GiveInformationFormProvider()
-  val form = formProvider(true)
+  val formProvider = new ConsigneeInformationFormProvider()
+  val form = formProvider()
 
   lazy val consigneeInformationRoute = routes.ConsigneeInformationController.onPageLoad(testErn, testArc, NormalMode).url
 
