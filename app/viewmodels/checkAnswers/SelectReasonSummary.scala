@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import controllers.routes
 import models.requests.DataRequest
-import models.{CheckMode, SelectAlertReject}
+import models.{NormalMode, SelectAlertReject}
 import pages.SelectReasonPage
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
@@ -52,7 +52,7 @@ class SelectReasonSummary @Inject()(list: list)  {
           actions = Seq(
             ActionItemViewModel(
               "site.change",
-              routes.SelectReasonController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, CheckMode).url,
+              routes.SelectReasonController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, NormalMode).url,
               SelectReasonPage
             ).withVisuallyHiddenText(messages("selectReason.change.hidden"))
           )
