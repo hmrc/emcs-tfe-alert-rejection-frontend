@@ -19,6 +19,7 @@ package views
 import base.ViewSpecBase
 import fixtures.messages.GiveInformationMessages
 import forms.GiveInformationFormProvider
+import models.NormalMode
 import models.SelectAlertReject.{Alert, Reject}
 import models.requests.DataRequest
 import org.jsoup.Jsoup
@@ -40,22 +41,19 @@ class GiveInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
     Seq(GiveInformationMessages.English, GiveInformationMessages.Welsh).foreach { messagesForLanguage =>
       Seq(Alert, Reject).foreach { alertOrReject =>
-        Seq(true, false).foreach { hasOther =>
-          s"when being rendered in lang code of '${messagesForLanguage.lang.code}'with '${alertOrReject.toString}' other option set to '${hasOther}'" - {
-            implicit val msgs: Messages = messages(app, messagesForLanguage.lang)
-            implicit val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
+        s"when being rendered in lang code of '${messagesForLanguage.lang.code}'with '${alertOrReject.toString}' other option set to true'" - {
+          implicit val msgs: Messages = messages(app, messagesForLanguage.lang)
+          implicit val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
 
-            implicit val doc: Document = Jsoup.parse(view(form, alertOrReject, hasOther, testOnwardRoute).toString())
+          implicit val doc: Document = Jsoup.parse(view(form, alertOrReject, true, NormalMode).toString())
 
 
-            behave like pageWithExpectedElementsAndMessages(Seq(
-              Selectors.title -> messagesForLanguage.title(alertOrReject, hasOther),
-              Selectors.h1 -> messagesForLanguage.heading(alertOrReject, hasOther),
-              Selectors.h2(1) -> messagesForLanguage.arcSubheading(testArc),
-              Selectors.hint -> messagesForLanguage.hint(hasOther),
-              Selectors.button -> messagesForLanguage.continue
-            ))
-          }
+          behave like pageWithExpectedElementsAndMessages(Seq(
+            Selectors.title -> messagesForLanguage.title(alertOrReject),
+            Selectors.h1 -> messagesForLanguage.heading(alertOrReject),
+            Selectors.h2(1) -> messagesForLanguage.arcSubheading(testArc),
+            Selectors.button -> messagesForLanguage.continue
+          ))
         }
       }
     }

@@ -24,6 +24,8 @@ import play.api.i18n.{Messages, MessagesApi}
 
 class GiveInformationFormProviderSpec extends StringFieldBehaviours with GuiceOneAppPerSuite {
 
+  val requiredKeyAlert = "giveInformation.error.required.alert"
+  val requiredKeyReject = "giveInformation.error.required.reject"
   val requiredKey = "giveInformation.error.required"
   val lengthKey = "giveInformation.error.length"
   val xssKey = "giveInformation.error.xss"
@@ -43,7 +45,7 @@ class GiveInformationFormProviderSpec extends StringFieldBehaviours with GuiceOn
         actual.errors mustBe Seq(FormError(fieldName, requiredKey, Seq()))
       }
 
-      "must error if no value is all emptry chars supplied" in {
+      "must error if value is all empty chars supplied" in {
 
         val actual = form.bind(Map(fieldName -> "     "))
         actual.errors mustBe Seq(FormError(fieldName, requiredKey, Seq()))
@@ -116,6 +118,14 @@ class GiveInformationFormProviderSpec extends StringFieldBehaviours with GuiceOn
 
         "have the correct error message when no option is selected" in {
           messages(requiredKey) mustBe messagesForLanguage.errorRequired
+        }
+
+        "have the correct error message when alert is selected" in {
+          messages(requiredKeyAlert) mustBe messagesForLanguage.errorRequiredAlert
+        }
+
+        "have the correct error message when reject is selected" in {
+          messages(requiredKeyReject) mustBe messagesForLanguage.errorRequiredReject
         }
 
         "have the correct error message when too long" in {

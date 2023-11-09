@@ -25,24 +25,17 @@ object GiveInformationMessages {
 
   sealed trait ViewMessages { _: i18n =>
 
-    def title(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = titleHelper(heading(selectAlertReject,hasOther))
+    def title(selectAlertReject: SelectAlertReject): String = titleHelper(heading(selectAlertReject))
 
-    def heading(selectAlertReject: SelectAlertReject, hasOther: Boolean): String = {
-      (selectAlertReject, hasOther) match {
-        case (Alert, true) => "Give information about the alert"
-        case (Reject, true) =>"Give information about the rejection"
-        case (Alert, false) => "Give more information about the alert"
-        case (Reject, false) => "Give more information about the rejection"
+    def heading(selectAlertReject: SelectAlertReject): String = {
+      selectAlertReject match {
+        case Alert => "Give information about the other reason(s) for the alert"
+        case Reject => "Give information about the other reason(s) for the rejection"
       }
     }
 
-    def hint(hasOther: Boolean): String = {
-      hasOther match {
-        case true => "Give information."
-        case _ => "Give information (optional)."
-      }
-    }
-
+    val errorRequiredAlert: String
+    val errorRequiredReject: String
     val errorRequired: String
     val errorLength: String
     val errorCharacter: String
@@ -50,6 +43,8 @@ object GiveInformationMessages {
   }
 
   object English extends ViewMessages with BaseEnglish {
+    override val errorRequiredAlert = "Enter information about the alert"
+    override val errorRequiredReject = "Enter information about the rejection"
     override val errorRequired = "Enter information"
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters and numbers"
@@ -57,6 +52,8 @@ object GiveInformationMessages {
   }
 
   object Welsh extends ViewMessages with BaseWelsh {
+    override val errorRequiredAlert = "Enter information about the alert"
+    override val errorRequiredReject = "Enter information about the rejection"
     override val errorRequired = "Enter information"
     override val errorLength = "Information must be 350 characters or less"
     override val errorCharacter = "Information must include letters and numbers"
