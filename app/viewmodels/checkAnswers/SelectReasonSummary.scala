@@ -17,9 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
-import models.{CheckMode, SelectAlertReject, UserAnswers}
-import models.requests.DataRequest
-import models.{NormalMode, SelectAlertReject}
+import models.{NormalMode, SelectAlertReject, UserAnswers}
 import pages.SelectReasonPage
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}

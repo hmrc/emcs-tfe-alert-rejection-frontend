@@ -18,7 +18,7 @@ package viewmodels.checkAnswers
 
 import base.SpecBase
 import fixtures.messages.SelectReasonMessages
-import models.CheckMode
+import models.NormalMode
 import models.SelectAlertReject.{Alert, Reject}
 import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
 import pages._
@@ -66,7 +66,7 @@ class SelectReasonSummarySpec extends SpecBase {
                              actions = Seq(
                                ActionItemViewModel(
                                  langMessages.change,
-                                 controllers.routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, CheckMode).url,
+                                 controllers.routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode).url,
                                  id = SelectReasonPage
                                ).withVisuallyHiddenText("SelectReason")
                              )
