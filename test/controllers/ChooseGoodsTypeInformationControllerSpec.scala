@@ -20,8 +20,10 @@ import base.SpecBase
 import forms.ChooseGoodsTypeInformationFormProvider
 import mocks.services.MockUserAnswersService
 import models.NormalMode
+import models.SelectAlertReject.Reject
+import models.SelectReason.GoodTypesNotMatchOrder
 import navigation.{FakeNavigator, Navigator}
-import pages.ChooseGoodsTypeInformationPage
+import pages.{ChooseGoodsTypeInformationPage, GoodsTypeInformationPage, SelectAlertRejectPage, SelectReasonPage}
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -99,6 +101,39 @@ class ChooseGoodsTypeInformationControllerSpec extends SpecBase with MockUserAns
         redirectLocation(result).value mustEqual onwardRoute.url
       }
     }
+
+    "must remove the GoodsTypeInformation page answer when no is selected and redirect to the next page when valid data is submitted" in {
+
+      val userAnswersSoFar = emptyUserAnswers
+        .set(SelectAlertRejectPage, Reject)
+        .set(SelectReasonPage, Seq(GoodTypesNotMatchOrder))
+        .set(ChooseGoodsTypeInformationPage, true)
+        .set(GoodsTypeInformationPage, Some("free text"))
+
+      val expectedUserAnswersToSave = userAnswersSoFar
+        .set(ChooseGoodsTypeInformationPage, false)
+        .set(GoodsTypeInformationPage, None)
+
+      MockUserAnswersService.set(expectedUserAnswersToSave).returns(Future.successful(expectedUserAnswersToSave))
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswersSoFar)).overrides(
+          bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+          bind[UserAnswersService].toInstance(mockUserAnswersService)
+        ).build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, chooseGoodsTypeInformationRoute)
+            .withFormUrlEncodedBody(("value", "false"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
+      }
+    }
+
 
     "must return a Bad Request and errors when invalid data is submitted" in {
 

@@ -17,13 +17,17 @@
 package controllers
 
 import controllers.actions._
+import handlers.ErrorHandler
 import models.requests.DataRequest
-import models.{NormalMode, SelectAlertReject}
+import models.response.emcsTfe.SubmissionResponse
+import models.{ConfirmationDetails, MissingMandatoryPage, NormalMode, SelectAlertReject, UserAnswers}
 import navigation.Navigator
-import pages.{SelectAlertRejectPage, SelectReasonPage}
+import pages.{CheckYourAnswersPage, ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
 import play.api.i18n.MessagesApi
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
-import services.UserAnswersService
+import services.{SubmissionService, UserAnswersService}
+import uk.gov.hmrc.http.HeaderCarrier
 import viewmodels.checkAnswers.CheckAnswersHelper
 import views.html.CheckYourAnswersView
 
@@ -39,22 +43,41 @@ class CheckYourAnswersController @Inject()(
                                             override val getData: DataRetrievalAction,
                                             override val requireData: DataRequiredAction,
                                             override val userAllowList: UserAllowListAction,
+                                            val submissionService: SubmissionService,
                                             val controllerComponents: MessagesControllerComponents,
                                             checkAnswersHelper: CheckAnswersHelper,
-                                            view: CheckYourAnswersView
+                                            view: CheckYourAnswersView,
+                                            errorHandler: ErrorHandler
                                           ) extends BaseNavigationController with AuthActionHelper {
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
-    authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
+    authorisedDataRequestWithUpToDateMovementAsync(ern, arc) { implicit request =>
       withGuard {
         case alertOrReject =>
           renderView(alertOrReject)
       }
     }
 
-  def onPageSubmit(ern: String, arc: String): Action[AnyContent] = {
-    onPageLoad(ern, arc) // TODO on a different ticket
-  }
+  def onPageSubmit(ern: String, arc: String): Action[AnyContent] =
+    authorisedDataRequestWithUpToDateMovementAsync(ern, arc) { implicit request =>
+
+      withGuard {
+        case _ =>
+          submissionService.submit(ern, arc).flatMap { response =>
+
+            deleteDraftAndSetConfirmationFlow(request.ern, request.arc, response).map { _ =>
+              Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))
+            }
+
+          } recover {
+            case _: MissingMandatoryPage =>
+              BadRequest(errorHandler.badRequestTemplate)
+            case _ =>
+              InternalServerError(errorHandler.internalServerErrorTemplate)
+          }
+
+      }
+    }
 
   private def withGuard(f: SelectAlertReject => Future[Result])(implicit request: DataRequest[_]): Future[Result] =
     (request.userAnswers.get(SelectAlertRejectPage), request.userAnswers.get(SelectReasonPage)) match {
@@ -78,6 +101,23 @@ class CheckYourAnswersController @Inject()(
           alertOrReject,
           checkAnswersHelper.summaryList(alertOrReject),
           controllers.routes.CheckYourAnswersController.onPageSubmit(request.ern, request.arc)
+        )
+      )
+    )
+  }
+
+  private def deleteDraftAndSetConfirmationFlow(
+                                                ern: String,
+                                                arc: String,
+                                                response: SubmissionResponse
+                                               )(implicit hc: HeaderCarrier, request: DataRequest[_]): Future[UserAnswers] = {
+    userAnswersService.set(
+      UserAnswers(
+        ern,
+        arc,
+        data = Json.obj(
+          ConfirmationPage.toString -> ConfirmationDetails(request.userAnswers),
+          "submissionReceipt" -> response
         )
       )
     )

@@ -18,9 +18,9 @@ package controllers
 
 import base.SpecBase
 import mocks.services.MockUserAnswersService
-import models.NormalMode
+import models.{ConfirmationDetails, NormalMode}
 import models.SelectAlertReject.Alert
-import pages.SelectAlertRejectPage
+import pages.{ConfirmationPage, SelectAlertRejectPage}
 import play.api.http.Status.SEE_OTHER
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -75,6 +75,32 @@ class IndexControllerSpec extends SpecBase with MockUserAnswersService {
           }
         }
       }
+
+      "when the ConfirmationPage UserAnswer exists" - {
+
+        "must Initialise the UserAnswers and redirect to the SelectAlertRejectController" in {
+
+          val userAnswersSoFar = emptyUserAnswers
+            .set(ConfirmationPage, ConfirmationDetails(userAnswers = emptyUserAnswers))
+
+          MockUserAnswersService.set(emptyUserAnswers).returns(Future.successful(emptyUserAnswers))
+
+          val application = applicationBuilder(userAnswers = Some(userAnswersSoFar)).overrides(
+            bind[UserAnswersService].toInstance(mockUserAnswersService)
+          ).build()
+
+          running(application) {
+            val request = FakeRequest(GET, routes.IndexController.onPageLoad(testErn, testArc).url)
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+            redirectLocation(result) mustBe Some(routes.SelectAlertRejectPageController.onPageLoad(testErn, testArc, NormalMode).url)
+          }
+        }
+
+      }
+
     }
 
   }

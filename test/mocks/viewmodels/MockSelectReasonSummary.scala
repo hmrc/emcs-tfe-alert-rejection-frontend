@@ -16,9 +16,8 @@
 
 package mocks.viewmodels
 
-import models.SelectAlertReject
-import models.requests.DataRequest
-import org.scalamock.handlers.CallHandler3
+import models.{SelectAlertReject, UserAnswers}
+import org.scalamock.handlers.CallHandler4
 import org.scalamock.scalatest.MockFactory
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
@@ -30,9 +29,10 @@ trait MockSelectReasonSummary extends MockFactory {
 
   object MockSelectReasonSummary {
 
-    def row(alertOrReject: SelectAlertReject): CallHandler3[SelectAlertReject, DataRequest[_], Messages, Option[SummaryListRow]] =
-      (mockSelectReasonSummary.row(_: SelectAlertReject)(_: DataRequest[_], _: Messages))
-        .expects(alertOrReject, *, *)
+    def row(alertOrReject: SelectAlertReject, showChangeLinks: Boolean):
+    CallHandler4[SelectAlertReject, Boolean, UserAnswers, Messages, Option[SummaryListRow]] =
+      (mockSelectReasonSummary.row(_: SelectAlertReject, _: Boolean)(_: UserAnswers, _: Messages))
+        .expects(alertOrReject, showChangeLinks, *, *)
   }
 
 }

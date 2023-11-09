@@ -18,38 +18,46 @@ package controllers
 
 import base.SpecBase
 import handlers.ErrorHandler
-import mocks.services.MockUserAnswersService
+import mocks.services.{MockSubmissionService, MockUserAnswersService}
 import mocks.viewmodels.MockCheckAnswersHelper
 import models.SelectAlertReject.{Alert, Reject}
-import models.{NormalMode, UserAnswers}
+import models.response.emcsTfe.SubmissionResponse
+import models.{ConfirmationDetails, MissingMandatoryPage, NormalMode, SelectReason, SubmitAlertOrRejectionException, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import pages.{SelectAlertRejectPage, SelectReasonPage}
+import pages._
 import play.api.inject
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.UserAnswersService
+import services.{SubmissionService, UserAnswersService}
 import viewmodels.checkAnswers.CheckAnswersHelper
 import viewmodels.govuk.SummaryListFluency
 import views.html.CheckYourAnswersView
 
+import scala.concurrent.Future
+
 class CheckYourAnswersControllerSpec extends SpecBase
   with MockCheckAnswersHelper
   with MockUserAnswersService
+  with MockSubmissionService
   with SummaryListFluency {
 
-  class Fixture(userAnswers: Option[UserAnswers]) {
+  class Fixture(val userAnswers: Option[UserAnswers]) {
     val application =
       applicationBuilder(userAnswers)
         .overrides(
           inject.bind[CheckAnswersHelper].toInstance(mockCheckAnswersHelper),
           inject.bind[Navigator].toInstance(new FakeNavigator(testOnwardRoute)),
-          inject.bind[UserAnswersService].toInstance(mockUserAnswersService)
+          inject.bind[UserAnswersService].toInstance(mockUserAnswersService),
+          inject.bind[SubmissionService].toInstance(mockSubmissionService)
         )
         .build()
 
     lazy val errorHandler = application.injector.instanceOf[ErrorHandler]
     val view = application.injector.instanceOf[CheckYourAnswersView]
   }
+
+  def onwardRoute = Call("GET", "/foo")
 
   "CheckYourAnswers Controller" - {
 
@@ -94,8 +102,92 @@ class CheckYourAnswersControllerSpec extends SpecBase
             status(result) mustBe SEE_OTHER
             redirectLocation(result) mustBe Some(routes.SelectReasonController.onPageLoad(testErn, testArc, NormalMode).url)
           }
+
+          "must return a redirect to the NotPermittedPageController when ConfirmationPage details are present" in
+            new Fixture(Some(emptyUserAnswers.set(ConfirmationPage, ConfirmationDetails(UserAnswers(testErn, testArc))))) {
+              val result = route(application, request).value
+
+              status(result) mustBe SEE_OTHER
+              redirectLocation(result) mustBe Some(routes.NotPermittedPageController.onPageLoad(testErn, testArc).url)
+            }
         }
       }
     }
+
+    ".onPageSubmit" - {
+
+      Seq(Alert, Reject).foreach { aType =>
+        s"for a $aType" - {
+
+          lazy val postRequest = FakeRequest(POST, routes.CheckYourAnswersController.onPageSubmit(testErn, testArc).url)
+
+          val userAnswersSoFar = emptyUserAnswers
+            .set(SelectAlertRejectPage, aType)
+            .set(SelectReasonPage, SelectReason.values)
+            .set(ConsigneeInformationPage, Some("ConsigneeInformationPage free text"))
+            .set(GoodsTypeInformationPage, Some("ConsigneeInformationPage free text"))
+            .set(GoodsQuantitiesInformationPage, Some("GoodsQuantitiesInformationPage free text"))
+            .set(GiveInformationPage, Some("GiveInformationPage free text"))
+
+          "when the submission is successful" - {
+
+            "must save the ConfirmationDetails and redirect to the onward route" in new Fixture(Some(userAnswersSoFar)) {
+              running(application) {
+
+                val successResponse = SubmissionResponse(receipt = testConfirmationReference, receiptDate = testReceiptDate)
+
+                MockSubmissionService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
+                  .returns(Future.successful(successResponse))
+
+                val updatedAnswers = userAnswers.get.set(ConfirmationPage, ConfirmationDetails(userAnswers = userAnswersSoFar))
+
+                MockUserAnswersService.set().returns(Future.successful(updatedAnswers))
+
+                val result = route(application, postRequest).value
+
+                status(result) mustEqual SEE_OTHER
+                redirectLocation(result) mustBe Some(onwardRoute.url)
+              }
+            }
+
+          }
+
+          "when the submission fails" - {
+
+            "must render an internal server error" in new Fixture(Some(userAnswersSoFar)) {
+              running(application) {
+
+                MockSubmissionService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
+                  .returns(Future.failed(SubmitAlertOrRejectionException("some exception occurred")))
+
+                val result = route(application, postRequest).value
+
+                status(result) mustBe INTERNAL_SERVER_ERROR
+                contentAsString(result) mustBe errorHandler.internalServerErrorTemplate(postRequest).toString()
+              }
+            }
+
+            "when mandatory data is reported as missing" - {
+
+              "must return BadRequest" in new Fixture(Some(userAnswersSoFar)) {
+                running(application) {
+
+                  MockSubmissionService.submit(testErn, testArc, getMovementResponseModel, userAnswersSoFar)
+                    .returns(Future.failed(MissingMandatoryPage("bang")))
+
+                  val result = route(application, postRequest).value
+
+                  status(result) mustBe BAD_REQUEST
+                  contentAsString(result) mustBe errorHandler.badRequestTemplate(postRequest).toString()
+                }
+              }
+            }
+          }
+
+        }
+
+      }
+    }
+
   }
 }

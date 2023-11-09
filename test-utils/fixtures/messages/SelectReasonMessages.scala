@@ -18,8 +18,10 @@ package fixtures.messages
 
 import fixtures.i18n
 import fixtures.messages.BaseEnglish.titleHelper
-import models.SelectAlertReject
 import models.SelectAlertReject.{Alert, Reject}
+import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
+import models.{SelectAlertReject, SelectReason}
+import play.twirl.api.{Html, HtmlFormat}
 
 object SelectReasonMessages {
   sealed trait ViewMessages { _: i18n =>
@@ -41,6 +43,28 @@ object SelectReasonMessages {
     val checkBoxOption2: String = "Goods types do not match the order"
     val checkBoxOption3: String = "Goods quantities do not match the order"
     val checkBoxOption4: String = "Other"
+
+    def cyaLabel(selectAlertReject: SelectAlertReject) =
+      selectAlertReject match {
+        case Alert => "Reason(s) for alert"
+        case Reject => "Reason(s) for rejection"
+    }
+
+    def cyaValue(selectReason: SelectReason): Html =
+      Html(HtmlFormat.escape(
+        selectReason match {
+          case ConsigneeDetailsWrong =>
+            "Some or all of the consignee details are wrong"
+          case GoodTypesNotMatchOrder =>
+            "Goods types do not match the order"
+          case QuantitiesNotMatchOrder =>
+            "Goods quantities do not match the order"
+          case Other =>
+            "Other"
+        }
+      ).toString())
+
+
   }
   object English extends ViewMessages with BaseEnglish {}
 

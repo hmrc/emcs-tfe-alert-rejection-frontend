@@ -16,23 +16,23 @@
 
 package mocks.viewmodels
 
-import models.{SelectAlertReject, UserAnswers}
-import org.scalamock.handlers.CallHandler4
+import models.UserAnswers
+import org.scalamock.handlers.CallHandler2
 import org.scalamock.scalatest.MockFactory
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
-import viewmodels.checkAnswers.SelectAlertRejectPageSummary
+import viewmodels.checkAnswers.AdministrativeReferenceCodeSummary
 
-trait MockSelectAlertRejectPageSummary extends MockFactory {
+trait MockAdministrativeReferenceCodeSummary extends MockFactory {
 
-  lazy val mockSelectAlertRejectPageSummary: SelectAlertRejectPageSummary = mock[SelectAlertRejectPageSummary]
+  lazy val mockAdministrativeReferenceCodeSummary: AdministrativeReferenceCodeSummary = mock[AdministrativeReferenceCodeSummary]
 
-  object MockSelectAlertRejectPageSummary {
+  object MockAdministrativeReferenceCodeSummary {
 
-    def row(alertOrReject: SelectAlertReject, showChangeLinks: Boolean):
-    CallHandler4[SelectAlertReject, Boolean, UserAnswers, Messages, Option[SummaryListRow]] =
-      (mockSelectAlertRejectPageSummary.row(_: SelectAlertReject, _: Boolean)( _: UserAnswers, _: Messages))
-        .expects(alertOrReject, showChangeLinks, *, *)
+    def row():
+    CallHandler2[UserAnswers, Messages, Option[SummaryListRow]] =
+      (mockAdministrativeReferenceCodeSummary.row()( _: UserAnswers, _: Messages))
+        .expects(*, *)
   }
 
 }

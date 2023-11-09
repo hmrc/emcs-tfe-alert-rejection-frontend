@@ -30,6 +30,6 @@ trait MockAuditingService extends MockFactory with BeforeAndAfterEach {
   object MockAuditingService {
     def audit(auditModel: AuditModel): CallHandler2[AuditModel, HeaderCarrier, Unit] =
       (mockAuditingService.audit(_: AuditModel)(_: HeaderCarrier))
-        .expects(*, *)
+        .expects(auditModel, *)
   }
 }

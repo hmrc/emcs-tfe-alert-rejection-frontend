@@ -16,8 +16,8 @@
 
 package mocks.viewmodels
 
-import models.requests.DataRequest
-import org.scalamock.handlers.CallHandler5
+import models.UserAnswers
+import org.scalamock.handlers.CallHandler6
 import org.scalamock.scalatest.MockFactory
 import pages.QuestionPage
 import play.api.i18n.Messages
@@ -33,9 +33,10 @@ trait MockInformationSummary extends MockFactory {
 
     def row(page: QuestionPage[Option[String]],
             changeAction: Call,
-            keyOverride: Option[String]): CallHandler5[QuestionPage[Option[String]], Call, Option[String], DataRequest[_], Messages, SummaryListRow] =
-      (mockInformationSummary.row(_: QuestionPage[Option[String]], _: Call, _: Option[String])(_: DataRequest[_], _: Messages))
-        .expects(page, changeAction, keyOverride, *, *)
+            keyOverride: Option[String],
+            showChangeLinks: Boolean): CallHandler6[QuestionPage[Option[String]], Call, Option[String], Boolean, UserAnswers, Messages, SummaryListRow] =
+      (mockInformationSummary.row(_: QuestionPage[Option[String]], _: Call, _: Option[String], _: Boolean)(_: UserAnswers, _: Messages))
+        .expects(page, changeAction, keyOverride, showChangeLinks, *, *)
   }
 
 }

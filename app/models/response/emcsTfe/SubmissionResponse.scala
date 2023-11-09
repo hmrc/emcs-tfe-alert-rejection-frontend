@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-        h1: components.h1
-)
+package models.response.emcsTfe
 
-@(
-        headingMsg: String
-)(implicit messages: Messages)
+import play.api.libs.json.{Format, Json}
 
-<div class="govuk-panel govuk-panel--confirmation">
- @h1(messages(headingMsg), classes = "govuk-panel__title")
-</div>
+case class SubmissionResponse(receipt: String, receiptDate: String)
 
- @{
-  //$COVERAGE-OFF$
- }
+object SubmissionResponse {
+  implicit val format: Format[SubmissionResponse] = Json.format
+}
+
