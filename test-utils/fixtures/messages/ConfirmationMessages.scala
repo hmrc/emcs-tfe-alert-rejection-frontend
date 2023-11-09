@@ -52,7 +52,7 @@ object ConfirmationMessages {
 
     val returnToMovement = "Return to movement"
 
-    val feedback = "What do you think of this service?"
+    val feedback = "What did you think of this service? (opens in new tab)"
 
     val printThisScreen = "Print this screen"
   }

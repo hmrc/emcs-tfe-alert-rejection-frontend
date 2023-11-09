@@ -236,5 +236,5 @@ confirmation.heading2 = If you have rejected the movement
 confirmation.heading2.p1 = The consignor must now cancel or submit a change of destination for the movement.
 confirmation.heading2.p2 = If the movement contains energy goods, the consignor may also choose to split the movement.
 confirmation.button = Return to movement
-confirmation.feedback.link = What do you think of this service?
+confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)
