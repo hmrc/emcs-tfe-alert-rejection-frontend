@@ -28,7 +28,7 @@ trait SubmissionFixtures extends BaseFixtures {
   val submitAlertOrRejectionModel = SubmitAlertOrRejectionModel(
     consigneeTrader = Some(
       TraderModel(
-        traderId = Some(testErn),
+        traderExciseNumber = Some(testErn),
         traderName = Some("Consignee trader name"),
         address = Some(AddressModel(
           streetNumber = Some("7"),
