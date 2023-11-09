@@ -17,6 +17,7 @@
 package viewmodels.checkAnswers
 
 import controllers.routes
+import models.{CheckMode, SelectAlertReject, UserAnswers}
 import models.requests.DataRequest
 import models.{NormalMode, SelectAlertReject}
 import pages.SelectReasonPage
@@ -32,8 +33,8 @@ import javax.inject.Inject
 
 class SelectReasonSummary @Inject()(list: list)  {
 
-  def row(alertOrReject: SelectAlertReject)(implicit request: DataRequest[_], messages: Messages): Option[SummaryListRow] =
-    request.userAnswers.get(SelectReasonPage).map {
+  def row(alertOrReject: SelectAlertReject, showChangeLinks: Boolean)(implicit userAnswers: UserAnswers, messages: Messages): Option[SummaryListRow] =
+    userAnswers.get(SelectReasonPage).map {
       answers =>
 
         val value = ValueViewModel(
@@ -49,10 +50,10 @@ class SelectReasonSummary @Inject()(list: list)  {
         SummaryListRowViewModel(
           key     = s"selectReason.checkYourAnswersLabel.$alertOrReject",
           value   = value,
-          actions = Seq(
+          actions = if (!showChangeLinks) Seq() else Seq(
             ActionItemViewModel(
               "site.change",
-              routes.SelectReasonController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, NormalMode).url,
+              routes.SelectReasonController.onPageLoad(userAnswers.ern, userAnswers.arc, NormalMode).url,
               SelectReasonPage
             ).withVisuallyHiddenText(messages("selectReason.change.hidden"))
           )

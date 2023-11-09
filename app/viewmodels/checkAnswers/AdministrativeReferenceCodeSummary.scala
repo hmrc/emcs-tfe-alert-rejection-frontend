@@ -16,9 +16,7 @@
 
 package viewmodels.checkAnswers
 
-import controllers.routes
-import models.{CheckMode, SelectAlertReject, UserAnswers}
-import pages.SelectAlertRejectPage
+import models.UserAnswers
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.HtmlContent
@@ -28,27 +26,19 @@ import viewmodels.implicits._
 
 import javax.inject.Inject
 
-class SelectAlertRejectPageSummary @Inject()()  {
+class AdministrativeReferenceCodeSummary @Inject()()  {
 
-  def row(alertOrReject: SelectAlertReject, showChangeLinks: Boolean)(implicit userAnswers: UserAnswers, messages: Messages): Option[SummaryListRow] = {
-
-    val value = ValueViewModel(
-      HtmlContent(
-        HtmlFormat.escape(messages(s"selectAlertRejectPage.$alertOrReject.type"))
-      )
-    )
+  def row()(implicit userAnswers: UserAnswers, messages: Messages): Option[SummaryListRow] = {
 
     Some(
       SummaryListRowViewModel(
-        key = "selectAlertRejectPage.checkYourAnswersLabel",
-        value = value,
-        actions = if (!showChangeLinks) Seq() else Seq(
-          ActionItemViewModel(
-            "site.change",
-            routes.SelectAlertRejectPageController.onPageLoad(userAnswers.ern, userAnswers.arc, CheckMode).url,
-            SelectAlertRejectPage
-          ).withVisuallyHiddenText(messages("selectAlertRejectPage.change.hidden"))
-        )
+        key = "confirmation.arc.label",
+        value = ValueViewModel(
+          HtmlContent(
+            HtmlFormat.escape(userAnswers.arc)
+          )
+        ),
+        actions = Seq()
       )
     )
   }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package viewmodels
+package viewmodels.checkAnswers
 
 import base.SpecBase
 import mocks.viewmodels._
@@ -25,7 +25,6 @@ import pages._
 import play.api.test.FakeRequest
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
-import viewmodels.checkAnswers.CheckAnswersHelper
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -33,9 +32,11 @@ class CheckAnswersHelperSpec
   extends SpecBase
   with MockSelectAlertRejectPageSummary
   with MockSelectReasonSummary
-  with MockInformationSummary {
+  with MockInformationSummary
+  with MockAdministrativeReferenceCodeSummary {
 
   lazy val checkAnswersHelper = new CheckAnswersHelper(
+    mockAdministrativeReferenceCodeSummary,
     mockSelectAlertRejectPageSummary,
     mockSelectReasonSummary,
     mockInformationSummary
@@ -68,27 +69,31 @@ class CheckAnswersHelperSpec
               val goodsQuantitiesInformation = SummaryListRow("GoodsQuantitiesInformation", ValueViewModel("GoodsQuantitiesInformation here"))
               val otherInformation = SummaryListRow("OtherInformation", ValueViewModel("OtherInformation here"))
 
-              MockSelectAlertRejectPageSummary.row(aType).returns(Some(alertOrRejection))
-              MockSelectReasonSummary.row(aType).returns(Some(reason))
+              MockSelectAlertRejectPageSummary.row(aType, showChangeLinks = true).returns(Some(alertOrRejection))
+              MockSelectReasonSummary.row(aType, showChangeLinks = true).returns(Some(reason))
               MockInformationSummary.row(
                 ConsigneeInformationPage,
                 controllers.routes.ConsigneeInformationController.onPageLoad(testErn, testArc, CheckMode),
-                None
+                None,
+                showChangeLinks = true
               ).returns(consigneeInformation)
               MockInformationSummary.row(
                 GoodsTypeInformationPage,
                 controllers.routes.GoodsTypeInformationController.onPageLoad(testErn, testArc, CheckMode),
-                None
+                None,
+                showChangeLinks = true
               ).returns(goodsTypesInformation)
               MockInformationSummary.row(
                 GoodsQuantitiesInformationPage,
                 controllers.routes.GoodsQuantitiesInformationController.onPageLoad(testErn, testArc, CheckMode),
-                None
+                None,
+                showChangeLinks = true
               ).returns(goodsQuantitiesInformation)
               MockInformationSummary.row(
                 GiveInformationPage,
                 controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, CheckMode),
-                Some(s"checkYourAnswers.giveInformation.$aType.label")
+                Some(s"checkYourAnswers.giveInformation.$aType.label"),
+                showChangeLinks = true
               ).returns(otherInformation)
 
               checkAnswersHelper.summaryList(aType) mustBe SummaryList(Seq(
@@ -126,8 +131,8 @@ class CheckAnswersHelperSpec
                 val reason = SummaryListRow("Reason", ValueViewModel("some details are wrong"))
                 val information = SummaryListRow(s"${aType}Information", ValueViewModel("click here to fill in"))
 
-                MockSelectAlertRejectPageSummary.row(aType).returns(Some(alertOrRejection))
-                MockSelectReasonSummary.row(aType).returns(Some(reason))
+                MockSelectAlertRejectPageSummary.row(aType, showChangeLinks = true).returns(Some(alertOrRejection))
+                MockSelectReasonSummary.row(aType, showChangeLinks = true).returns(Some(reason))
                 MockInformationSummary.row(
                   page,
                   forReason match {
@@ -145,7 +150,8 @@ class CheckAnswersHelperSpec
                       Some(s"checkYourAnswers.giveInformation.$aType.label")
                     case _ =>
                       None
-                  }
+                  },
+                  showChangeLinks = true
                 ).returns(information)
 
                 checkAnswersHelper.summaryList(aType) mustBe SummaryList(Seq(

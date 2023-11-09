@@ -84,6 +84,8 @@ class Navigator @Inject()() extends BaseNavigator {
     case GoodsTypeInformationPage => (userAnswers: UserAnswers) =>
       redirectToNextWrongPage(Some(GoodTypesNotMatchOrder))(userAnswers)
 
+    case CheckYourAnswersPage => (userAnswers: UserAnswers) =>
+      routes.ConfirmationController.onPageLoad(userAnswers.ern, userAnswers.arc)
 
     case _ => (userAnswers: UserAnswers) =>
       routes.IndexController.onPageLoad(userAnswers.ern, userAnswers.arc)

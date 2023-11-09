@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package viewmodels
+package viewmodels.checkAnswers
 
 import base.SpecBase
 import fixtures.messages.InformationMessages
 import models.CheckMode
-import pages.{ConsigneeInformationPage, GiveInformationPage, GoodsQuantitiesInformationPage, GoodsTypeInformationPage, QuestionPage}
+import pages._
 import play.api.mvc.Call
-import play.api.test.FakeRequest
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
-import viewmodels.checkAnswers.InformationSummary
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 import views.html.components.link
@@ -86,16 +84,13 @@ class InformationSummarySpec extends SpecBase {
 
               "when information has been supplied" in {
 
-                implicit val request = dataRequest(
-                  FakeRequest(),
-                  emptyUserAnswers
-                    .set(aPage, Some("user inputted text"))
-                )
+                implicit val userAnswers = emptyUserAnswers.set(aPage, Some("user inputted text"))
 
                 informationSummary.row(
                   page = aPage,
                   changeAction = pageToRoute(aPage),
-                  keyOverride = None
+                  keyOverride = None,
+                  showChangeLinks = true
                 ) mustBe
                   SummaryListRowViewModel(
                     key = pageToCYALabel(aPage),
@@ -112,16 +107,14 @@ class InformationSummarySpec extends SpecBase {
               }
 
               "when information is missing" in {
-                implicit val request = dataRequest(
-                  FakeRequest(),
-                  emptyUserAnswers
-                    .set(aPage, None)
-                )
+
+                implicit val userAnswers = emptyUserAnswers.set(aPage, None)
 
                 informationSummary.row(
                   page = aPage,
                   changeAction = pageToRoute(aPage),
-                  keyOverride = None
+                  keyOverride = None,
+                  showChangeLinks = true
                 ) mustBe
                   SummaryListRowViewModel(
                     key = pageToCYALabel(aPage),
@@ -130,6 +123,24 @@ class InformationSummarySpec extends SpecBase {
                       pageToCYAMoreInformation(aPage)
                     )))
                   )
+              }
+
+              "with no change links" in {
+
+                implicit val userAnswers = emptyUserAnswers.set(aPage, Some("user inputted text"))
+
+                informationSummary.row(
+                  page = aPage,
+                  changeAction = pageToRoute(aPage),
+                  keyOverride = None,
+                  showChangeLinks = false
+                ) mustBe
+                  SummaryListRowViewModel(
+                    key = pageToCYALabel(aPage),
+                    value = ValueViewModel(Text("user inputted text")),
+                    actions = Seq()
+                  )
+
               }
             }
 

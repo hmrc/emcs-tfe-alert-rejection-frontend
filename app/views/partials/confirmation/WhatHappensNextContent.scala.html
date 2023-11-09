@@ -1,0 +1,56 @@
+@*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@this(
+        h2: components.h2,
+        h3: components.h3,
+        link: components.link,
+        p: components.p
+)
+
+@(confirmationDetails: ConfirmationDetails)(implicit messages: Messages)
+
+@p(classes = "govuk-body no-print") {
+    @link(
+        "javascript:if(window.print)window.print()",
+        "confirmation.print.link",
+        id = Some("print-page")
+    )
+    @messages("confirmation.print.afterLink")
+}
+
+@h2(messages("confirmation.whatHappensNext.heading"))
+
+@p() {
+    @messages(s"confirmation.${confirmationDetails.alertOrReject}.p1")
+}
+@h3(messages("confirmation.heading1"))
+@p() {
+    @messages("confirmation.heading1.p1")
+}
+
+@h3(messages("confirmation.heading2"))
+@p() {
+    @messages("confirmation.heading2.p1")
+}
+@p() {
+    @messages("confirmation.heading2.p2")
+}
+
+
+@{
+    //$COVERAGE-OFF$
+}

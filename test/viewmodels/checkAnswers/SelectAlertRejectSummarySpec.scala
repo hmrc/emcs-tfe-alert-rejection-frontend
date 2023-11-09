@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package viewmodels
+package viewmodels.checkAnswers
 
 import base.SpecBase
 import fixtures.messages.SelectAlertRejectMessages
 import models.CheckMode
 import models.SelectAlertReject.{Alert, Reject}
 import pages._
-import play.api.test.FakeRequest
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
-import viewmodels.checkAnswers.SelectAlertRejectPageSummary
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
@@ -39,13 +37,13 @@ class SelectAlertRejectSummarySpec extends SpecBase {
         implicit lazy val msgs = messagesApi(app).preferred(Seq(langMessages.lang))
         lazy val selectAlertRejectSummary = new SelectAlertRejectPageSummary()
 
-        s"must render the expected SummaryRowList for an `alert`" - {
+        "must render the expected SummaryRowList for an `alert`" - {
 
           "when information has been supplied" in {
 
-            implicit val request = dataRequest(FakeRequest(), emptyUserAnswers.set(SelectAlertRejectPage, Alert))
+            implicit val userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert)
 
-            selectAlertRejectSummary.row(Alert) mustBe
+            selectAlertRejectSummary.row(Alert, showChangeLinks = true) mustBe
               Some(
                 SummaryListRowViewModel(
                   key = langMessages.cyaLabel,
@@ -53,7 +51,7 @@ class SelectAlertRejectSummarySpec extends SpecBase {
                   actions = Seq(
                     ActionItemViewModel(
                       langMessages.change,
-                      controllers.routes.SelectAlertRejectPageController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, CheckMode).url,
+                      controllers.routes.SelectAlertRejectPageController.onPageLoad(userAnswers.ern, userAnswers.arc, CheckMode).url,
                       id = SelectAlertRejectPage
                     ).withVisuallyHiddenText("SelectAlertRejectPage")
                   )
@@ -63,13 +61,13 @@ class SelectAlertRejectSummarySpec extends SpecBase {
 
         }
 
-        s"must render the expected SummaryRowList for a `rejection`" - {
+        "must render the expected SummaryRowList for a `rejection`" - {
 
           "when information has been supplied" in {
 
-            implicit val request = dataRequest(FakeRequest(), emptyUserAnswers.set(SelectAlertRejectPage, Reject))
+            implicit val userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert)
 
-            selectAlertRejectSummary.row(Reject) mustBe
+            selectAlertRejectSummary.row(Reject, showChangeLinks = true) mustBe
               Some(
                 SummaryListRowViewModel(
                   key = langMessages.cyaLabel,
@@ -77,7 +75,7 @@ class SelectAlertRejectSummarySpec extends SpecBase {
                   actions = Seq(
                     ActionItemViewModel(
                       langMessages.change,
-                      controllers.routes.SelectAlertRejectPageController.onPageLoad(request.userAnswers.ern, request.userAnswers.arc, CheckMode).url,
+                      controllers.routes.SelectAlertRejectPageController.onPageLoad(userAnswers.ern, userAnswers.arc, CheckMode).url,
                       id = SelectAlertRejectPage
                     ).withVisuallyHiddenText("SelectAlertRejectPage")
                   )
@@ -86,6 +84,24 @@ class SelectAlertRejectSummarySpec extends SpecBase {
           }
 
         }
+
+        "must render the expected SummaryRowList with no change links" in {
+
+
+          implicit val userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert)
+
+          selectAlertRejectSummary.row(Reject, showChangeLinks = false) mustBe
+            Some(
+              SummaryListRowViewModel(
+                key = langMessages.cyaLabel,
+                value = ValueViewModel(HtmlContent(langMessages.cyaRejectValue)),
+                actions = Seq()
+              )
+            )
+
+        }
+
+
 
       }
     }

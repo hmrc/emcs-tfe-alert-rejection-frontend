@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-        h1: components.h1
-)
+package utils
 
-@(
-        headingMsg: String
-)(implicit messages: Messages)
+import models.MissingMandatoryPage
+import models.requests.DataRequest
+import pages.QuestionPage
+import play.api.libs.json.Reads
 
-<div class="govuk-panel govuk-panel--confirmation">
- @h1(messages(headingMsg), classes = "govuk-panel__title")
-</div>
+trait ModelConstructorHelpers extends Logging {
 
- @{
-  //$COVERAGE-OFF$
- }
+  def mandatoryPage[A](page: QuestionPage[A])(implicit dataRequest: DataRequest[_], rds: Reads[A]): A = dataRequest.userAnswers.get(page) match {
+    case Some(a) => a
+    case None =>
+      logger.error(s"Missing mandatory UserAnswer for page: '$page'")
+      throw MissingMandatoryPage(s"Missing mandatory UserAnswer for page: '$page'")
+  }
+}

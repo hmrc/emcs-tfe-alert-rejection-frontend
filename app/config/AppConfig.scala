@@ -62,6 +62,8 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   lazy val contactEMCSHelpdeskUrl: String = configuration.get[String]("urls.contactEmcsHelpdesk")
 
+  lazy val emcsGeneralEnquiriesUrl: String = configuration.get[String]("urls.emcsGeneralEnquiries")
+
   def loginContinueUrl(ern: String, arc: String): String = configuration.get[String]("urls.loginContinue") + s"/trader/$ern/movement/$arc"
 
   def languageTranslationEnabled: Boolean = isEnabled(WelshLanguage)
@@ -107,6 +109,8 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
   private def userAllowListService: String = servicesConfig.baseUrl("user-allow-list")
 
   def userAllowListBaseUrl: String = s"$userAllowListService/user-allow-list"
+
+  def destinationOfficeSuffix: String = configuration.get[String]("constants.destinationOfficeSuffix")
 }
 
 

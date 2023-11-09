@@ -16,10 +16,11 @@
 
 package viewmodels.checkAnswers
 
-import models.requests.DataRequest
+import models.UserAnswers
 import pages.QuestionPage
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryListRow
 import utils.JsonOptionFormatter
@@ -34,17 +35,18 @@ class InformationSummary @Inject()(link: link) extends JsonOptionFormatter {
   def row(
            page: QuestionPage[Option[String]],
            changeAction: Call,
-           keyOverride: Option[String] = None
-         )(implicit request: DataRequest[_], messages: Messages): SummaryListRow = {
+           keyOverride: Option[String] = None,
+           showChangeLinks: Boolean
+         )(implicit userAnswers: UserAnswers, messages: Messages): SummaryListRow = {
 
     val key = keyOverride.getOrElse(s"checkYourAnswers.$page.label")
 
-    request.userAnswers.get(page) match {
+    userAnswers.get(page) match {
       case Some(Some(answer)) if answer != "" =>
         SummaryListRowViewModel(
           key = key,
           value = ValueViewModel(Text(answer)),
-          actions = Seq(
+          actions = if (!showChangeLinks) Seq() else Seq(
             ActionItemViewModel(
               "site.change",
               changeAction.url,
@@ -55,7 +57,7 @@ class InformationSummary @Inject()(link: link) extends JsonOptionFormatter {
       case _ =>
         SummaryListRowViewModel(
           key = key,
-          value = ValueViewModel(HtmlContent(link(
+          value = if (!showChangeLinks) ValueViewModel(HtmlContent(HtmlFormat.empty)) else ValueViewModel(HtmlContent(link(
             link = changeAction.url,
             messageKey = s"checkYourAnswers.$page.addMoreInformation"
           )))
