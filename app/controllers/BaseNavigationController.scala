@@ -66,4 +66,13 @@ trait BaseNavigationController extends BaseController with Logging {
   private def save[A](page: QuestionPage[A], answer: A)
                      (implicit request: DataRequest[_], format: Format[A]): Future[UserAnswers] =
     save(page, answer, request.userAnswers)
+
+  def cleanseUserAnswersIfValueHasChanged[T](page: QuestionPage[T],
+                                             newAnswer: T,
+                                             cleansingFunction: => UserAnswers)(implicit request: DataRequest[_], reads: Reads[T]): UserAnswers = {
+    request.userAnswers.get(page) match {
+      case Some(answer) if answer != newAnswer => cleansingFunction
+      case _ => request.userAnswers
+    }
+  }
 }

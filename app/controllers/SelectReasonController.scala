@@ -18,10 +18,11 @@ package controllers
 
 import controllers.actions._
 import forms.SelectReasonFormProvider
-import models.Mode
+import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
 import models.requests.DataRequest
+import models.{Mode, SelectReason, UserAnswers}
 import navigation.Navigator
-import pages.{SelectAlertRejectPage, SelectReasonPage}
+import pages._
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
@@ -58,8 +59,8 @@ class SelectReasonController @Inject()(
         formProvider(alertOrRejectAnswer).bindFromRequest().fold(
           formWithErrors =>
             renderView(BadRequest, formWithErrors, mode),
-          value =>
-            saveAndRedirect(SelectReasonPage, value, mode)
+          values =>
+            saveAndRedirect(SelectReasonPage, values, cleanseAnswers(values), mode)
         )
       }
     }
@@ -69,4 +70,31 @@ class SelectReasonController @Inject()(
       Future.successful(status(view(form, alertOrRejectAnswer, routes.SelectReasonController.onSubmit(request.ern, request.arc, mode))))
     }
 
+  private def cleanseAnswers(values: Set[SelectReason])(implicit request: DataRequest[_]): UserAnswers =
+    cleanseUserAnswersIfValueHasChanged(
+      page = SelectReasonPage,
+      newAnswer = values,
+      cleansingFunction = {
+        val allOptionsNotChecked: Seq[SelectReason] = SelectReason.values.filterNot(values.contains)
+
+        allOptionsNotChecked.foldLeft(request.userAnswers) {
+          case (answers, ConsigneeDetailsWrong) =>
+            answers
+              .remove(ChooseConsigneeInformationPage)
+              .remove(ConsigneeInformationPage)
+          case (answers, GoodTypesNotMatchOrder) =>
+            answers
+              .remove(ChooseGoodsTypeInformationPage)
+              .remove(GoodsTypeInformationPage)
+          case (answers, QuantitiesNotMatchOrder) =>
+            answers
+              .remove(ChooseGoodsQuantitiesInformationPage)
+              .remove(GoodsQuantitiesInformationPage)
+          case (answers, Other) =>
+            answers
+              .remove(GiveInformationPage)
+          case (answers, _) => answers
+        }
+      }
+    )
 }
