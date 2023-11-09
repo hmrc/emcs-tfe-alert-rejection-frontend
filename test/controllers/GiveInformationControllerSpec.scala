@@ -73,7 +73,7 @@ class GiveInformationControllerSpec extends SpecBase with MockUserAnswersService
           form = form,
           alertReject = Alert,
           hasOther = true,
-          onSubmit = controllers.routes.GiveInformationController.onSubmit(testErn, testArc, NormalMode)
+          mode = NormalMode
         )(dataRequest(request), messages(application)).toString
       }
     }
@@ -124,7 +124,7 @@ class GiveInformationControllerSpec extends SpecBase with MockUserAnswersService
           form.fill(Some("answer")),
           Alert,
           true,
-          controllers.routes.GiveInformationController.onSubmit(testErn, testArc, NormalMode)
+          NormalMode
         )(dataRequest(request), messages(application)).toString
       }
     }
@@ -201,8 +201,7 @@ class GiveInformationControllerSpec extends SpecBase with MockUserAnswersService
           boundForm,
           Alert,
           true,
-          controllers.routes.GiveInformationController.onSubmit(testErn, testArc, NormalMode)
-        )(dataRequest(request), messages(application)).toString
+          NormalMode)(dataRequest(request), messages(application)).toString
       }
     }
 

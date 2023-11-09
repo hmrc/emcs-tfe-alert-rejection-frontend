@@ -17,6 +17,7 @@
 package forms
 
 import forms.mappings.Mappings
+import models.SelectAlertReject
 import play.api.data.Form
 import play.api.data.Forms.{optional, text => playText}
 
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 class GiveInformationFormProvider @Inject() extends Mappings {
 
-  def apply(isMandatory: Boolean): Form[Option[String]] =
+  def apply(isMandatory: Boolean, alertOrReject: Option[SelectAlertReject] = None): Form[Option[String]] =
     Form(
       "value" -> optional(
         playText
@@ -39,6 +40,6 @@ class GiveInformationFormProvider @Inject() extends Mappings {
           .verifying(regexpUnlessEmpty(ALPHANUMERIC_REGEX, s"giveInformation.error.character"))
           .verifying(regexpUnlessEmpty(XSS_REGEX, s"giveInformation.error.xss"))
       )
-        .verifying(mandatoryCheck(isMandatory))
+        .verifying(mandatoryCheck(isMandatory, if (alertOrReject != None) "."+alertOrReject.get.toString else ""))
     )
 }

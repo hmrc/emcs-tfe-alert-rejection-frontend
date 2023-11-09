@@ -87,6 +87,7 @@ global.error.InternalServerError500.p2.href.text=Contact the EMCS helpdesk
 global.error.InternalServerError500.p2.href.suffix=if you need to speak to someone about your account.
 
 arc.subHeading = Alert or rejection for {0}
+subHeading.hidden = This section is
 
 error.browser.title.prefix = Error:
 
@@ -148,13 +149,11 @@ selectGiveInformation.error.required.alert = Select yes if you want to give more
 selectGiveInformation.error.required.reject = Select yes if you want to give more information about the rejection
 selectGiveInformation.change.hidden = SelectGiveInformation
 
-giveInformation.heading.alert = Give information about the alert
-giveInformation.heading.more.alert = Give more information about the alert
-giveInformation.heading.reject = Give information about the rejection
-giveInformation.heading.more.reject = Give more information about the rejection
+giveInformation.heading.alert = Give information about the other reason(s) for the alert
+giveInformation.heading.reject = Give information about the other reason(s) for the rejection
 giveInformation.checkYourAnswersLabel = giveInformation
-giveInformation.hint.true = Give information.
-giveInformation.hint.false = Give information (optional).
+giveInformation.error.required.alert = Enter information about the alert
+giveInformation.error.required.reject = Enter information about the rejection
 giveInformation.error.required = Enter information
 giveInformation.error.length = Information must be 350 characters or less
 giveInformation.error.character = Information must include letters and numbers

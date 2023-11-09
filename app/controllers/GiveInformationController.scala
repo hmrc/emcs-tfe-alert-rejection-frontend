@@ -51,11 +51,9 @@ class GiveInformationController @Inject()(
         withAnswer(SelectReasonPage) { selectReason =>
           val isMandatory = selectReason.contains(Other)
           Future(Ok(view(
-            fillForm(GiveInformationPage, formProvider(isMandatory)),
+            fillForm(GiveInformationPage, formProvider(isMandatory, Some(alertReject))),
             alertReject,
-            isMandatory,
-            routes.GiveInformationController.onSubmit(ern, arc, mode)
-          )))
+            isMandatory, mode)))
         }
       }
     }
@@ -65,14 +63,9 @@ class GiveInformationController @Inject()(
       withAnswer(SelectAlertRejectPage) { alertReject =>
         withAnswer(SelectReasonPage) { selectReason =>
           val isMandatory = selectReason.contains(Other)
-          formProvider(isMandatory).bindFromRequest().fold(
+          formProvider(isMandatory, Some(alertReject)).bindFromRequest().fold(
             formWithErrors =>
-              Future.successful(BadRequest(view(
-                formWithErrors,
-                alertReject,
-                isMandatory,
-                routes.GiveInformationController.onSubmit(ern, arc, mode)
-              ))),
+              Future.successful(BadRequest(view(formWithErrors, alertReject, isMandatory, mode))),
             value =>
               saveAndRedirect(GiveInformationPage, value, mode)
           )

@@ -35,10 +35,10 @@ POST       /trader/:ern/movement/:arc/select-reason                             
 GET        /trader/:ern/movement/:arc/select-reason/change                                  controllers.SelectReasonController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
 POST       /trader/:ern/movement/:arc/select-reason/change                                  controllers.SelectReasonController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
-GET        /trader/:ern/movement/:arc/give-information                                      controllers.GiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
-POST       /trader/:ern/movement/:arc/give-information                                      controllers.GiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
-GET        /trader/:ern/movement/:arc/give-information/change                               controllers.GiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
-POST       /trader/:ern/movement/:arc/give-information/change                               controllers.GiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
+GET        /trader/:ern/movement/:arc/other-information                                     controllers.GiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+POST       /trader/:ern/movement/:arc/other-information                                     controllers.GiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/other-information/change                              controllers.GiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = CheckMode)
+POST       /trader/:ern/movement/:arc/other-information/change                              controllers.GiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = CheckMode)
 
 GET        /trader/:ern/movement/:arc/select-give-information                               controllers.SelectGiveInformationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
 POST       /trader/:ern/movement/:arc/select-give-information					            controllers.SelectGiveInformationController.onSubmit(ern: String, arc: String, mode: Mode = NormalMode)

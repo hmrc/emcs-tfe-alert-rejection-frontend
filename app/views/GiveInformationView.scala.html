@@ -30,24 +30,23 @@
         continue: components.continue
 )
 
-@(form: Form[_], alertReject: SelectAlertReject, hasOther: Boolean, onSubmit: Call)(implicit request: DataRequest[_], messages: Messages)
+@(form: Form[_], alertReject: SelectAlertReject, hasOther: Boolean, mode: Mode)(implicit request: DataRequest[_], messages: Messages)
 
 @layout(pageTitle = title(form, heading)) {
 
-    @formHelper(action = onSubmit) {
+    @formHelper(action = routes.GiveInformationController.onSubmit(request.ern, request.arc, mode)) {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
         }
 
-        @h2(messages("arc.subHeading", request.arc), "govuk-caption-l")
+        @h2(messages("arc.subHeading", request.arc), "govuk-caption-l",  hiddenContent = Some(messages("subHeading.hidden")))
 
         @{govukCharacterCount(CharacterCount(
             id = "value",
             name = "value",
             maxLength = Some(350),
             label = LabelViewModel(Text(heading)).asPageHeading(LabelSize.Large),
-            hint = Option(HintViewModel(Text(messages(s"giveInformation.hint.$hasOther")))),
             value = form("value").value,
             errorMessage = form.errors("value") match {
                 case Nil => None
@@ -60,7 +59,7 @@
 }
 
 @heading = @{
-    messages(s"giveInformation.heading.${if(hasOther) "" else "more."}$alertReject")
+    messages(s"giveInformation.heading.$alertReject")
 }
 
 @{

@@ -136,10 +136,10 @@ trait Constraints {
         Invalid(errorKey)
     }
 
-  protected def mandatoryCheck(isMandatory: Boolean): Constraint[Option[String]] =
+  protected def mandatoryCheck(isMandatory: Boolean, alertOrReject: String): Constraint[Option[String]] =
     Constraint {
       case value if isMandatory && (value.isEmpty || value.exists(_.isEmpty)) =>
-        Invalid("giveInformation.error.required")
+        Invalid(s"giveInformation.error.required$alertOrReject")
       case _ =>
         Valid
     }
