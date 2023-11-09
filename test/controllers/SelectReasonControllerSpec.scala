@@ -20,9 +20,10 @@ import base.SpecBase
 import forms.SelectReasonFormProvider
 import mocks.services.MockUserAnswersService
 import models.SelectAlertReject.Alert
+import models.SelectReason.{ConsigneeDetailsWrong, Other}
 import models.{NormalMode, SelectReason}
 import navigation.{FakeNavigator, Navigator}
-import pages.{SelectAlertRejectPage, SelectReasonPage}
+import pages._
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
@@ -169,5 +170,50 @@ class SelectReasonControllerSpec extends SpecBase with MockUserAnswersService {
         redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad(testErn, testArc).url
       }
     }
+
+    "must cleanse answers when un-selecting options that are already selected" in {
+      val userAnswersSoFar = emptyUserAnswers
+        .set(SelectAlertRejectPage, Alert)
+        .set(SelectReasonPage, SelectReason.values.toSet)
+        .set(ChooseConsigneeInformationPage, true)
+        .set(ConsigneeInformationPage, Some("a"))
+        .set(ChooseGoodsTypeInformationPage, true)
+        .set(GoodsTypeInformationPage, Some("b"))
+        .set(ChooseGoodsQuantitiesInformationPage, true)
+        .set(GoodsQuantitiesInformationPage, Some("c"))
+        .set(GiveInformationPage, Some("d"))
+
+      val expectedAnswersToSave = emptyUserAnswers
+        .set(SelectAlertRejectPage, Alert)
+        .set(SelectReasonPage, Seq(ConsigneeDetailsWrong, Other))
+        .set(ChooseConsigneeInformationPage, true)
+        .set(ConsigneeInformationPage, Some("a"))
+        .set(GiveInformationPage, Some("d"))
+
+      MockUserAnswersService.set(expectedAnswersToSave).returns(Future.successful(expectedAnswersToSave))
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswersSoFar))
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[UserAnswersService].toInstance(mockUserAnswersService)
+          )
+          .build()
+
+      running(application) {
+        val request =
+          FakeRequest(POST, selectReasonRoute)
+            .withFormUrlEncodedBody(
+              ("value[0]", ConsigneeDetailsWrong.toString),
+              ("value[1]", Other.toString)
+            )
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual onwardRoute.url
+      }
+    }
   }
+
 }
