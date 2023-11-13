@@ -23,8 +23,9 @@ import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other
 import models.common.ExciseMovementModel
 import models.requests.DataRequest
 import models.response.emcsTfe.TraderModel
-import pages.{ConsigneeInformationPage, DestinationOfficePage, GiveInformationPage, GoodsQuantitiesInformationPage, GoodsTypeInformationPage, SelectAlertRejectPage, SelectReasonPage}
-import play.api.libs.json.{Format, Json}
+import pages._
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json.{Format, Json, Writes}
 import utils.{JsonOptionFormatter, ModelConstructorHelpers}
 
 import java.time.LocalDate
@@ -81,5 +82,4 @@ object SubmitAlertOrRejectionModel extends JsonOptionFormatter with ModelConstru
         )
     )
   }
-
 }
