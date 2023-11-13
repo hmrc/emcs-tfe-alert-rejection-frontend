@@ -134,7 +134,7 @@ class CheckYourAnswersControllerSpec extends SpecBase
             "must save the ConfirmationDetails and redirect to the onward route" in new Fixture(Some(userAnswersSoFar)) {
               running(application) {
 
-                val successResponse = SubmissionResponse(receipt = testConfirmationReference, receiptDate = testReceiptDate)
+                val successResponse = SubmissionResponse(receipt = testConfirmationReference, downstreamService = "ChRIS")
 
                 MockSubmissionService.submit(testErn, testArc, getMovementResponseModel, userAnswers.get)
                   .returns(Future.successful(successResponse))

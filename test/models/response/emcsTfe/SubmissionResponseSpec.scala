@@ -16,17 +16,17 @@
 
 package models.response.emcsTfe
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import base.SpecBase
+import fixtures.SubmissionFixtures
+import play.api.libs.json.{JsPath, JsSuccess, Json}
 
-case class SubmissionResponse(receipt: String, downstreamService: String)
-
-object SubmissionResponse {
-  implicit val reads: Reads[SubmissionResponse] =
-    (__ \ "message").read[String].map(SubmissionResponse(_, "EIS")) or
-      (__ \ "receipt").read[String].map(SubmissionResponse(_, "ChRIS"))
-
-  implicit val writes: OWrites[SubmissionResponse] =
-    (o: SubmissionResponse) => Json.obj("receipt" -> o.receipt)
+class SubmissionResponseSpec extends SpecBase with SubmissionFixtures {
+  "reads" - {
+    "should read ChRIS JSON" in {
+      Json.fromJson[SubmissionResponse](submitAlertOrRejectionChRISResponseJson) mustBe JsSuccess(submitAlertOrRejectionChRISResponseModel, JsPath \ "receipt")
+    }
+    "should read EIS JSON" in {
+      Json.fromJson[SubmissionResponse](submitAlertOrRejectionEISResponseJson) mustBe JsSuccess(submitAlertOrRejectionEISResponseModel, JsPath \ "message")
+    }
+  }
 }
-

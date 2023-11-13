@@ -46,13 +46,25 @@ trait SubmissionFixtures extends BaseFixtures {
     alertOrRejectionReasons = Some(Seq[AlertOrRejectionReasonModel]().empty)
   )
 
-  val submitAlertOrRejectionResponseModel = SubmissionResponse(
+  val submitAlertOrRejectionChRISResponseModel = SubmissionResponse(
     receipt = testConfirmationReference,
-    receiptDate = testReceiptDate
+    downstreamService = "ChRIS"
   )
 
-  val submitAlertOrRejectionResponseJson = Json.obj(
+  val submitAlertOrRejectionEISResponseModel = SubmissionResponse(
+    receipt = testConfirmationReference,
+    downstreamService = "EIS"
+  )
+
+  val submitAlertOrRejectionChRISResponseJson = Json.obj(
     "receipt" -> testConfirmationReference,
     "receiptDate" -> testReceiptDate
   )
+
+  val submitAlertOrRejectionEISResponseJson = Json.parse(
+    s"""{
+       | "status": "OK",
+       | "message": "$testConfirmationReference",
+       | "emcsCorrelationId": "3e8dae97-b586-4cef-8511-68ac12da9028"
+       |}""".stripMargin)
 }

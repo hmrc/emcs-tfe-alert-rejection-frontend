@@ -69,14 +69,14 @@ class SubmissionServiceSpec extends SpecBase with MockSubmissionConnector with S
                   val submission = SubmitAlertOrRejectionModel()(request, appConfig)
 
                   MockSubmitExplainDelayConnector
-                    .submit(testingErn, testArc, submission).returns(Future.successful(Right(submitAlertOrRejectionResponseModel)))
+                    .submit(testingErn, testArc, submission).returns(Future.successful(Right(submitAlertOrRejectionChRISResponseModel)))
                     .noMoreThanOnce()
 
                   MockAuditingService
-                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, submission, Right(submitAlertOrRejectionResponseModel)))
+                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Right(submitAlertOrRejectionChRISResponseModel)))
                     .noMoreThanOnce()
 
-                  testService.submit(testingErn, testArc)(hc, request).futureValue mustBe submitAlertOrRejectionResponseModel
+                  testService.submit(testingErn, testArc)(hc, request).futureValue mustBe submitAlertOrRejectionChRISResponseModel
                 }
               }
 
@@ -98,7 +98,7 @@ class SubmissionServiceSpec extends SpecBase with MockSubmissionConnector with S
                     .noMoreThanOnce()
 
                   MockAuditingService
-                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, submission, Left(UnexpectedDownstreamResponseError)))
+                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Left(UnexpectedDownstreamResponseError)))
                     .noMoreThanOnce()
 
                   intercept[SubmitAlertOrRejectionException](await(testService.submit(testingErn, testArc)(hc, request))).getMessage mustBe

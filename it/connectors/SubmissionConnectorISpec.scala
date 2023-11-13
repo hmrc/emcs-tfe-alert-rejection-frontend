@@ -52,10 +52,10 @@ class SubmissionConnectorISpec extends AnyFreeSpec
       server.stubFor(
         post(urlEqualTo(url))
           .withRequestBody(equalToJson(Json.stringify(Json.toJson(submitAlertOrRejectionModel))))
-          .willReturn(aResponse().withStatus(OK).withBody(Json.stringify(submitAlertOrRejectionResponseJson)))
+          .willReturn(aResponse().withStatus(OK).withBody(Json.stringify(submitAlertOrRejectionChRISResponseJson)))
       )
 
-      connector.submit("ern", "arc", submitAlertOrRejectionModel).futureValue mustBe Right(submitAlertOrRejectionResponseModel)
+      connector.submit("ern", "arc", submitAlertOrRejectionModel).futureValue mustBe Right(submitAlertOrRejectionChRISResponseModel)
     }
 
     "must return false when the server responds NOT_FOUND" in {

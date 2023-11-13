@@ -63,8 +63,6 @@ class ConfirmationControllerSpec extends SpecBase {
       "must return the BAD_REQUEST error response content " in new Fixture(Some(emptyUserAnswers)) {
 
         running(application) {
-
-          implicit val dr = dataRequest(getRequest, emptyUserAnswers)
           val result = route(application, getRequest).value
 
           status(result) mustEqual BAD_REQUEST
