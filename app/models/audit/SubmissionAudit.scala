@@ -17,9 +17,10 @@
 package models.audit
 
 import models.ErrorResponse
-import models.alertOrRejection.SubmitAlertOrRejectionModel
+import models.alertOrRejection.{AlertOrRejectionReasonModel, SubmitAlertOrRejectionModel}
 import models.response.emcsTfe.SubmissionResponse
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json.JsValueWrapper
+import play.api.libs.json.{JsValue, Json, Writes}
 
 case class SubmissionAudit (
                         credentialId: String,
@@ -42,7 +43,7 @@ case class SubmissionAudit (
     "destinationOffice" -> submissionRequest.destinationOffice,
     "dateOfAlertOrRejection" -> submissionRequest.dateOfAlertOrRejection,
     "isRejected" -> submissionRequest.isRejected,
-    "alertOrRejectionReasons" -> submissionRequest.alertOrRejectionReasons
+    "alertOrRejectionReasons" -> alertOrRejectionReasonsForAuditing(submissionRequest.alertOrRejectionReasons)
   ) ++ {
     submissionResponse match {
       case Right(success) =>
@@ -56,6 +57,26 @@ case class SubmissionAudit (
           "status" -> "failed",
           "failedMessage" -> failedMessage.message
         )
+    }
+  }
+
+  private def alertOrRejectionReasonsForAuditing(alertOrRejectReasons: Option[Seq[AlertOrRejectionReasonModel]]): Seq[JsValue] = {
+
+    val auditWrites = Writes[AlertOrRejectionReasonModel] { model =>
+      Json.obj(Seq[Option[(String, JsValueWrapper)]](
+        Some("reasonCode" -> model.reason),
+        Some("reasonDescription" -> model.reason.getClass.getSimpleName.stripSuffix("$")),
+        model.additionalInformation.map("additionalInformation" -> _)
+      ).flatten: _*)
+    }
+
+    alertOrRejectReasons match {
+      case Some(reasons: Seq[AlertOrRejectionReasonModel]) =>
+        reasons.map{ reason =>
+          Json.toJson(reason)(auditWrites)
+        }
+
+      case _ => Seq[JsValue]()
     }
   }
 }
