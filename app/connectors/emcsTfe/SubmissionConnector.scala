@@ -30,7 +30,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class SubmissionConnector @Inject()(val http: HttpClient,
                                     config: AppConfig) extends EmcsTfeHttpParser[SubmissionResponse] {
 
-  override implicit val reads: Reads[SubmissionResponse] = SubmissionResponse.format
+  override implicit val reads: Reads[SubmissionResponse] = SubmissionResponse.reads
 
   lazy val baseUrl: String = config.emcsTfeBaseUrl
 

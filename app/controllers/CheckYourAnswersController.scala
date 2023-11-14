@@ -19,7 +19,6 @@ package controllers
 import controllers.actions._
 import handlers.ErrorHandler
 import models.requests.DataRequest
-import models.response.emcsTfe.SubmissionResponse
 import models.{ConfirmationDetails, MissingMandatoryPage, NormalMode, SelectAlertReject, UserAnswers}
 import navigation.Navigator
 import pages.{CheckYourAnswersPage, ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
@@ -65,7 +64,9 @@ class CheckYourAnswersController @Inject()(
         case _ =>
           submissionService.submit(ern, arc).flatMap { response =>
 
-            deleteDraftAndSetConfirmationFlow(request.ern, request.arc, response).map { _ =>
+            logger.debug(s"[onSubmit] response received from downstream service ${response.downstreamService}: ${response.receipt}")
+
+            deleteDraftAndSetConfirmationFlow(request.ern, request.arc).map { _ =>
               Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))
             }
 
@@ -108,16 +109,14 @@ class CheckYourAnswersController @Inject()(
 
   private def deleteDraftAndSetConfirmationFlow(
                                                 ern: String,
-                                                arc: String,
-                                                response: SubmissionResponse
+                                                arc: String
                                                )(implicit hc: HeaderCarrier, request: DataRequest[_]): Future[UserAnswers] = {
     userAnswersService.set(
       UserAnswers(
         ern,
         arc,
         data = Json.obj(
-          ConfirmationPage.toString -> ConfirmationDetails(request.userAnswers),
-          "submissionReceipt" -> response
+          ConfirmationPage.toString -> ConfirmationDetails(request.userAnswers)
         )
       )
     )

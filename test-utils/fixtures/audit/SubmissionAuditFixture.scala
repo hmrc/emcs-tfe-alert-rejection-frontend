@@ -77,7 +77,8 @@ trait SubmissionAuditFixture extends BaseFixtures {
         )
       )
     ),
-    submissionResponse = Right(SubmissionResponse("receipt", "receipt date"))
+    submissionResponse = Right(SubmissionResponse("receipt", "ChRIS")),
+    receiptDate = "receipt date"
   )
 
 

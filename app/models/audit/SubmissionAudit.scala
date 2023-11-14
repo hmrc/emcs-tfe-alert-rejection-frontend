@@ -26,6 +26,7 @@ case class SubmissionAudit (
                         credentialId: String,
                         internalId: String,
                         ern: String,
+                        receiptDate: String,
                         submissionRequest: SubmitAlertOrRejectionModel,
                         submissionResponse: Either[ErrorResponse, SubmissionResponse]
                       ) extends AuditModel {
@@ -50,7 +51,7 @@ case class SubmissionAudit (
         Json.obj(fields =
           "status" -> "success",
           "receipt" -> success.receipt,
-          "receiptDate" -> success.receiptDate
+          "receiptDate" -> receiptDate
         )
       case Left(failedMessage) =>
         Json.obj(fields =

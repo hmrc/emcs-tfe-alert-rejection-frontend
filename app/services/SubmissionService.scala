@@ -26,6 +26,7 @@ import models.{ErrorResponse, SubmitAlertOrRejectionException}
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 
+import java.time.LocalDateTime
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -65,7 +66,8 @@ class SubmissionService @Inject()(submitExplainDelayConnector: SubmissionConnect
         internalId = dataRequest.internalId,
         ern = dataRequest.ern,
         submissionRequest = submissionRequest,
-        submissionResponse = submissionResponse
+        submissionResponse = submissionResponse,
+        receiptDate = LocalDateTime.now().toString
       )
     )
   }

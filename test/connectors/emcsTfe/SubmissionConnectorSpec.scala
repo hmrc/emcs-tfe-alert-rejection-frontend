@@ -46,11 +46,11 @@ class SubmissionConnectorSpec extends SpecBase
         MockHttpClient.post(
           url = s"${appConfig.emcsTfeBaseUrl}/alert-or-rejection/$testErn/$testArc",
           body = submitAlertOrRejectionModel
-        ).returns(Future.successful(Right(submitAlertOrRejectionResponseModel)))
+        ).returns(Future.successful(Right(submitAlertOrRejectionChRISResponseModel)))
 
         connector
           .submit(testErn, testArc, submitAlertOrRejectionModel)
-          .futureValue mustBe Right(submitAlertOrRejectionResponseModel)
+          .futureValue mustBe Right(submitAlertOrRejectionChRISResponseModel)
       }
 
 

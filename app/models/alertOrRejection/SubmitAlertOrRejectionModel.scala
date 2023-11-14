@@ -24,8 +24,7 @@ import models.common.ExciseMovementModel
 import models.requests.DataRequest
 import models.response.emcsTfe.TraderModel
 import pages._
-import play.api.libs.json.Json.JsValueWrapper
-import play.api.libs.json.{Format, Json, Writes}
+import play.api.libs.json.{Format, Json}
 import utils.{JsonOptionFormatter, ModelConstructorHelpers}
 
 import java.time.LocalDate
