@@ -38,7 +38,7 @@
     activeTrader: activeTrader
 )
 
-@(pageTitle: String, maybeShowActiveTrader: Option[TraderInfo] = None, showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidthContent: Boolean = false)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+@(pageTitle: String, maybeShowActiveTrader: Option[TraderInfo], showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidthContent: Boolean = false)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @head = {
 
