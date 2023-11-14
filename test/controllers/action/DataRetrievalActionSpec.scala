@@ -41,7 +41,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with MockUserAn
         MockUserAnswersService.get(testErn, testArc).returns(Future.successful(None))
 
         val result = dataRetrievalAction.callTransform(
-          MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId), testArc, getMovementResponseModel)
+          MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel) //TODO false?
         ).futureValue
 
         result.userAnswers must not be defined
@@ -55,7 +55,7 @@ class DataRetrievalActionSpec extends SpecBase with MockitoSugar with MockUserAn
         MockUserAnswersService.get(testErn, testArc).returns(Future(Some(emptyUserAnswers)))
 
         val result = dataRetrievalAction.callTransform(
-          MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId), testArc, getMovementResponseModel)
+          MovementRequest(UserRequest(FakeRequest(), testErn, testInternalId, testCredId, false), testArc, getMovementResponseModel) //TODO false?
         ).futureValue
 
         result.userAnswers mustBe defined

@@ -69,7 +69,7 @@ trait SpecBase
       )
 
   def userRequest[A](request: Request[A], ern: String = testErn): UserRequest[A] =
-    UserRequest(request, ern, testInternalId, testCredId)
+    UserRequest(request, ern, testInternalId, testCredId, false)
 
   def movementRequest[A](request: Request[A], ern: String = testErn): MovementRequest[A] =
     MovementRequest(userRequest(request, ern), testArc, getMovementResponseModel)
