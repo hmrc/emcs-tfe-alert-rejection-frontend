@@ -38,17 +38,6 @@ case class BadRequestError(msg: String) extends ErrorResponse {
   val message = s"Bad Request returned from downstream service. With message: $msg"
 }
 
-case class SubmitCreateAMovementException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
 case class UserAnswersException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
 case class MissingMandatoryPage(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-case class MissingHeaderError(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-
 case class TraderKnownFactsException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-
-case class MemberStatesException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-
-case class DocumentTypesException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-
-case class ExciseProductCodesException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
-
-case class InvalidUserTypeException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
