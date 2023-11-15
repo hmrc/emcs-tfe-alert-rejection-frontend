@@ -17,7 +17,7 @@
 package connectors.emcsTfe
 
 import base.SpecBase
-import mocks.MockHttpClient
+import mocks.connectors.MockHttpClient
 import models.{BadRequestError, JsonValidationError, UnexpectedDownstreamResponseError, UserAnswers}
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import play.api.libs.json.{Json, Reads}
