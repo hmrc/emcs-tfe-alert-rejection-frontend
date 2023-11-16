@@ -67,6 +67,8 @@
 
 @beforeContent = {
 
+    @{ activeTrader(maybeShowActiveTrader, appConfig) }
+
     @if(appConfig.languageTranslationEnabled) {
         @hmrcLanguageSelect(LanguageSelect(
             if (messages.lang.code == "cy") Cy else En,
@@ -75,7 +77,6 @@
         ))
     }
 
-    @{ activeTrader(maybeShowActiveTrader, appConfig) }
     @if(showBackLink) {
         @govukBackLink(BackLinkViewModel(href = "#").withCssClass("js-visible"))
     }
