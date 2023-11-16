@@ -53,12 +53,6 @@ trait SpecBase
     cookies(of).get("PLAY_LANG").get.value
   }
 
-  def optionalDataRequest[A](request: Request[A],
-                             draftId: String,
-                             answers: Option[UserAnswers] = None,
-                             traderKnownFacts: Option[TraderKnownFacts]): OptionalDataRequest[A] =
-    OptionalDataRequest(movementRequest(request), answers, traderKnownFacts)
-
   protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
                                    optTraderKnownFacts: Option[TraderKnownFacts] = Some(testMinTraderKnownFacts)): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
