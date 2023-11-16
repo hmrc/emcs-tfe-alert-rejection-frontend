@@ -36,8 +36,7 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
                                 getData: DataRetrievalAction
                                ) extends BaseController with Logging {
 
-  def onPageLoad(ern: String, arc: String): Action[AnyContent] = {
-
+  def onPageLoad(ern: String, arc: String): Action[AnyContent] =
     (authAction(ern, arc) andThen withMovement.fromCache(arc) andThen getData).async { implicit request =>
       request.userAnswers match {
 
@@ -53,7 +52,6 @@ class IndexController @Inject()(override val messagesApi: MessagesApi,
           initialiseAndRedirect(UserAnswers(request.ern, request.arc))
       }
     }
-  }
 
   private def initialiseAndRedirect(answers: UserAnswers)(implicit hc: HeaderCarrier): Future[Result] =
     userAnswersService.set(answers).map { _ =>
