@@ -37,10 +37,8 @@ object ViewUtils {
   }
 
   def maybeShowActiveTrader(request: DataRequest[_]): Option[TraderInfo] = {
-    if (request.request.request.hasMultipleErns) {
-      Some(TraderInfo(request.movementDetails.consignorTrader.traderName, request.ern))
-    } else {
-      None
+    Option.when(request.request.request.hasMultipleErns) {
+      TraderInfo(request.movementDetails.consignorTrader.traderName, request.ern)
     }
   }
 }
