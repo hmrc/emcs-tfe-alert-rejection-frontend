@@ -20,7 +20,7 @@ import controllers.action.{FakeAuthAction, FakeDataRetrievalAction, FakeMovement
 import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction, UserAllowListAction}
 import fixtures.{BaseFixtures, GetMovementResponseFixtures}
 import models.{TraderKnownFacts, UserAnswers}
-import models.requests.{DataRequest, MovementRequest, OptionalDataRequest, UserRequest}
+import models.requests.{DataRequest, MovementRequest, UserRequest}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
