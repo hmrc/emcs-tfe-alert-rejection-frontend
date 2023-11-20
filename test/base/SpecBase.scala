@@ -72,6 +72,9 @@ trait SpecBase
   def movementRequest[A](request: Request[A], ern: String = testErn): MovementRequest[A] =
     MovementRequest(userRequest(request, ern), testArc, getMovementResponseModel)
 
-  def dataRequest[A](request: Request[A], answers: UserAnswers = emptyUserAnswers, ern: String = testErn): DataRequest[A] =
-    DataRequest(movementRequest(request, ern), answers)
+  def dataRequest[A](request: Request[A],
+                     answers: UserAnswers = emptyUserAnswers,
+                     ern: String = testErn,
+                     traderKnownFacts: TraderKnownFacts = testMinTraderKnownFacts): DataRequest[A] =
+    DataRequest(movementRequest(request, ern), answers, traderKnownFacts)
 }
