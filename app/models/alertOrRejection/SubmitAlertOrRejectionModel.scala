@@ -17,12 +17,13 @@
 package models.alertOrRejection
 
 import config.AppConfig
-import models.DestinationOffice
+import models.{DestinationOffice, UserAnswers}
+import models.DestinationType.TemporaryRegisteredConsignee
 import models.SelectAlertReject.{Alert, Reject}
 import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
 import models.common.ExciseMovementModel
 import models.requests.DataRequest
-import models.response.emcsTfe.TraderModel
+import models.response.emcsTfe.{GetMovementResponse, TraderModel}
 import pages._
 import play.api.libs.json.{Format, Json}
 import utils.{JsonOptionFormatter, ModelConstructorHelpers}
@@ -54,10 +55,19 @@ object SubmitAlertOrRejectionModel extends JsonOptionFormatter with ModelConstru
     }
   }
 
+  private[models] def consigneeTraderDetails(movementDetails: GetMovementResponse)(implicit dataRequest: DataRequest[_]): Option[TraderModel] = {
+    (movementDetails.destinationType, movementDetails.consigneeTrader) match {
+      case (TemporaryRegisteredConsignee, Some(consignee: TraderModel)) =>
+        Some(consignee.copy(traderExciseNumber = Some(dataRequest.ern)))
+      case (_, consignee) =>
+        consignee
+    }
+  }
+
   def apply()(implicit dataRequest: DataRequest[_], appConfig: AppConfig): SubmitAlertOrRejectionModel = {
 
     SubmitAlertOrRejectionModel(
-      consigneeTrader = dataRequest.movementDetails.consigneeTrader,
+      consigneeTrader = consigneeTraderDetails(dataRequest.movementDetails),
       exciseMovement = ExciseMovementModel(
         arc = dataRequest.movementDetails.arc,
         sequenceNumber = dataRequest.movementDetails.sequenceNumber
