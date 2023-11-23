@@ -21,7 +21,7 @@ import config.AppConfig
 import models.DestinationType.TemporaryRegisteredConsignee
 import models.SelectAlertReject.{Alert, Reject}
 import models.common.ExciseMovementModel
-import models.response.emcsTfe.{AddressModel, GetMovementResponse, TraderModel}
+import models.response.emcsTfe.{GetMovementResponse, TraderModel}
 import models.{DestinationOffice, DestinationType, MissingMandatoryPage, SelectReason}
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar.mock

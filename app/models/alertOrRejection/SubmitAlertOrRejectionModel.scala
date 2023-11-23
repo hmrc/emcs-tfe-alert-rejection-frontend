@@ -17,7 +17,7 @@
 package models.alertOrRejection
 
 import config.AppConfig
-import models.{DestinationOffice, UserAnswers}
+import models.DestinationOffice
 import models.DestinationType.TemporaryRegisteredConsignee
 import models.SelectAlertReject.{Alert, Reject}
 import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
