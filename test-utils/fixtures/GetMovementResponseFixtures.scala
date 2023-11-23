@@ -17,7 +17,7 @@
 package fixtures
 
 import models.DestinationType.TaxWarehouse
-import models.response.emcsTfe.{AddressModel, ConsignorTraderModel, GetMovementResponse}
+import models.response.emcsTfe.{AddressModel, ConsignorTraderModel, GetMovementResponse, TraderModel}
 import play.api.libs.json.{JsValue, Json}
 
 import java.time.LocalDate
@@ -28,7 +28,19 @@ trait GetMovementResponseFixtures { _: BaseFixtures =>
     arc = testArc,
     sequenceNumber = 1,
     destinationType = TaxWarehouse,
-    consigneeTrader = None,
+    consigneeTrader = Some(
+      TraderModel(
+        traderExciseNumber = Some("GB0000001"),
+        traderName = Some("MyConsignee"),
+        address = Some(AddressModel(
+          streetNumber = None,
+          street = Some("Main142"),
+          postcode = Some("ZZ78"),
+          city = Some("Zeebrugge")
+        )),
+        eoriNumber = None
+      )
+    ),
     deliveryPlaceTrader = None,
     localReferenceNumber = "MyLrn",
     eadStatus = "MyEadStatus",
@@ -53,6 +65,15 @@ trait GetMovementResponseFixtures { _: BaseFixtures =>
     "destinationType" -> "1",
     "localReferenceNumber" -> "MyLrn",
     "eadStatus" -> "MyEadStatus",
+    "consigneeTrader" -> Json.obj(fields =
+      "traderExciseNumber" -> "GB0000001",
+      "traderName" -> "MyConsignee",
+      "address" -> Json.obj(
+        "street" -> "Main142",
+        "postcode" -> "ZZ78",
+        "city" -> "Zeebrugge"
+      )
+    ),
     "consignorTrader" -> Json.obj(fields =
       "traderExciseNumber" -> "GB12345GTR144",
       "traderName" -> "MyConsignor",
@@ -134,4 +155,5 @@ trait GetMovementResponseFixtures { _: BaseFixtures =>
     ),
     "numberOfItems" -> 2
   )
+
 }
