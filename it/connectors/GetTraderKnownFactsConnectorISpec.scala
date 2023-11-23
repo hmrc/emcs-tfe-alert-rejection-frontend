@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, get, urlEqual
 import com.github.tomakehurst.wiremock.http.Fault
 import connectors.referenceData.GetTraderKnownFactsConnector
 import models.TraderKnownFacts
-import models.response.UnexpectedDownstreamResponseError
+import models.UnexpectedDownstreamResponseError
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers

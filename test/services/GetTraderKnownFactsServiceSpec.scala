@@ -18,7 +18,7 @@ package services
 
 import base.SpecBase
 import mocks.connectors.MockGetTraderKnownFactsConnector
-import models.response.{TraderKnownFactsException, UnexpectedDownstreamResponseError}
+import models.{TraderKnownFactsException, UnexpectedDownstreamResponseError}
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.HeaderCarrier
 

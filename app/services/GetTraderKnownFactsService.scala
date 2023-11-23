@@ -18,7 +18,7 @@ package services
 
 import connectors.referenceData.GetTraderKnownFactsConnector
 import models.TraderKnownFacts
-import models.response.TraderKnownFactsException
+import models.TraderKnownFactsException
 import uk.gov.hmrc.http.HeaderCarrier
 
 import javax.inject.{Inject, Singleton}
