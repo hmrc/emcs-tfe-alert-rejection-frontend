@@ -30,7 +30,7 @@
 
 @(alertOrReject: SelectAlertReject, summaryList: SummaryList, action: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = titleNoForm(messages("checkYourAnswers.title"))) {
+@layout(pageTitle = titleNoForm(messages("checkYourAnswers.title")), maybeShowActiveTrader = maybeShowActiveTrader(request)) {
 
     @h1("checkYourAnswers.heading", Some(messages("arc.subHeading", request.arc)), "govuk-heading-l")
 

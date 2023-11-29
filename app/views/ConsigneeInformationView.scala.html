@@ -31,7 +31,7 @@
 
 @(form: Form[_], onSubmit: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, heading)) {
+@layout(pageTitle = title(form, heading), maybeShowActiveTrader = maybeShowActiveTrader(request)) {
 
     @formHelper(action = onSubmit) {
 

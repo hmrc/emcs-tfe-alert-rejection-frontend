@@ -27,7 +27,7 @@
 
 @(alertOrReject: SelectAlertReject, form: Form[_], onSubmitCall: Call)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"selectGiveInformation.title.$alertOrReject"))) {
+@layout(pageTitle = title(form, messages(s"selectGiveInformation.title.$alertOrReject")), maybeShowActiveTrader = maybeShowActiveTrader(request)) {
 
     @formHelper(action = onSubmitCall, 'autoComplete -> "off") {
 
