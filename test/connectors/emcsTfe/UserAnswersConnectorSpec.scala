@@ -18,7 +18,7 @@ package connectors.emcsTfe
 
 import base.SpecBase
 import config.AppConfig
-import mocks.MockHttpClient
+import mocks.connectors.MockHttpClient
 import models.{JsonValidationError, UnexpectedDownstreamResponseError}
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import uk.gov.hmrc.http.HeaderCarrier

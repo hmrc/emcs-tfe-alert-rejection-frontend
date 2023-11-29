@@ -19,7 +19,7 @@ package connectors.emcsTfe
 import base.SpecBase
 import config.AppConfig
 import fixtures.SubmissionFixtures
-import mocks.MockHttpClient
+import mocks.connectors.MockHttpClient
 import models.JsonValidationError
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import uk.gov.hmrc.http.HeaderCarrier

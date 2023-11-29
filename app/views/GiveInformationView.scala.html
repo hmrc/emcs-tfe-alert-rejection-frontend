@@ -32,7 +32,7 @@
 
 @(form: Form[_], alertReject: SelectAlertReject, hasOther: Boolean, mode: Mode)(implicit request: DataRequest[_], messages: Messages)
 
-@layout(pageTitle = title(form, heading)) {
+@layout(pageTitle = title(form, heading), maybeShowActiveTrader = maybeShowActiveTrader(request)) {
 
     @formHelper(action = routes.GiveInformationController.onSubmit(request.ern, request.arc, mode)) {
 

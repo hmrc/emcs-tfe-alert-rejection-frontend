@@ -238,3 +238,5 @@ confirmation.heading2.p2 = If the movement contains energy goods, the consignor 
 confirmation.button = Return to movement
 confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)
+
+activeTrader.link = Change trader type

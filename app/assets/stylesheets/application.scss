@@ -1,3 +1,9 @@
+$govuk-assets-path: "/emcs/alert-or-rejection/assets/lib/govuk-frontend/govuk/assets/";
+$hmrc-assets-path: "/emcs/alert-or-rejection/assets/lib/hmrc-frontend/hmrc/assets/";
+
+@import "lib/govuk-frontend/govuk/all";
+@import "lib/hmrc-frontend/hmrc/all";
+
 .js-visible {
   display: none !important;
 }
@@ -17,3 +23,5 @@
     display: none !important;
   }
 }
+
+@import "active-trader-info";
