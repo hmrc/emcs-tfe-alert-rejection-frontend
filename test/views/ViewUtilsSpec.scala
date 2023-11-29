@@ -37,9 +37,6 @@ class ViewUtilsSpec extends ViewSpecBase with ViewBehaviours {
   def createDataRequest(hasMultipleErns: Boolean): DataRequest[_] =
     DataRequest(createMovementRequest(hasMultipleErns), emptyUserAnswers, testMinTraderKnownFacts)
 
-  def createOptionalDataRequest(hasMultipleErns: Boolean): OptionalDataRequest[_] =
-    OptionalDataRequest(createMovementRequest(hasMultipleErns), None, Some(testMinTraderKnownFacts))
-
   ".title" in {
     case class UserData(name: String, age: Int)
 
