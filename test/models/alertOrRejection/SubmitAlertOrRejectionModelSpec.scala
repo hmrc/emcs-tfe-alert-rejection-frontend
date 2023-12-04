@@ -108,8 +108,6 @@ class SubmitAlertOrRejectionModelSpec extends SpecBase {
 
 
     "calling .consigneeTraderDetails(_: GetMovementResponse)" - {
-      implicit val userAnswers = emptyUserAnswers
-
       "when the destination type = TemporaryRegisteredConsignee" - {
         "must replace the consignee's ERN of the movement with the logged in consignee's ERN" in {
           implicit val dr = dataRequest(FakeRequest(), emptyUserAnswers)
