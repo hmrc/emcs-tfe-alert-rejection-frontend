@@ -36,10 +36,10 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class SubmissionServiceSpec extends SpecBase with MockSubmissionConnector with SubmissionFixtures with MockAuditingService {
 
-  implicit val hc = HeaderCarrier()
-  implicit val ec = ExecutionContext.global
+  implicit val hc: HeaderCarrier = HeaderCarrier()
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
-  implicit val appConfig = applicationBuilder().build().injector.instanceOf[AppConfig]
+  implicit val appConfig: AppConfig = applicationBuilder().build().injector.instanceOf[AppConfig]
 
   lazy val testService = new SubmissionService(mockSubmissionConnector, mockAuditingService)
 
