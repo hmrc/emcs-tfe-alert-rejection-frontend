@@ -40,6 +40,6 @@ class GiveInformationFormProvider @Inject() extends Mappings {
           .verifying(regexpUnlessEmpty(ALPHANUMERIC_REGEX, s"giveInformation.error.character"))
           .verifying(regexpUnlessEmpty(XSS_REGEX, s"giveInformation.error.xss"))
       )
-        .verifying(mandatoryCheck(isMandatory, if (alertOrReject != None) "."+alertOrReject.get.toString else ""))
+        .verifying(mandatoryCheck(isMandatory, alertOrReject.map(selectAlertReject => s".$selectAlertReject").getOrElse("")))
     )
 }

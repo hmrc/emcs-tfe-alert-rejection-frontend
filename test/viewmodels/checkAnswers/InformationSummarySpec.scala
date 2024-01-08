@@ -20,6 +20,8 @@ import base.SpecBase
 import fixtures.messages.InformationMessages
 import models.CheckMode
 import pages._
+import play.api.Application
+import play.api.i18n.Messages
 import play.api.mvc.Call
 import uk.gov.hmrc.govukfrontend.views.Aliases.HtmlContent
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
@@ -29,15 +31,16 @@ import views.html.components.link
 
 class InformationSummarySpec extends SpecBase {
 
+  implicit lazy val app: Application = applicationBuilder().build()
+  lazy val link = app.injector.instanceOf[link]
+
   "InformationSummary" - {
 
     Seq(InformationMessages.English, InformationMessages.Welsh).foreach { langMessages =>
 
       s"when rendered for language code '${langMessages.lang.code}'" - {
 
-        implicit lazy val app = applicationBuilder().build()
-        implicit lazy val msgs = messagesApi(app).preferred(Seq(langMessages.lang))
-        lazy val link = app.injector.instanceOf[link]
+        implicit lazy val msgs: Messages = messagesApi(app).preferred(Seq(langMessages.lang))
         lazy val informationSummary = new InformationSummary(link)
 
         def pageToRoute(page: QuestionPage[Option[String]]): Call = page match {

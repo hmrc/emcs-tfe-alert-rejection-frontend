@@ -22,6 +22,7 @@ import models.SelectAlertReject.{Alert, Reject}
 import models.SelectReason.{ConsigneeDetailsWrong, GoodTypesNotMatchOrder, Other, QuantitiesNotMatchOrder}
 import models.{CheckMode, SelectReason}
 import pages._
+import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import uk.gov.hmrc.govukfrontend.views.Aliases.SummaryListRow
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.SummaryList
@@ -44,7 +45,7 @@ class CheckAnswersHelperSpec
 
   lazy val app = applicationBuilder().build()
 
-  implicit lazy val msgs = messages(app)
+  implicit lazy val msgs: Messages = messages(app)
 
   "CheckAnswersHelper" - {
       Seq(Alert,Reject).foreach { aType =>
