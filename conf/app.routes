@@ -80,4 +80,4 @@ POST       /trader/:ern/movement/:arc/consignee-information/change              
 GET        /trader/:ern/movement/:arc/check-answers                                         controllers.CheckYourAnswersController.onPageLoad(ern: String, arc: String)
 POST       /trader/:ern/movement/:arc/check-answers                                         controllers.CheckYourAnswersController.onPageSubmit(ern: String, arc: String)
 
-GET        /trader/:ern/movement/:arc/confirmation                                          controllers.ConfirmationController.onPageLoad(ern: String, arc: String, mode: Mode = NormalMode)
+GET        /trader/:ern/movement/:arc/confirmation                                          controllers.ConfirmationController.onPageLoad(ern: String, arc: String)

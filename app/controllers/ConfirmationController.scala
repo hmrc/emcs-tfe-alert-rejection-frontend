@@ -18,10 +18,10 @@ package controllers
 
 import controllers.actions._
 import handlers.ErrorHandler
-import models.{ConfirmationDetails, Mode}
+import models.ConfirmationDetails
 import navigation.Navigator
-import pages.ConfirmationPage
-import play.api.i18n.MessagesApi
+import pages.{ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
 import views.html.ConfirmationView
@@ -40,14 +40,24 @@ class ConfirmationController @Inject()(
                                         val controllerComponents: MessagesControllerComponents,
                                         view: ConfirmationView,
                                         errorHandler: ErrorHandler
-                                      ) extends BaseNavigationController with AuthActionHelper {
+                                      ) extends BaseNavigationController with AuthActionHelper with I18nSupport {
 
-  def onPageLoad(ern: String, arc: String, mode: Mode): Action[AnyContent] =
+  def onPageLoad(ern: String, arc: String): Action[AnyContent] =
 
     authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
       request.userAnswers.get(ConfirmationPage) match {
         case Some(confirmationDetails: ConfirmationDetails) =>
-          logger.info(s"[onPageLoad] Successful Alert/Reject flow completed")
+          confirmationDetails.userAnswers.get(SelectAlertRejectPage).foreach {
+            selectType =>
+              logger.info(s"[onPageLoad] Alert/rejection type: [$selectType]")
+          }
+          confirmationDetails.userAnswers.get(SelectReasonPage).foreach {
+            reasons =>
+              reasons.map {
+                reason =>
+                  logger.info(s"[onPageLoad] Alert/rejection reason: [${messagesApi.preferred(request).apply(s"selectReason.$reason")}]")
+              }
+          }
           Ok(view(confirmationDetails))
         case None =>
           logger.warn("[onPageLoad] Could not retrieve submission receipt reference from User session")
