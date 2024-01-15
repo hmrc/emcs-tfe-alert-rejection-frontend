@@ -38,7 +38,7 @@
 
     @h2(messages(s"confirmation.${confirmationDetails.alertOrReject}.h2"))
 
-    @govukSummaryList(checkAnswersHelper.summaryList(confirmationDetails)(request, messages))
+    @govukSummaryList(checkAnswersHelper.summaryList(confirmationDetails))
 
     @whatHappensNext(confirmationDetails)
 
