@@ -18,8 +18,8 @@ package controllers
 
 import base.SpecBase
 import models.SelectAlertReject.Alert
-import models.{ConfirmationDetails, UserAnswers}
-import pages.{ConfirmationPage, SelectAlertRejectPage}
+import models.{ConfirmationDetails, SelectReason, UserAnswers}
+import pages.{ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
 import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -39,9 +39,13 @@ class ConfirmationControllerSpec extends SpecBase {
 
     "when UserAnswers contains ConfirmationDetails" - {
 
+      val baseUserAnswers = emptyUserAnswers
+        .set(SelectAlertRejectPage, Alert)
+        .set(SelectReasonPage, SelectReason.values.toSet)
+
       val userAnswersSoFar = emptyUserAnswers
         .set(ConfirmationPage, ConfirmationDetails(
-          userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert)
+          userAnswers = baseUserAnswers
         ))
 
       "must return OK and the correct view for a GET" in new Fixture(Some(userAnswersSoFar)) {
@@ -53,7 +57,7 @@ class ConfirmationControllerSpec extends SpecBase {
 
           status(result) mustEqual OK
           contentAsString(result) mustEqual view(
-            ConfirmationDetails(userAnswers = emptyUserAnswers.set(SelectAlertRejectPage, Alert))
+            ConfirmationDetails(userAnswers = baseUserAnswers)
           ).toString
         }
       }
