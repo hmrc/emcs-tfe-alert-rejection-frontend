@@ -51,6 +51,7 @@ class ConfirmationController @Inject()(
             selectType =>
               logger.info(s"[onPageLoad] Alert/rejection type: [$selectType]")
           }
+
           confirmationDetails.userAnswers.get(SelectReasonPage).foreach {
             reasons =>
               reasons.map {
@@ -58,6 +59,7 @@ class ConfirmationController @Inject()(
                   logger.info(s"[onPageLoad] Alert/rejection reason: [${messagesApi.preferred(request).apply(s"selectReason.$reason")}]")
               }
           }
+
           Ok(view(confirmationDetails))
         case None =>
           logger.warn("[onPageLoad] Could not retrieve submission receipt reference from User session")
