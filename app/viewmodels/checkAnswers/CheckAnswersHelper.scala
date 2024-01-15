@@ -48,7 +48,7 @@ class CheckAnswersHelper @Inject()(
     )
   }
 
-  def summaryList(confirmationDetails: ConfirmationDetails)(implicit request: DataRequest[_], messages: Messages): SummaryList = {
+  def summaryList(confirmationDetails: ConfirmationDetails)(implicit messages: Messages): SummaryList = {
 
     implicit val userAnswers: UserAnswers = confirmationDetails.userAnswers
 

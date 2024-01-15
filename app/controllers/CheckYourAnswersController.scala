@@ -61,10 +61,23 @@ class CheckYourAnswersController @Inject()(
     authorisedDataRequestWithUpToDateMovementAsync(ern, arc) { implicit request =>
 
       withGuard {
-        case _ =>
+        _ =>
           submissionService.submit(ern, arc).flatMap { response =>
 
             logger.debug(s"[onSubmit] response received from downstream service ${response.downstreamService}: ${response.receipt}")
+
+            request.userAnswers.get(SelectAlertRejectPage).foreach {
+              selectType =>
+                logger.info(s"[onPageLoad] Alert/rejection type: [$selectType]")
+            }
+
+            request.userAnswers.get(SelectReasonPage).foreach {
+              reasons =>
+                reasons.map {
+                  reason =>
+                    logger.info(s"[onPageLoad] Alert/rejection reason: [${messagesApi.preferred(request).apply(s"selectReason.$reason")}]")
+                }
+            }
 
             deleteDraftAndSetConfirmationFlow(request.ern, request.arc).map { _ =>
               Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))

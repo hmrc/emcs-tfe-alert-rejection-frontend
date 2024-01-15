@@ -20,7 +20,7 @@ import controllers.actions._
 import handlers.ErrorHandler
 import models.ConfirmationDetails
 import navigation.Navigator
-import pages.{ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
+import pages.ConfirmationPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.UserAnswersService
@@ -47,19 +47,6 @@ class ConfirmationController @Inject()(
     authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
       request.userAnswers.get(ConfirmationPage) match {
         case Some(confirmationDetails: ConfirmationDetails) =>
-          confirmationDetails.userAnswers.get(SelectAlertRejectPage).foreach {
-            selectType =>
-              logger.info(s"[onPageLoad] Alert/rejection type: [$selectType]")
-          }
-
-          confirmationDetails.userAnswers.get(SelectReasonPage).foreach {
-            reasons =>
-              reasons.map {
-                reason =>
-                  logger.info(s"[onPageLoad] Alert/rejection reason: [${messagesApi.preferred(request).apply(s"selectReason.$reason")}]")
-              }
-          }
-
           Ok(view(confirmationDetails))
         case None =>
           logger.warn("[onPageLoad] Could not retrieve submission receipt reference from User session")
