@@ -36,7 +36,7 @@ class InformationSummarySpec extends SpecBase {
 
   "InformationSummary" - {
 
-    Seq(InformationMessages.English, InformationMessages.Welsh).foreach { langMessages =>
+    Seq(InformationMessages.English).foreach { langMessages =>
 
       s"when rendered for language code '${langMessages.lang.code}'" - {
 

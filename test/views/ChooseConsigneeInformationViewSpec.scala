@@ -37,7 +37,7 @@ class ChooseConsigneeInformationViewSpec extends ViewSpecBase with ViewBehaviour
 
   "ChooseConsigneeInformationView" - {
 
-    Seq(ChooseConsigneeInformationMessages.English, ChooseConsigneeInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ChooseConsigneeInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

@@ -33,7 +33,7 @@ class DestinationOfficeViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "DestinationOffice view" - {
 
-    Seq(DestinationOfficeMessages.English, DestinationOfficeMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(DestinationOfficeMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

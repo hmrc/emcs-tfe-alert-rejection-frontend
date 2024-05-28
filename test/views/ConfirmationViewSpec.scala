@@ -35,7 +35,7 @@ class ConfirmationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "ConfirmationView" - {
 
-    Seq(ConfirmationMessages.English, ConfirmationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ConfirmationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

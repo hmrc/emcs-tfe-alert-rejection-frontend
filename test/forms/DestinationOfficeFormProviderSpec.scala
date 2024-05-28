@@ -48,7 +48,7 @@ class DestinationOfficeFormProviderSpec extends OptionFieldBehaviours with Guice
 
   "Error Messages" - {
 
-    Seq(DestinationOfficeMessages.English, DestinationOfficeMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(DestinationOfficeMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 

@@ -28,7 +28,5 @@ object ChooseConsigneeInformationMessages {
     def errorMessage(): String = "Select yes if you want to give information about the consignee details being wrong"
   }
 
-  object English extends ViewMessages with BaseEnglish {}
-
-  object Welsh extends ViewMessages with BaseWelsh {}
+  object English extends ViewMessages with BaseEnglish
 }

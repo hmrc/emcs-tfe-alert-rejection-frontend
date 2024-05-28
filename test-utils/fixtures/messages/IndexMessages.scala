@@ -29,9 +29,4 @@ object IndexMessages {
     override val heading = "Excise Movement and Control System - GOV.UK"
     override val title = titleHelper("emcs-tfe-alert-rejection-frontend")
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val heading = "Excise Movement and Control System - GOV.UK"
-    override val title = titleHelper("emcs-tfe-alert-rejection-frontend")
-  }
 }

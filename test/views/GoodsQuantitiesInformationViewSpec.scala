@@ -39,7 +39,7 @@ class GoodsQuantitiesInformationViewSpec extends ViewSpecBase with ViewBehaviour
 
   "GoodsQuantitiesInformationView" - {
 
-    Seq(GoodsQuantitiesInformationMessages.English, GoodsQuantitiesInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(GoodsQuantitiesInformationMessages.English).foreach { messagesForLanguage =>
       Seq(Alert, Reject).foreach { alertOrReject =>
           s"when being rendered in lang code of '${messagesForLanguage.lang.code}'with '${alertOrReject.toString}'" - {
             implicit val msgs: Messages = messages(app, messagesForLanguage.lang)

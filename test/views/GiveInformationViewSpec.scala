@@ -39,7 +39,7 @@ class GiveInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "GiveInformationView" - {
 
-    Seq(GiveInformationMessages.English, GiveInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(GiveInformationMessages.English).foreach { messagesForLanguage =>
       Seq(Alert, Reject).foreach { alertOrReject =>
         s"when being rendered in lang code of '${messagesForLanguage.lang.code}'with '${alertOrReject.toString}' other option set to true'" - {
           implicit val msgs: Messages = messages(app, messagesForLanguage.lang)

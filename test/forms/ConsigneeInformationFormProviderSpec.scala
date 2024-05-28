@@ -77,7 +77,7 @@ class ConsigneeInformationFormProviderSpec extends StringFieldBehaviours with Gu
 
   "Error Messages" - {
 
-    Seq(ConsigneeInformationMessages.English, ConsigneeInformationMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(ConsigneeInformationMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 

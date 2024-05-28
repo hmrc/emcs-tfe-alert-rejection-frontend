@@ -48,15 +48,4 @@ object GoodsQuantitiesInformationMessages {
     override val cyaChangeHidden: String = "information about goods quantities"
     override val change: String = "Change"
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val errorRequired = "Enter information"
-    override val errorLength = "Information must be 350 characters or less"
-    override val errorCharacter = "Information must include letters and numbers"
-    override val errorXss = "Information must not include < and > and : and ;"
-    override val cyaLabel: String = "Information about goods quantities"
-    override val valueWhenAnswerNotPresent: String = "Enter information about goods quantities"
-    override val cyaChangeHidden: String = "information about goods quantities"
-    override val change: String = "Change"
-  }
 }

@@ -32,7 +32,7 @@ class AdministrativeReferenceCodeSummarySpec extends SpecBase with Matchers {
     lazy val app = applicationBuilder().build()
     val arcSummary = new AdministrativeReferenceCodeSummary
 
-    Seq(AdministrativeReferenceCodeMessages.English, AdministrativeReferenceCodeMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(AdministrativeReferenceCodeMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

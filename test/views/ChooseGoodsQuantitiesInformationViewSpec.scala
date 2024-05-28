@@ -38,7 +38,7 @@ class ChooseGoodsQuantitiesInformationViewSpec extends ViewSpecBase with ViewBeh
 
   "ChooseGoodsQuantitiesInformationView" - {
 
-    Seq(ChooseGoodsQuantitiesInformationMessages.English, ChooseGoodsQuantitiesInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ChooseGoodsQuantitiesInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

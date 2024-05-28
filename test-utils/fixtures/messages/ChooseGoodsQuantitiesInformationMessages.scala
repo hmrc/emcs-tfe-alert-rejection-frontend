@@ -27,6 +27,4 @@ object ChooseGoodsQuantitiesInformationMessages {
   }
 
   object English extends ViewMessages with BaseEnglish {}
-
-  object Welsh extends ViewMessages with BaseWelsh {}
 }

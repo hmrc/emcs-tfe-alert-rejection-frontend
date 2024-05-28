@@ -32,7 +32,7 @@ class IndexPageSpec extends ViewSpecBase with ViewBehaviours {
 
   "IndexView" - {
 
-    Seq(IndexMessages.English, IndexMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(IndexMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

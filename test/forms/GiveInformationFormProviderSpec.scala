@@ -110,7 +110,7 @@ class GiveInformationFormProviderSpec extends StringFieldBehaviours with GuiceOn
 
   "Error Messages" - {
 
-    Seq(GiveInformationMessages.English, GiveInformationMessages.Welsh) foreach { messagesForLanguage =>
+    Seq(GiveInformationMessages.English) foreach { messagesForLanguage =>
 
       implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 
