@@ -37,7 +37,7 @@ class SelectGiveInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "SelectReasonView" - {
 
-    Seq(SelectGiveInformationMessages.English, SelectGiveInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(SelectGiveInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

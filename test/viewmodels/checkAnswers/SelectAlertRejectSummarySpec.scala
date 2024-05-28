@@ -29,7 +29,7 @@ class SelectAlertRejectSummarySpec extends SpecBase {
 
   "SelectAlertRejectSummary" - {
 
-    Seq(SelectAlertRejectMessages.English, SelectAlertRejectMessages.Welsh).foreach { langMessages =>
+    Seq(SelectAlertRejectMessages.English).foreach { langMessages =>
 
       s"when rendered for language code '${langMessages.lang.code}'" - {
 

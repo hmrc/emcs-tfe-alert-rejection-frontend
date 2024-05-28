@@ -53,7 +53,7 @@ class ChooseConsigneeInformationFormProviderSpec extends BooleanFieldBehaviours 
 
       "the error messages" - {
 
-        Seq(ChooseConsigneeInformationMessages.English, ChooseConsigneeInformationMessages.Welsh) foreach { messagesForLanguage =>
+        Seq(ChooseConsigneeInformationMessages.English) foreach { messagesForLanguage =>
 
           implicit val messages: Messages = app.injector.instanceOf[MessagesApi].preferred(Seq(messagesForLanguage.lang))
 

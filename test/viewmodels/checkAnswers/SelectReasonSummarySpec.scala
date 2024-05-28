@@ -31,7 +31,7 @@ class SelectReasonSummarySpec extends SpecBase {
 
   "SelectReasonSummary" - {
 
-    Seq(SelectReasonMessages.English, SelectReasonMessages.Welsh).foreach { langMessages =>
+    Seq(SelectReasonMessages.English).foreach { langMessages =>
 
       s"when rendered for language code '${langMessages.lang.code}'" - {
 

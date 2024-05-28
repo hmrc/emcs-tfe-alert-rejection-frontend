@@ -41,15 +41,4 @@ object JourneyRecoveryMessages {
     override val numbered3 = "Select to ‘Submit a cancellation of a movement’"
     override val p3 = "You can also choose to view all your account information, or sign out."
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val title: String = titleHelper("There is a problem")
-    override val heading = "There is a problem"
-    override val p1 = "You have not added any information to cancel a movement yet."
-    override val p2 = "To submit a cancellation of a movement you must:"
-    override val numbered1 = "Go to the ‘View all movements’ page"
-    override val numbered2 = "Select to view the details of the movement you want to delay"
-    override val numbered3 = "Select to ‘Submit a cancellation of a movement’"
-    override val p3 = "You can also choose to view all your account information, or sign out."
-  }
 }

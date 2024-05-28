@@ -38,7 +38,7 @@ class ChooseGoodsTypesInformationViewSpec extends ViewSpecBase with ViewBehaviou
 
   "ChooseGoodsTypeInformationView" - {
 
-    Seq(ChooseGoodsTypesInformationMessages.English, ChooseGoodsTypesInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ChooseGoodsTypesInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

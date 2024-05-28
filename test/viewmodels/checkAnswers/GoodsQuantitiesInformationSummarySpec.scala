@@ -36,7 +36,7 @@ class GoodsQuantitiesInformationSummarySpec extends SpecBase with Matchers {
     implicit val link = app.injector.instanceOf[views.html.components.link]
     val summary = new GoodsQuantitiesInformationSummary(link)
 
-    Seq(GoodsQuantitiesInformationMessages.English, GoodsQuantitiesInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(GoodsQuantitiesInformationMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

@@ -41,11 +41,4 @@ object ConsigneeInformationMessages {
     override val errorCharacter = "Information must include letters or numbers"
     override val errorXss = "Information must not include < and > and : and ;"
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val errorRequired = "Enter information"
-    override val errorLength = "Information must be 350 characters or less"
-    override val errorCharacter = "Information must include letters or numbers"
-    override val errorXss = "Information must not include < and > and : and ;"
-  }
 }

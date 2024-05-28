@@ -37,7 +37,7 @@ class GoodsTypeInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "GoodsTypeInformationView" - {
 
-    Seq(GoodsTypeInformationMessages.English, GoodsTypeInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(GoodsTypeInformationMessages.English).foreach { messagesForLanguage =>
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}" - {
         implicit val msgs: Messages = messages(app, messagesForLanguage.lang)
         implicit val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)

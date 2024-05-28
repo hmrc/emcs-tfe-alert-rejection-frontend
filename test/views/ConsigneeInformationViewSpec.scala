@@ -38,7 +38,7 @@ class ConsigneeInformationViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "SelectAlertRejectView" - {
 
-    Seq(ConsigneeInformationMessages.English, ConsigneeInformationMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(ConsigneeInformationMessages.English).foreach { messagesForLanguage =>
       Seq(Alert, Reject).foreach { alertOrReject =>
           s"when being rendered in lang code of '${messagesForLanguage.lang.code}'with '${alertOrReject.toString}'" - {
             implicit val msgs: Messages = messages(app, messagesForLanguage.lang)

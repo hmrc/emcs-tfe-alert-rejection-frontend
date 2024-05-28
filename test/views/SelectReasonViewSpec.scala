@@ -39,7 +39,7 @@ class SelectReasonViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "SelectReasonView" - {
 
-    Seq(SelectReasonMessages.English, SelectReasonMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(SelectReasonMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

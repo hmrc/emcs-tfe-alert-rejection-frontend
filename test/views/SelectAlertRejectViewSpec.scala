@@ -38,7 +38,7 @@ class SelectAlertRejectViewSpec extends ViewSpecBase with ViewBehaviours {
 
   "SelectAlertRejectView" - {
 
-    Seq(SelectAlertRejectMessages.English, SelectAlertRejectMessages.Welsh).foreach { messagesForLanguage =>
+    Seq(SelectAlertRejectMessages.English).foreach { messagesForLanguage =>
 
       s"when being rendered in lang code of '${messagesForLanguage.lang.code}'" - {
 

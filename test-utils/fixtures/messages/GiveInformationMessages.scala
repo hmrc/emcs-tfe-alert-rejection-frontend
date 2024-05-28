@@ -50,13 +50,4 @@ object GiveInformationMessages {
     override val errorCharacter = "Information must include letters and numbers"
     override val errorXss = "Information must not include < and > and : and ;"
   }
-
-  object Welsh extends ViewMessages with BaseWelsh {
-    override val errorRequiredAlert = "Enter information about the alert"
-    override val errorRequiredReject = "Enter information about the rejection"
-    override val errorRequired = "Enter information"
-    override val errorLength = "Information must be 350 characters or less"
-    override val errorCharacter = "Information must include letters and numbers"
-    override val errorXss = "Information must not include < and > and : and ;"
-  }
 }
