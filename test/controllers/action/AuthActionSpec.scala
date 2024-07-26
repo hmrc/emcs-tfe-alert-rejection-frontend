@@ -20,6 +20,7 @@ import base.SpecBase
 import config.{AppConfig, EnrolmentKeys}
 import controllers.actions.AuthActionImpl
 import fixtures.BaseFixtures
+import mocks.connectors.MockNavBarPartialConnector
 import models.requests.UserRequest
 import org.scalatest.BeforeAndAfterAll
 import play.api.Play
@@ -27,6 +28,7 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent, AnyContentAsEmpty, BodyParsers, Results}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.twirl.api.Html
 import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Organisation}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.authorise.Predicate
@@ -37,7 +39,7 @@ import javax.inject.Inject
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration.Duration
 
-class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
+class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll with MockNavBarPartialConnector {
 
   type AuthRetrieval = ~[~[~[Option[AffinityGroup], Enrolments], Option[String]], Option[Credentials]]
 
@@ -61,7 +63,7 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
     implicit lazy val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
     val authConnector: AuthConnector
-    lazy val authAction = new AuthActionImpl(authConnector, appConfig, bodyParsers)
+    lazy val authAction = new AuthActionImpl(authConnector, mockNavBarPartialConnector, appConfig, bodyParsers)
 
     def onPageLoad(): Action[AnyContent] = authAction(testErn, testArc) { _ => Results.Ok }
 
@@ -208,6 +210,7 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
                 }
 
                 s"the ${EnrolmentKeys.ERN} identifier is present" - {
+
                   val singleEnrolement = Enrolments(Set(
                     Enrolment(
                       key = EnrolmentKeys.EMCS_ENROLMENT,
@@ -216,13 +219,28 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
                     )
                   ))
 
-                  "allow the User through, returning a 200 (OK)" in new Harness {
-                    override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = singleEnrolement))
+                  "when navBar returns Some(HTML)" - {
+                    "allow the User through, returning a 200 (OK)" in new Harness {
 
-                    status(result) mustBe OK
+                      MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(Some(Html("<nav>NavBar</nav>"))))
+                      override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = singleEnrolement))
+
+                      status(result) mustBe OK
+                    }
+                  }
+
+                  "when navBar returns None" - {
+                    "allow the User through, returning a 200 (OK)" in new Harness {
+
+                      MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
+                      override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = singleEnrolement))
+
+                      status(result) mustBe OK
+                    }
                   }
 
                   "set UserRequest.hasMultipleErns to false" in new Harness {
+                    MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
                     override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = singleEnrolement))
                     val hasMultipleErns = testRequest(req => req.hasMultipleErns)
 
@@ -250,12 +268,14 @@ class AuthActionSpec extends SpecBase with BaseFixtures with BeforeAndAfterAll {
                   ))
 
                   "allow the User through, returning a 200 (OK)" in new Harness {
+                    MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
                     override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = multipleEnrolements))
 
                     status(result) mustBe OK
                   }
 
                   "set UserRequest.hasMultipleErns to true" in new Harness {
+                    MockNavBarPartialConnector.getNavBar(testErn).returns(Future.successful(None))
                     override val authConnector = new FakeSuccessAuthConnector(authResponse(enrolments = multipleEnrolements))
                     val hasMultipleErns = testRequest(req => req.hasMultipleErns)
 

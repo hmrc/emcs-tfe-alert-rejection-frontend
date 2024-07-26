@@ -18,9 +18,13 @@ package models.requests
 
 import models.response.emcsTfe.GetMovementResponse
 import play.api.mvc.WrappedRequest
+import play.twirl.api.Html
 
-case class MovementRequest[A](request: UserRequest[A], arc: String, movementDetails: GetMovementResponse) extends WrappedRequest[A](request) {
+case class MovementRequest[A](request: UserRequest[A],
+                              arc: String,
+                              movementDetails: GetMovementResponse) extends WrappedRequest[A](request) with NavBarRequest {
 
   val internalId = request.internalId
   val ern = request.ern
+  override val navBar: Option[Html] = request.navBar
 }

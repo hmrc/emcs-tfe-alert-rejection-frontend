@@ -32,6 +32,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.{Request, Result}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{cookies, defaultAwaitTimeout}
+import play.twirl.api.Html
 
 import scala.concurrent.Future
 
@@ -66,15 +67,16 @@ trait SpecBase
         bind[MovementAction].toInstance(new FakeMovementAction(getMovementResponseModel))
       )
 
-  def userRequest[A](request: Request[A], ern: String = testErn): UserRequest[A] =
-    UserRequest(request, ern, testInternalId, testCredId, false)
+  def userRequest[A](request: Request[A], ern: String = testErn, navBar: Option[Html] = None): UserRequest[A] =
+    UserRequest(request, ern, testInternalId, testCredId, false, navBar)
 
-  def movementRequest[A](request: Request[A], ern: String = testErn): MovementRequest[A] =
-    MovementRequest(userRequest(request, ern), testArc, getMovementResponseModel)
+  def movementRequest[A](request: Request[A], ern: String = testErn, navBar: Option[Html] = None): MovementRequest[A] =
+    MovementRequest(userRequest(request, ern, navBar), testArc, getMovementResponseModel)
 
   def dataRequest[A](request: Request[A],
                      answers: UserAnswers = emptyUserAnswers,
                      ern: String = testErn,
-                     traderKnownFacts: TraderKnownFacts = testMinTraderKnownFacts): DataRequest[A] =
-    DataRequest(movementRequest(request, ern), answers, traderKnownFacts)
+                     traderKnownFacts: TraderKnownFacts = testMinTraderKnownFacts,
+                     navBar: Option[Html] = None): DataRequest[A] =
+    DataRequest(movementRequest(request, ern, navBar), answers, traderKnownFacts)
 }
