@@ -3,6 +3,7 @@ $hmrc-assets-path: "/emcs/alert-or-rejection/assets/lib/hmrc-frontend/hmrc/asset
 
 @import "lib/govuk-frontend/govuk/all";
 @import "lib/hmrc-frontend/hmrc/all";
+@import "primary-navigation";
 
 .js-visible {
   display: none !important;

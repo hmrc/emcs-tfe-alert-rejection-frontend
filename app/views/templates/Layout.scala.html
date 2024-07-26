@@ -19,6 +19,7 @@
 @import views.html.templates.FullWidthMainContentTemplate
 @import views.html.components.activeTrader
 @import viewmodels.traderInfo.TraderInfo
+@import models.requests.NavBarRequest
 
 @this(
     appConfig: AppConfig,
@@ -38,7 +39,14 @@
     activeTrader: activeTrader
 )
 
-@(pageTitle: String, maybeShowActiveTrader: Option[TraderInfo], showBackLink: Boolean = true, timeout: Boolean = true, showSignOut: Boolean = true, fullWidthContent: Boolean = false)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
+@(
+        pageTitle: String,
+        maybeShowActiveTrader: Option[TraderInfo],
+        showBackLink: Boolean = true,
+        timeout: Boolean = true,
+        showSignOut: Boolean = true,
+        fullWidthContent: Boolean = false
+)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @head = {
 
@@ -68,7 +76,10 @@
 @beforeContent = {
 
     @{ activeTrader(maybeShowActiveTrader, appConfig) }
-
+    @{ request match {
+        case navBarRequest: NavBarRequest => navBarRequest.navBar.getOrElse(Html(""))
+        case _ => Html("")
+    }}
     @if(showBackLink) {
         @govukBackLink(BackLinkViewModel(href = "#").withCssClass("js-visible"))
     }
