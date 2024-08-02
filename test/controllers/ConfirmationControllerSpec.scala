@@ -18,8 +18,8 @@ package controllers
 
 import base.SpecBase
 import models.SelectAlertReject.Alert
-import models.{ConfirmationDetails, SelectReason, UserAnswers}
-import pages.{ConfirmationPage, SelectAlertRejectPage, SelectReasonPage}
+import models.{ConfirmationDetails, UserAnswers}
+import pages.{ConfirmationPage, SelectAlertRejectPage}
 import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
