@@ -24,6 +24,7 @@ import java.time.temporal.ChronoUnit
 
 trait BaseFixtures {
 
+  val testAuthToken = "Bearer token"
   val testCredId: String = "credId"
   val testInternalId: String = "internalId"
   val testErn: String = "ern"
