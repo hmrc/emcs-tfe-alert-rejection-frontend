@@ -21,7 +21,7 @@
     formHelper: FormWithCSRF,
     govukErrorSummary: GovukErrorSummary,
     govukCheckboxes: GovukCheckboxes,
-    govukButton: GovukButton,
+    continue: components.continue,
     h1: components.h1,
     h2: components.h2
 )
@@ -47,9 +47,7 @@
             ).withHint(Hint(content = HtmlContent(messages("selectReason.hint"))))
         )
 
-        @govukButton(
-            ButtonViewModel(messages("site.continue"))
-        )
+        @continue()
     }
 }
 
