@@ -18,9 +18,11 @@ package services
 
 import base.SpecBase
 import config.AppConfig
-import fixtures.SubmissionFixtures
+import featureswitch.core.config.EnableNRS
+import fixtures.{NRSBrokerFixtures, SubmissionFixtures}
+import mocks.config.MockAppConfig
 import mocks.connectors.MockSubmissionConnector
-import mocks.services.MockAuditingService
+import mocks.services.{MockAuditingService, MockNRSBrokerService}
 import models.DestinationOffice.GreatBritain
 import models.SelectAlertReject.{Alert, Reject}
 import models.SelectReason.{GoodTypesNotMatchOrder, QuantitiesNotMatchOrder}
@@ -34,81 +36,108 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SubmissionServiceSpec extends SpecBase with MockSubmissionConnector with SubmissionFixtures with MockAuditingService {
+class SubmissionServiceSpec extends SpecBase
+  with MockSubmissionConnector
+  with SubmissionFixtures
+  with MockAuditingService
+  with MockAppConfig
+  with MockNRSBrokerService
+  with NRSBrokerFixtures {
 
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = ExecutionContext.global
 
   implicit val appConfig: AppConfig = applicationBuilder().build().injector.instanceOf[AppConfig]
 
-  lazy val testService = new SubmissionService(mockSubmissionConnector, mockAuditingService)
+  lazy val testService = new SubmissionService(mockSubmissionConnector, mockNRSBrokerService, mockAuditingService, mockAppConfig)
+
+  class Fixture(isNRSEnabled: Boolean) {
+    MockAppConfig.getFeatureSwitchValue(EnableNRS).returns(isNRSEnabled)
+  }
 
   ".submit" - {
 
-    Seq(Alert, Reject).foreach { aType =>
-      s"for a ${aType.getClass.getSimpleName.stripSuffix("$")}" - {
+    Seq(true, false).foreach { nrsEnabled =>
 
-        Seq(
-          ("Northern Ireland Trader" -> "XI123456789"),
-          ("Great British Trader" -> "GB123456789")
-        ).foreach {
-          case (testDescription, testingErn) =>
-            s"for a $testDescription" - {
+      s"when NRS enabled is '$nrsEnabled'" - {
 
-              "should submit, audit and return a success response" - {
+        Seq(Alert, Reject).foreach { aType =>
+          s"for a ${aType.getClass.getSimpleName.stripSuffix("$")}" - {
 
-                "when connector receives a success from downstream" in {
+            Seq(
+              ("Northern Ireland Trader" -> "XI123456789"),
+              ("Great British Trader" -> "GB123456789")
+            ).foreach {
+              case (testDescription, testingErn) =>
+                s"for a $testDescription" - {
 
-                  val userAnswers = emptyUserAnswers.copy(ern = testingErn)
-                    .set(SelectAlertRejectPage, aType)
-                    .set(DestinationOfficePage, GreatBritain)
-                    .set(SelectReasonPage, Seq(GoodTypesNotMatchOrder, QuantitiesNotMatchOrder))
+                  "should submit, audit and return a success response" - {
 
-                  val request = dataRequest(FakeRequest(), userAnswers, ern = testingErn)
+                    "when connector receives a success from downstream" in new Fixture(nrsEnabled) {
 
-                  val submission = SubmitAlertOrRejectionModel()(request, appConfig)
+                      val userAnswers = emptyUserAnswers.copy(ern = testingErn)
+                        .set(SelectAlertRejectPage, aType)
+                        .set(DestinationOfficePage, GreatBritain)
+                        .set(SelectReasonPage, Seq(GoodTypesNotMatchOrder, QuantitiesNotMatchOrder))
 
-                  MockSubmitExplainDelayConnector
-                    .submit(testingErn, testArc, submission).returns(Future.successful(Right(submitAlertOrRejectionChRISResponseModel)))
-                    .noMoreThanOnce()
+                      val request = dataRequest(FakeRequest(), userAnswers, ern = testingErn)
+                      val submission = SubmitAlertOrRejectionModel()(request, appConfig)
 
-                  MockAuditingService
-                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Right(submitAlertOrRejectionChRISResponseModel)))
-                    .noMoreThanOnce()
+                      MockSubmitExplainDelayConnector
+                        .submit(testingErn, testArc, submission).returns(Future.successful(Right(submitAlertOrRejectionChRISResponseModel)))
+                        .noMoreThanOnce()
 
-                  testService.submit(testingErn, testArc)(hc, request).futureValue mustBe submitAlertOrRejectionChRISResponseModel
+                      MockAuditingService
+                        .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Right(submitAlertOrRejectionChRISResponseModel)))
+                        .noMoreThanOnce()
+
+                      if (nrsEnabled) {
+                        MockNRSBrokerService.submitPayload(submission, testingErn)
+                          .returns(Future.successful(Right(nrsBrokerResponseModel)))
+                      } else {
+                        MockNRSBrokerService.submitPayload(submitAlertOrRejectionModel, testingErn).never()
+                      }
+
+                      testService.submit(testingErn, testArc)(hc, request).futureValue mustBe submitAlertOrRejectionChRISResponseModel
+                    }
+                  }
+
+                  "should submit, audit and return a failure response" - {
+
+                    "when connector receives a failure from downstream" in new Fixture(nrsEnabled) {
+
+                      val userAnswers = emptyUserAnswers.copy(ern = testingErn)
+                        .set(SelectAlertRejectPage, aType)
+                        .set(DestinationOfficePage, GreatBritain)
+                        .set(SelectReasonPage, Seq(GoodTypesNotMatchOrder, QuantitiesNotMatchOrder))
+
+                      val request = dataRequest(FakeRequest(), userAnswers, ern = testingErn)
+                      val submission = SubmitAlertOrRejectionModel()(request, appConfig)
+
+                      MockSubmitExplainDelayConnector
+                        .submit(testingErn, testArc, submission).returns(Future.successful(Left(UnexpectedDownstreamResponseError)))
+                        .noMoreThanOnce()
+
+                      MockAuditingService
+                        .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Left(UnexpectedDownstreamResponseError)))
+                        .noMoreThanOnce()
+
+                      if (nrsEnabled) {
+                        MockNRSBrokerService.submitPayload(submission, testingErn)
+                          .returns(Future.successful(Right(nrsBrokerResponseModel)))
+                      } else {
+                        MockNRSBrokerService.submitPayload(submitAlertOrRejectionModel, testingErn).never()
+                      }
+
+                      intercept[SubmitAlertOrRejectionException](await(testService.submit(testingErn, testArc)(hc, request))).getMessage mustBe
+                        s"Failed to submit alert or rejection to emcs-tfe for ern: '$testingErn' & arc: '$testArc'"
+                    }
+                  }
                 }
-              }
-
-              "should submit, audit and return a failure response" - {
-
-                "when connector receives a failure from downstream" in {
-
-                  val userAnswers = emptyUserAnswers.copy(ern = testingErn)
-                    .set(SelectAlertRejectPage, aType)
-                    .set(DestinationOfficePage, GreatBritain)
-                    .set(SelectReasonPage, Seq(GoodTypesNotMatchOrder, QuantitiesNotMatchOrder))
-
-                  val request = dataRequest(FakeRequest(), userAnswers, ern = testingErn)
-
-                  val submission = SubmitAlertOrRejectionModel()(request, appConfig)
-
-                  MockSubmitExplainDelayConnector
-                    .submit(testingErn, testArc, submission).returns(Future.successful(Left(UnexpectedDownstreamResponseError)))
-                    .noMoreThanOnce()
-
-                  MockAuditingService
-                    .audit(SubmissionAudit(testCredId, testInternalId, testingErn, testReceiptDate, submission, Left(UnexpectedDownstreamResponseError)))
-                    .noMoreThanOnce()
-
-                  intercept[SubmitAlertOrRejectionException](await(testService.submit(testingErn, testArc)(hc, request))).getMessage mustBe
-                    s"Failed to submit alert or rejection to emcs-tfe for ern: '$testingErn' & arc: '$testArc'"
-                }
-              }
             }
+          }
         }
       }
     }
   }
-
 }

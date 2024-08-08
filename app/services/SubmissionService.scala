@@ -18,11 +18,13 @@ package services
 
 import config.AppConfig
 import connectors.emcsTfe.SubmissionConnector
+import featureswitch.core.config.{EnableNRS, FeatureSwitching}
 import models.alertOrRejection.SubmitAlertOrRejectionModel
 import models.audit.SubmissionAudit
 import models.requests.DataRequest
 import models.response.emcsTfe.SubmissionResponse
 import models.{ErrorResponse, SubmitAlertOrRejectionException}
+import services.nrs.NRSBrokerService
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
 
@@ -31,14 +33,23 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class SubmissionService @Inject()(submitExplainDelayConnector: SubmissionConnector,
-                                  auditingService: AuditingService
-                                  )
-                                 (implicit ec: ExecutionContext, appConfig: AppConfig) extends Logging {
+                                  nrsBrokerService: NRSBrokerService,
+                                  auditingService: AuditingService,
+                                  override val config: AppConfig)
+                                 (implicit ec: ExecutionContext, appConfig: AppConfig) extends Logging with FeatureSwitching {
 
   def submit(ern: String, arc: String)(implicit hc: HeaderCarrier, dataRequest: DataRequest[_]): Future[SubmissionResponse] = {
-
     val submissionRequest = SubmitAlertOrRejectionModel()
 
+    if(isEnabled(EnableNRS)) {
+      nrsBrokerService.submitPayload(submissionRequest, ern).flatMap(_ => handleSubmission(ern, arc, submissionRequest))
+    } else {
+      handleSubmission(ern, arc, submissionRequest)
+    }
+  }
+
+  private def handleSubmission(ern: String, arc: String, submissionRequest: SubmitAlertOrRejectionModel)
+                              (implicit hc: HeaderCarrier, dataRequest: DataRequest[_]): Future[SubmissionResponse] = {
     submitExplainDelayConnector.submit(ern, arc, submissionRequest).map {
       case Right(submissionResponse) =>
         logger.info("[submit] Successful alert or rejection submission")

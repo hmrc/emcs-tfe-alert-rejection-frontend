@@ -25,7 +25,7 @@ import models.common.ExciseMovementModel
 import models.requests.DataRequest
 import models.response.emcsTfe.{GetMovementResponse, TraderModel}
 import pages._
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json.{Json, OFormat}
 import utils.{JsonOptionFormatter, ModelConstructorHelpers}
 
 import java.time.LocalDate
@@ -38,7 +38,7 @@ case class SubmitAlertOrRejectionModel(consigneeTrader: Option[TraderModel],
                                        alertOrRejectionReasons: Option[Seq[AlertOrRejectionReasonModel]])
 object SubmitAlertOrRejectionModel extends JsonOptionFormatter with ModelConstructorHelpers {
 
-  implicit val fmt: Format[SubmitAlertOrRejectionModel] = Json.format
+  implicit val fmt: OFormat[SubmitAlertOrRejectionModel] = Json.format
 
   private[models] def destinationOfficePrefix(implicit dataRequest: DataRequest[_]): String = {
     if (dataRequest.userAnswers.isNorthernIrelandTrader) {
