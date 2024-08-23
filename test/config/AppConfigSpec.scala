@@ -21,7 +21,7 @@ import featureswitch.core.config.{FeatureSwitching, StubGetTraderKnownFacts}
 
 class AppConfigSpec extends SpecBase with FeatureSwitching {
 
-  override lazy val config = applicationBuilder().build().injector.instanceOf[AppConfig]
+  override lazy val config: AppConfig = applicationBuilder().build().injector.instanceOf[AppConfig]
 
   "AppConfig" - {
 
