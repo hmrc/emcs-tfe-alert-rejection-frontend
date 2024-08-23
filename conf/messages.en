@@ -235,7 +235,8 @@ confirmation.heading1.p1 = The movement can continue but you may wish to contact
 confirmation.heading2 = If you have rejected the movement
 confirmation.heading2.p1 = The consignor must now cancel or submit a change of destination for the movement.
 confirmation.heading2.p2 = If the movement contains energy goods, the consignor may also choose to split the movement.
-confirmation.button = Return to movement
+confirmation.returnToAccount = Return to account home
+confirmation.returnToMovement = Return to movement
 confirmation.feedback.link = What did you think of this service?
 confirmation.feedback.time = (takes 30 seconds)
 

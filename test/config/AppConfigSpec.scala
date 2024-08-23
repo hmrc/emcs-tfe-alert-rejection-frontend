@@ -36,7 +36,7 @@ class AppConfigSpec extends SpecBase with FeatureSwitching {
     ".emcsMovementDetailsUrl()" - {
 
       "must return to the new URL" in {
-        config.emcsMovementDetailsUrl(testErn, testArc) mustBe s"http://localhost:8310/emcs/account/consignment/$testErn/$testArc"
+        config.emcsMovementDetailsUrl(testErn, testArc) mustBe s"http://localhost:8310/emcs/account/trader/$testErn/movement/$testArc/overview"
       }
     }
 

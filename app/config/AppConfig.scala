@@ -79,7 +79,7 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
     configuration.get[String]("urls.emcsTfeHome")
 
   def emcsMovementDetailsUrl(ern: String, arc: String): String =
-    configuration.get[String]("urls.emcsTfeMovementDetails") + s"/$ern/$arc"
+    configuration.get[String]("urls.emcsTfeMovementDetails").replace(":ern", ern).replace(":arc", arc)
 
   def emcsMovementsUrl(ern: String): String =
     configuration.get[String]("urls.emcsTfeMovementsIn") + s"/$ern"

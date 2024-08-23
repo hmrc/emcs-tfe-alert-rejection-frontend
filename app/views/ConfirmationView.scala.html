@@ -42,11 +42,19 @@
 
     @whatHappensNext(confirmationDetails)
 
-    @p(classes = "govuk-body no-print") {
+    @p(classes = "govuk-body no-print govuk-!-margin-top-8") {
+        @link(
+            link = appConfig.emcsMovementDetailsUrl(request.ern, request.arc),
+            messageKey = "confirmation.returnToMovement",
+            id = Some("return-to-movement")
+        )
+    }
+
+    @p(classes = "govuk-body no-print govuk-!-margin-bottom-8") {
         @link(
             link = appConfig.emcsTfeHomeUrl(Some(request.ern)),
-            messageKey = "confirmation.button",
-            id = Some("confirmationButton")
+            messageKey = "confirmation.returnToAccount",
+            id = Some("return-to-account")
         )
     }
 
