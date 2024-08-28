@@ -51,6 +51,7 @@ object ConfirmationMessages {
     val ifRejectedHeadingParagraph2 = "If the movement contains energy goods, the consignor may also choose to split the movement."
 
     val returnToMovement = "Return to movement"
+    val returnToAccountHome = "Return to account home"
 
     val feedback = "What did you think of this service? (opens in new tab)"
 

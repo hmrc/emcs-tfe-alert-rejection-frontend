@@ -64,7 +64,8 @@ class ConfirmationViewSpec extends ViewSpecBase with ViewBehaviours {
               Selectors.h3(2) -> messagesForLanguage.ifRejectedHeading,
               Selectors.p(4) -> messagesForLanguage.ifRejectedHeadingParagraph1,
               Selectors.p(5) -> messagesForLanguage.ifRejectedHeadingParagraph2,
-              "#confirmationButton" -> messagesForLanguage.returnToMovement,
+              "#return-to-movement" -> messagesForLanguage.returnToMovement,
+              "#return-to-account" -> messagesForLanguage.returnToAccountHome,
               "#feedbackSurvey" -> messagesForLanguage.feedback
             ))
 
