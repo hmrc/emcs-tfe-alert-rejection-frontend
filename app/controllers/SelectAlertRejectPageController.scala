@@ -37,8 +37,7 @@ class SelectAlertRejectPageController @Inject()(
                                                  override val withMovement: MovementAction,
                                                  override val getData: DataRetrievalAction,
                                                  override val requireData: DataRequiredAction,
-                                                 override val userAllowList: UserAllowListAction,
-                                                 formProvider: SelectAlertRejectFormProvider,
+                                                           formProvider: SelectAlertRejectFormProvider,
                                                  val controllerComponents: MessagesControllerComponents,
                                                  view: SelectAlertRejectView
                                      ) extends BaseNavigationController with AuthActionHelper {

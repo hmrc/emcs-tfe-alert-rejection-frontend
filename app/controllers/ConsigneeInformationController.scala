@@ -38,8 +38,7 @@ class ConsigneeInformationController @Inject()(
                                                 override val withMovement: MovementAction,
                                                 override val getData: DataRetrievalAction,
                                                 override val requireData: DataRequiredAction,
-                                                override val userAllowList: UserAllowListAction,
-                                                formProvider: ConsigneeInformationFormProvider,
+                                                         formProvider: ConsigneeInformationFormProvider,
                                                 val controllerComponents: MessagesControllerComponents,
                                                 view: ConsigneeInformationView
                                               ) extends BaseNavigationController with AuthActionHelper {

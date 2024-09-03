@@ -36,8 +36,7 @@ class ChooseGoodsTypeInformationController @Inject()(override val messagesApi: M
                                                      override val withMovement: MovementAction,
                                                      override val getData: DataRetrievalAction,
                                                      override val requireData: DataRequiredAction,
-                                                     override val userAllowList: UserAllowListAction,
-                                                     formProvider: ChooseGoodsTypeInformationFormProvider,
+                                                                   formProvider: ChooseGoodsTypeInformationFormProvider,
                                                      val controllerComponents: MessagesControllerComponents,
                                                      view: ChooseGoodsTypeInformationView
                                                     ) extends BaseNavigationController with AuthActionHelper {

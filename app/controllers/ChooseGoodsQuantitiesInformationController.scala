@@ -37,7 +37,6 @@ class ChooseGoodsQuantitiesInformationController @Inject()(
                                        override val withMovement: MovementAction,
                                        override val getData: DataRetrievalAction,
                                        override val requireData: DataRequiredAction,
-                                       override val userAllowList: UserAllowListAction,
                                        formProvider: ChooseGoodsQuantitiesInformationFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: ChooseGoodsQuantitiesInformationView

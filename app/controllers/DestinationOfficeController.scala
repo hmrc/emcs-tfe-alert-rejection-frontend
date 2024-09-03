@@ -37,7 +37,6 @@ class DestinationOfficeController @Inject()(
                                        override val withMovement: MovementAction,
                                        override val getData: DataRetrievalAction,
                                        override val requireData: DataRequiredAction,
-                                       override val userAllowList: UserAllowListAction,
                                        formProvider: DestinationOfficeFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: DestinationOfficeView

@@ -39,8 +39,7 @@ class GiveInformationController @Inject()(
                                            override val withMovement: MovementAction,
                                            override val getData: DataRetrievalAction,
                                            override val requireData: DataRequiredAction,
-                                           override val userAllowList: UserAllowListAction,
-                                           formProvider: GiveInformationFormProvider,
+                                               formProvider: GiveInformationFormProvider,
                                            val controllerComponents: MessagesControllerComponents,
                                            view: GiveInformationView
                                          ) extends BaseNavigationController with AuthActionHelper {
