@@ -36,8 +36,7 @@ class ConfirmationController @Inject()(
                                         override val withMovement: MovementAction,
                                         override val getData: DataRetrievalAction,
                                         override val requireData: DataRequiredAction,
-                                        override val userAllowList: UserAllowListAction,
-                                        val controllerComponents: MessagesControllerComponents,
+                                         val controllerComponents: MessagesControllerComponents,
                                         view: ConfirmationView,
                                         errorHandler: ErrorHandler
                                       ) extends BaseNavigationController with AuthActionHelper with I18nSupport {

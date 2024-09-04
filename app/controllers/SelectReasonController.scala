@@ -40,8 +40,7 @@ class SelectReasonController @Inject()(
                                         override val withMovement: MovementAction,
                                         override val getData: DataRetrievalAction,
                                         override val requireData: DataRequiredAction,
-                                        override val userAllowList: UserAllowListAction,
-                                        formProvider: SelectReasonFormProvider,
+                                         formProvider: SelectReasonFormProvider,
                                         val controllerComponents: MessagesControllerComponents,
                                         view: SelectReasonView
                                       ) extends BaseNavigationController with AuthActionHelper {

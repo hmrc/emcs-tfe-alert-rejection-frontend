@@ -16,7 +16,7 @@
 
 package utils
 
-import java.time.{Instant, LocalDateTime, ZoneId}
+import java.time.Instant
 import javax.inject.Inject
 
 trait TimeMachine {

@@ -52,6 +52,8 @@ class InformationSummarySpec extends SpecBase {
             testOnly.controllers.routes.UnderConstructionController.onPageLoad()
           case GiveInformationPage =>
             controllers.routes.GiveInformationController.onPageLoad(testErn, testArc, CheckMode)
+          case page =>
+            throw new IllegalArgumentException(s"Unexpected page of $page in pageToRoute")
         }
 
         def pageToCYALabel(page: QuestionPage[Option[String]]): String = page match {
@@ -61,6 +63,8 @@ class InformationSummarySpec extends SpecBase {
             langMessages.cyaGoodsTypesLabel
           case GoodsQuantitiesInformationPage =>
             langMessages.cyaGoodsQuantitiesLabel
+          case page =>
+            throw new IllegalArgumentException(s"Unexpected page of $page in pageToCYALabel")
         }
 
         def pageToCYAHidden(page: QuestionPage[Option[String]]): String = page match {
@@ -70,6 +74,8 @@ class InformationSummarySpec extends SpecBase {
             langMessages.cyaGoodsTypesHidden
           case GoodsQuantitiesInformationPage =>
             langMessages.cyaGoodsQuantitiesHidden
+          case page =>
+            throw new IllegalArgumentException(s"Unexpected page of $page in pageToCYAHidden")
         }
 
         def pageToCYAMoreInformation(page: QuestionPage[Option[String]]): String = page match {
@@ -79,6 +85,8 @@ class InformationSummarySpec extends SpecBase {
             langMessages.addMoreGoodsTypesInformation
           case GoodsQuantitiesInformationPage =>
             langMessages.addMoreGoodsQuantitiesInformation
+          case page =>
+            throw new IllegalArgumentException(s"Unexpected page of $page in pageToCYAMoreInformation")
         }
 
         Seq(ConsigneeInformationPage, GoodsTypeInformationPage, GoodsQuantitiesInformationPage).foreach { aPage =>

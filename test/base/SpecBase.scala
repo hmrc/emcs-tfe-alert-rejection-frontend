@@ -16,11 +16,11 @@
 
 package base
 
-import controllers.action.{FakeAuthAction, FakeDataRetrievalAction, FakeMovementAction, FakeUserAllowListAction}
-import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction, UserAllowListAction}
+import controllers.action.{FakeAuthAction, FakeDataRetrievalAction, FakeMovementAction}
+import controllers.actions.{AuthAction, DataRetrievalAction, MovementAction}
 import fixtures.{BaseFixtures, GetMovementResponseFixtures}
-import models.{TraderKnownFacts, UserAnswers}
 import models.requests.{DataRequest, MovementRequest, UserRequest}
+import models.{TraderKnownFacts, UserAnswers}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
@@ -62,7 +62,6 @@ trait SpecBase
       )
       .overrides(
         bind[AuthAction].to[FakeAuthAction],
-        bind[UserAllowListAction].to[FakeUserAllowListAction],
         bind[DataRetrievalAction].toInstance(new FakeDataRetrievalAction(userAnswers, optTraderKnownFacts)),
         bind[MovementAction].toInstance(new FakeMovementAction(getMovementResponseModel))
       )

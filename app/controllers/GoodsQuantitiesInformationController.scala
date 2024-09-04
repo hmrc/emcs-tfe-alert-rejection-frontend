@@ -38,7 +38,6 @@ class GoodsQuantitiesInformationController @Inject()(
                                        override val withMovement: MovementAction,
                                        override val getData: DataRetrievalAction,
                                        override val requireData: DataRequiredAction,
-                                       override val userAllowList: UserAllowListAction,
                                        formProvider: GiveInformationFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: GoodsQuantitiesInformationView

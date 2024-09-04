@@ -16,7 +16,7 @@
 
 package models
 
-import play.api.libs.json.JsonValidationError
+import play.api.libs.json.{JsonValidationError => JsValidationError}
 
 import scala.util.control.NoStackTrace
 
@@ -40,7 +40,7 @@ case class SubmitAlertOrRejectionException(message: String) extends Exception(me
 case class UserAnswersException(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
 case class MissingMandatoryPage(message: String) extends Exception(message) with NoStackTrace with ErrorResponse
 
-case class NRSBrokerJsonParsingError(errors: Seq[JsonValidationError]) extends ErrorResponse {
+case class NRSBrokerJsonParsingError(errors: Seq[JsValidationError]) extends ErrorResponse {
   val message = s"Errors parsing JSON, errors: $errors"
 }
 
