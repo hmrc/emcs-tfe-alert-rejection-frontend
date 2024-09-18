@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package connectors.referenceData
+package connectors.knownFacts
 
 import base.SpecBase
 import mocks.connectors.MockHttpClient

@@ -16,7 +16,7 @@
 
 package mocks.connectors
 
-import connectors.referenceData.GetTraderKnownFactsConnector
+import connectors.knownFacts.GetTraderKnownFactsConnector
 import models.TraderKnownFacts
 import models.ErrorResponse
 import org.scalamock.handlers.CallHandler3

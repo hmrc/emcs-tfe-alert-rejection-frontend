@@ -16,7 +16,7 @@
 
 package services
 
-import connectors.referenceData.GetTraderKnownFactsConnector
+import connectors.knownFacts.GetTraderKnownFactsConnector
 import models.TraderKnownFacts
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.Logging
