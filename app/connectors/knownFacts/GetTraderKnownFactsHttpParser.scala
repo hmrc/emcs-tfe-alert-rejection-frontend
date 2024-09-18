@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package connectors.referenceData
+package connectors.knownFacts
 
 import connectors.BaseConnectorUtils
 import models.TraderKnownFacts
