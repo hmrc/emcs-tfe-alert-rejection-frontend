@@ -26,7 +26,7 @@ object IndexMessages {
   }
 
   object English extends ViewMessages with BaseEnglish {
-    override val heading = "Excise Movement and Control System - GOV.UK"
+    override val heading = "Create and manage excise goods movements with EMCS - GOV.UK"
     override val title = titleHelper("emcs-tfe-alert-rejection-frontend")
   }
 }

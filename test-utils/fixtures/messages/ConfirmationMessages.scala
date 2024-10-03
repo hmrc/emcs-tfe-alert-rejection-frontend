@@ -22,7 +22,7 @@ import models.SelectAlertReject
 object ConfirmationMessages {
 
   sealed trait ViewMessages { _: i18n =>
-    val title = "Confirmation - Excise Movement and Control System - GOV.UK"
+    val title = "Confirmation - Create and manage excise goods movements with EMCS - GOV.UK"
 
     def submissionStatus(alertOrReject: SelectAlertReject): String = alertOrReject match {
       case SelectAlertReject.Alert => "Alert submitted"
