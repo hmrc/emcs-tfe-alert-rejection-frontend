@@ -22,7 +22,7 @@ object DestinationOfficeMessages {
 
   sealed trait ViewMessages { _: i18n =>
     val heading: String = "Were the goods received in Great Britain or Northern Ireland?"
-    val title: String = s"$heading - Excise Movement and Control System - GOV.UK"
+    val title: String = s"$heading - Create and manage excise goods movements with EMCS - GOV.UK"
     val gb: String = "Great Britain"
     val ni: String = "Northern Ireland"
     val requiredError: String = "Select if the goods were received in Great Britain or Northern Ireland"
