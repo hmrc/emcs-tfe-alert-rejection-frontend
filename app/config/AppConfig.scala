@@ -47,9 +47,7 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   private lazy val feedbackFrontendHost: String = configuration.get[String]("feedback-frontend.host")
 
-  lazy val feedbackFrontendSurveyUrl: String = s"$feedbackFrontendHost/feedback/$deskproName/beta"
-
-  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
+  lazy val feedbackFrontendSurveyUrl: String = s"$feedbackFrontendHost/feedback/$deskproName"
 
   lazy val loginUrl: String = configuration.get[String]("urls.login")
 
@@ -83,9 +81,6 @@ class AppConfig @Inject()(servicesConfig: ServicesConfig, configuration: Configu
 
   def emcsMovementsUrl(ern: String): String =
     configuration.get[String]("urls.emcsTfeMovements").replace(":ern", ern)
-
-  def betaBannerFeedbackUrl(implicit request: RequestHeader): String =
-    s"$contactHost/contact/beta-feedback?service=$deskproName&backUrl=${SafeRedirectUrl(host + request.uri).encodedUrl}"
 
   def destinationOfficeSuffix: String = configuration.get[String]("constants.destinationOfficeSuffix")
 
