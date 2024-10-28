@@ -49,7 +49,7 @@
         @govukRadios(
             RadiosViewModel(
                 field  = form("value"),
-                legend = LegendViewModel(HtmlContent(messages("selectAlertRejectPage.title"))).withCssClass("govuk-fieldset__legend govuk-fieldset__legend--m"),
+                legend = LegendViewModel(HtmlContent(messages("selectAlertRejectPage.legend"))).withCssClass("govuk-fieldset__legend govuk-fieldset__legend--m"),
                 items  = SelectAlertReject.options
             )
         )

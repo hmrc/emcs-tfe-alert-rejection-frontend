@@ -49,7 +49,8 @@ class SelectAlertRejectViewSpec extends ViewSpecBase with ViewBehaviours {
 
         behave like pageWithExpectedElementsAndMessages(Seq(
           Selectors.title -> messagesForLanguage.title,
-          Selectors.h1 -> messagesForLanguage.h1,
+          Selectors.h1 -> messagesForLanguage.heading,
+          Selectors.legend -> messagesForLanguage.legend,
           Selectors.p(1) -> messagesForLanguage.p1,
           Selectors.p(2) -> messagesForLanguage.p2,
           Selectors.radioButton(1) -> messagesForLanguage.radioOption1,
