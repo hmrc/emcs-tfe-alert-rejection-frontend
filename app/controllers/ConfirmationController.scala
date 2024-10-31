@@ -27,6 +27,7 @@ import services.UserAnswersService
 import views.html.ConfirmationView
 
 import javax.inject.Inject
+import scala.concurrent.Future
 
 class ConfirmationController @Inject()(
                                         override val messagesApi: MessagesApi,
@@ -43,13 +44,13 @@ class ConfirmationController @Inject()(
 
   def onPageLoad(ern: String, arc: String): Action[AnyContent] =
 
-    authorisedDataRequestWithCachedMovement(ern, arc) { implicit request =>
+    authorisedDataRequestWithCachedMovementAsync(ern, arc) { implicit request =>
       request.userAnswers.get(ConfirmationPage) match {
         case Some(confirmationDetails: ConfirmationDetails) =>
-          Ok(view(confirmationDetails))
+          Future.successful(Ok(view(confirmationDetails)))
         case None =>
           logger.warn("[onPageLoad] Could not retrieve submission receipt reference from User session")
-          BadRequest(errorHandler.badRequestTemplate)
+          errorHandler.badRequestTemplate.map(BadRequest(_))
       }
     }
 }
