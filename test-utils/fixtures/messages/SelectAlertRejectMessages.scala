@@ -21,9 +21,9 @@ import fixtures.messages.BaseEnglish.titleHelper
 
 object SelectAlertRejectMessages {
   sealed trait ViewMessages { _: i18n =>
-    val heading: String = "Do you want to receive the movement?"
+    val heading: String = "Alert or reject a movement"
     val title: String = titleHelper(heading)
-    val h1 = "Alert or reject a movement"
+    val legend = "Do you want to receive the movement?"
     val p1 = "Use an alert or rejection to tell HMRC and the consignor about a problem with a movement. You must do this as soon as you become aware of the problem."
     val p2 = "You can only submit an alert or rejection while the movement is in transit. If it's been delivered, you can refuse goods or tell the consignor about an issue when submitting a report of receipt."
     val radioOption1: String = "Yes, but I want to alert the consignor to an issue"
