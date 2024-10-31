@@ -82,11 +82,11 @@ class CheckYourAnswersController @Inject()(
               Redirect(navigator.nextPage(CheckYourAnswersPage, NormalMode, request.userAnswers))
             }
 
-          } recover {
+          } recoverWith {
             case _: MissingMandatoryPage =>
-              BadRequest(errorHandler.badRequestTemplate)
+              errorHandler.badRequestTemplate.map(BadRequest(_))
             case _ =>
-              InternalServerError(errorHandler.internalServerErrorTemplate)
+              errorHandler.internalServerErrorTemplate.map(InternalServerError(_))
           }
 
       }
