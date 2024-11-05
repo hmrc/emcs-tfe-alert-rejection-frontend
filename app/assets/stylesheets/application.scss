@@ -1,9 +1,5 @@
-$govuk-assets-path: "/emcs/alert-or-rejection/assets/lib/govuk-frontend/govuk/assets/";
-$hmrc-assets-path: "/emcs/alert-or-rejection/assets/lib/hmrc-frontend/hmrc/assets/";
-
-@import "lib/govuk-frontend/govuk/all";
-@import "lib/hmrc-frontend/hmrc/all";
-@import "primary-navigation";
+$govuk-include-default-font-face: false;
+@import "lib/govuk-frontend/dist/govuk/base";
 
 .js-visible {
   display: none !important;
