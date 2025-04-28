@@ -14,49 +14,53 @@
  * limitations under the License.
  */
 
-package connectors.emcsTfe
+package connectors.knownFacts
 
 import base.SpecBase
 import config.AppConfig
-import fixtures.GetMovementResponseFixtures
 import mocks.connectors.MockHttpClient
-import models.JsonValidationError
+import models.UnexpectedDownstreamResponseError
+import org.scalatest.BeforeAndAfterAll
 import play.api.Application
 import play.api.http.{HeaderNames, MimeTypes, Status}
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class GetMovementConnectorSpec extends SpecBase
-  with Status with MimeTypes with HeaderNames with MockHttpClient with GetMovementResponseFixtures {
+class GetTraderKnownFactsConnectorSpec extends SpecBase
+  with Status
+  with MimeTypes
+  with HeaderNames
+  with MockHttpClient
+  with BeforeAndAfterAll {
 
   lazy val app: Application = applicationBuilder(userAnswers = None).build()
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
   implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
+
   lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
+  lazy val connector = new GetTraderKnownFactsConnector(mockHttpClient, appConfig)
 
-  lazy val connector = new GetMovementConnector(mockHttpClient, appConfig)
-
-  "getMovement" - {
-
+  "getTraderKnownFacts" - {
     "should return a successful response" - {
-
       "when downstream call is successful" in {
 
-        MockHttpClient.get(url"${appConfig.emcsTfeBaseUrl}/movement/ern/arc?forceFetchNew=true").returns(Future.successful(Right(getMovementResponseModel)))
+        MockHttpClient.get(
+          url"${appConfig.traderKnownFactsBaseUrl}?exciseRegistrationId=$testErn"
+        ).returns(Future.successful(Right(Some(testMinTraderKnownFacts))))
 
-        connector.getMovement(exciseRegistrationNumber = "ern", arc = "arc", forceFetchNew = true).futureValue mustBe Right(getMovementResponseModel)
+        connector.getTraderKnownFacts(testErn).futureValue mustBe Right(Some(testMinTraderKnownFacts))
       }
     }
 
     "should return an error response" - {
-
       "when downstream call fails" in {
+        MockHttpClient.get(
+          url"${appConfig.traderKnownFactsBaseUrl}?exciseRegistrationId=$testErn"
+        ).returns(Future.successful(Left(UnexpectedDownstreamResponseError)))
 
-        MockHttpClient.get(url"${appConfig.emcsTfeBaseUrl}/movement/ern/arc?forceFetchNew=false").returns(Future.successful(Left(JsonValidationError)))
-
-        connector.getMovement(exciseRegistrationNumber = "ern", arc = "arc", forceFetchNew = false).futureValue mustBe Left(JsonValidationError)
+        connector.getTraderKnownFacts(testErn).futureValue mustBe Left(UnexpectedDownstreamResponseError)
       }
     }
   }

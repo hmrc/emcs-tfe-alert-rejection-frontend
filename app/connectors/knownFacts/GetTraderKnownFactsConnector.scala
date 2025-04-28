@@ -20,13 +20,14 @@ import config.AppConfig
 import models.TraderKnownFacts
 import models.{ErrorResponse, JsonValidationError, UnexpectedDownstreamResponseError}
 import play.api.libs.json.JsResultException
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.client.HttpClientV2
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class GetTraderKnownFactsConnector @Inject()(val http: HttpClient,
+class GetTraderKnownFactsConnector @Inject()(val http: HttpClientV2,
                                              config: AppConfig) extends GetTraderKnownFactsHttpParser {
 
   def baseUrl: String = config.traderKnownFactsBaseUrl

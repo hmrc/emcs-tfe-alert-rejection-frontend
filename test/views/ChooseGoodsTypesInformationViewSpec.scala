@@ -34,7 +34,7 @@ class ChooseGoodsTypesInformationViewSpec extends ViewSpecBase with ViewBehaviou
 
   object Selectors extends BaseSelectors
 
-  lazy val view = app.injector.instanceOf[ChooseGoodsTypeInformationView]
+  lazy val view: ChooseGoodsTypeInformationView = app.injector.instanceOf[ChooseGoodsTypeInformationView]
 
   "ChooseGoodsTypeInformationView" - {
 
@@ -54,8 +54,8 @@ class ChooseGoodsTypesInformationViewSpec extends ViewSpecBase with ViewBehaviou
             implicit val doc: Document = Jsoup.parse(view(form, NormalMode).toString())
 
             behave like pageWithExpectedElementsAndMessages(Seq(
-              Selectors.title -> messagesForLanguage.title,
-              Selectors.h1 -> messagesForLanguage.heading,
+              Selectors.title -> messagesForLanguage.title(),
+              Selectors.h1 -> messagesForLanguage.heading(),
               Selectors.radioButton(1) -> messagesForLanguage.yes,
               Selectors.radioButton(2) -> messagesForLanguage.no,
               Selectors.button -> messagesForLanguage.continue

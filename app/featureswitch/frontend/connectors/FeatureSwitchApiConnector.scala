@@ -18,21 +18,25 @@ package featureswitch.frontend.connectors
 
 import featureswitch.core.models.FeatureSwitchSetting
 import play.api.http.Status._
-import play.api.libs.json.{JsError, JsSuccess, Reads}
+import play.api.libs.json.{JsError, JsSuccess, Json, Reads}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
+import uk.gov.hmrc.http.client.HttpClientV2
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class FeatureSwitchApiConnector @Inject()(httpClient: HttpClient)(implicit ec: ExecutionContext) {
+class FeatureSwitchApiConnector @Inject()(httpClient: HttpClientV2)(implicit ec: ExecutionContext) {
 
   def retrieveFeatureSwitches(featureSwitchProviderUrl: String
                              )(implicit reads: Reads[Seq[FeatureSwitchSetting]],
                                hc: HeaderCarrier): Future[Seq[FeatureSwitchSetting]] = {
-    httpClient.GET(featureSwitchProviderUrl).map(
-      response =>
+
+    httpClient
+      .get(url"$featureSwitchProviderUrl")
+      .execute
+      .map( response =>
         response.status match {
           case OK =>
             response.json.validate[Seq[FeatureSwitchSetting]] match {
@@ -41,14 +45,17 @@ class FeatureSwitchApiConnector @Inject()(httpClient: HttpClient)(implicit ec: E
             }
           case _ => throw new Exception(s"Could not retrieve feature switches from $featureSwitchProviderUrl")
         }
-    )
+      )
   }
 
   def updateFeatureSwitches(featureSwitchProviderUrl: String,
                             featureSwitchSettings: Seq[FeatureSwitchSetting]
                            )(implicit hc: HeaderCarrier): Future[Seq[FeatureSwitchSetting]] = {
-    httpClient.POST(featureSwitchProviderUrl, featureSwitchSettings).map {
-      response =>
+    httpClient
+      .post(url"$featureSwitchProviderUrl")
+      .withBody(Json.toJson(featureSwitchSettings))
+      .execute
+      .map { response =>
         response.status match {
           case OK =>
             response.json.validate[Seq[FeatureSwitchSetting]] match {
@@ -57,7 +64,7 @@ class FeatureSwitchApiConnector @Inject()(httpClient: HttpClient)(implicit ec: E
             }
           case _ => throw new Exception(s"Could not retrieve feature switches from $featureSwitchProviderUrl")
         }
-    }
+      }
   }
 
 }
