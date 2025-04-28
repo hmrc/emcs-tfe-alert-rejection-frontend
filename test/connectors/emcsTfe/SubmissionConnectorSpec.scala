@@ -21,19 +21,21 @@ import config.AppConfig
 import fixtures.SubmissionFixtures
 import mocks.connectors.MockHttpClient
 import models.JsonValidationError
+import play.api.Application
 import play.api.http.{HeaderNames, MimeTypes, Status}
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.libs.json.Json
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class SubmissionConnectorSpec extends SpecBase
   with Status with MimeTypes with HeaderNames with MockHttpClient with SubmissionFixtures {
 
-  lazy val app = applicationBuilder(userAnswers = None).build()
+  lazy val app: Application = applicationBuilder(userAnswers = None).build()
 
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
   implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
-  lazy val appConfig = app.injector.instanceOf[AppConfig]
+  lazy val appConfig: AppConfig = app.injector.instanceOf[AppConfig]
 
   lazy val connector = new SubmissionConnector(mockHttpClient, appConfig)
 
@@ -44,8 +46,8 @@ class SubmissionConnectorSpec extends SpecBase
       "when the downstream call is successful" in {
 
         MockHttpClient.post(
-          url = s"${appConfig.emcsTfeBaseUrl}/alert-or-rejection/$testErn/$testArc",
-          body = submitAlertOrRejectionModel
+          url = url"${appConfig.emcsTfeBaseUrl}/alert-or-rejection/$testErn/$testArc",
+          body = Json.toJson(submitAlertOrRejectionModel)
         ).returns(Future.successful(Right(submitAlertOrRejectionChRISResponseModel)))
 
         connector
@@ -59,8 +61,8 @@ class SubmissionConnectorSpec extends SpecBase
         "when downstream call fails" in {
 
           MockHttpClient.post(
-            url = s"${appConfig.emcsTfeBaseUrl}/alert-or-rejection/$testErn/$testArc",
-            body = submitAlertOrRejectionModel
+            url = url"${appConfig.emcsTfeBaseUrl}/alert-or-rejection/$testErn/$testArc",
+            body = Json.toJson(submitAlertOrRejectionModel)
           ).returns(Future.successful(Left(JsonValidationError)))
 
           connector

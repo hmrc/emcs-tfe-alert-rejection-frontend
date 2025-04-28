@@ -21,13 +21,14 @@ import models.alertOrRejection.SubmitAlertOrRejectionModel
 import models.response.emcsTfe.SubmissionResponse
 import models.{ErrorResponse, UnexpectedDownstreamResponseError}
 import play.api.libs.json.Reads
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
+import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
+import uk.gov.hmrc.http.client.HttpClientV2
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class SubmissionConnector @Inject()(val http: HttpClient,
+class SubmissionConnector @Inject()(val http: HttpClientV2,
                                     config: AppConfig) extends EmcsTfeHttpParser[SubmissionResponse] {
 
   override implicit val reads: Reads[SubmissionResponse] = SubmissionResponse.reads
@@ -36,7 +37,7 @@ class SubmissionConnector @Inject()(val http: HttpClient,
 
   def submit(exciseRegistrationNumber: String, arc: String, submissionModel: SubmitAlertOrRejectionModel)
             (implicit headerCarrier: HeaderCarrier, executionContext: ExecutionContext): Future[Either[ErrorResponse, SubmissionResponse]] = {
-    post(s"$baseUrl/alert-or-rejection/$exciseRegistrationNumber/$arc", submissionModel)
+    post(url"$baseUrl/alert-or-rejection/$exciseRegistrationNumber/$arc", submissionModel)
 
   }.recover {
     ex =>

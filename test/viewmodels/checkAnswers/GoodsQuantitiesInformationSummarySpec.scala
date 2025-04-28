@@ -19,21 +19,24 @@ package viewmodels.checkAnswers
 import base.SpecBase
 import fixtures.messages.GoodsQuantitiesInformationMessages
 import models.CheckMode
+import models.requests.DataRequest
 import org.scalatest.matchers.must.Matchers
 import pages.GoodsQuantitiesInformationPage
 import play.api.i18n.Messages
+import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import uk.gov.hmrc.govukfrontend.views.Aliases.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.Value
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
+import views.html.components.link
 
 class GoodsQuantitiesInformationSummarySpec extends SpecBase with Matchers {
 
   "GoodsQuantitiesInformationSummary" - {
 
     lazy val app = applicationBuilder().build()
-    implicit val link = app.injector.instanceOf[views.html.components.link]
+    implicit val link: link = app.injector.instanceOf[views.html.components.link]
     val summary = new GoodsQuantitiesInformationSummary(link)
 
     Seq(GoodsQuantitiesInformationMessages.English).foreach { messagesForLanguage =>
@@ -45,9 +48,9 @@ class GoodsQuantitiesInformationSummarySpec extends SpecBase with Matchers {
         "when there's no answer" - {
 
           "must output the expected data" in {
-            implicit lazy val request = dataRequest(FakeRequest(), emptyUserAnswers)
+            implicit lazy val request: DataRequest[AnyContentAsEmpty.type] = dataRequest(FakeRequest(), emptyUserAnswers)
 
-            summary.row mustBe SummaryListRowViewModel(
+            summary.row() mustBe SummaryListRowViewModel(
               key = messagesForLanguage.cyaLabel,
               value = Value(
                 HtmlContent(link(
@@ -61,9 +64,10 @@ class GoodsQuantitiesInformationSummarySpec extends SpecBase with Matchers {
         "when there's an empty answer" - {
 
           "must output the expected data" in {
-            implicit lazy val request = dataRequest(FakeRequest(), emptyUserAnswers.set(GoodsQuantitiesInformationPage, Some("")))
+            implicit lazy val request: DataRequest[AnyContentAsEmpty.type] =
+              dataRequest(FakeRequest(), emptyUserAnswers.set(GoodsQuantitiesInformationPage, Some("")))
 
-            summary.row mustBe SummaryListRowViewModel(
+            summary.row() mustBe SummaryListRowViewModel(
               key = messagesForLanguage.cyaLabel,
               value = Value(
                 HtmlContent(link(
@@ -77,9 +81,10 @@ class GoodsQuantitiesInformationSummarySpec extends SpecBase with Matchers {
         "when there's an answer" - {
 
           "must output the expected row" in {
-            implicit lazy val request = dataRequest(FakeRequest(), emptyUserAnswers.set(GoodsQuantitiesInformationPage, Some("value")))
+            implicit lazy val request: DataRequest[AnyContentAsEmpty.type] =
+              dataRequest(FakeRequest(), emptyUserAnswers.set(GoodsQuantitiesInformationPage, Some("value")))
 
-            summary.row mustBe SummaryListRowViewModel(
+            summary.row() mustBe SummaryListRowViewModel(
               key = messagesForLanguage.cyaLabel,
               value = Value(Text("value")),
               actions = Seq(

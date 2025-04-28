@@ -19,13 +19,13 @@ package fixtures
 import models.alertOrRejection.{AlertOrRejectionReasonModel, SubmitAlertOrRejectionModel}
 import models.common.ExciseMovementModel
 import models.response.emcsTfe.{AddressModel, SubmissionResponse, TraderModel}
-import play.api.libs.json.Json
+import play.api.libs.json.{JsObject, JsValue, Json}
 
 import java.time.LocalDate
 
 trait SubmissionFixtures extends BaseFixtures {
 
-  val submitAlertOrRejectionModel = SubmitAlertOrRejectionModel(
+  val submitAlertOrRejectionModel: SubmitAlertOrRejectionModel = SubmitAlertOrRejectionModel(
     consigneeTrader = Some(
       TraderModel(
         traderExciseNumber = Some(testErn),
@@ -46,22 +46,22 @@ trait SubmissionFixtures extends BaseFixtures {
     alertOrRejectionReasons = Some(Seq[AlertOrRejectionReasonModel]().empty)
   )
 
-  val submitAlertOrRejectionChRISResponseModel = SubmissionResponse(
+  val submitAlertOrRejectionChRISResponseModel: SubmissionResponse = SubmissionResponse(
     receipt = testConfirmationReference,
     downstreamService = "ChRIS"
   )
 
-  val submitAlertOrRejectionEISResponseModel = SubmissionResponse(
+  val submitAlertOrRejectionEISResponseModel: SubmissionResponse = SubmissionResponse(
     receipt = testConfirmationReference,
     downstreamService = "EIS"
   )
 
-  val submitAlertOrRejectionChRISResponseJson = Json.obj(
+  val submitAlertOrRejectionChRISResponseJson: JsObject = Json.obj(
     "receipt" -> testConfirmationReference,
     "receiptDate" -> testReceiptDate
   )
 
-  val submitAlertOrRejectionEISResponseJson = Json.parse(
+  val submitAlertOrRejectionEISResponseJson: JsValue = Json.parse(
     s"""{
        | "status": "OK",
        | "message": "$testConfirmationReference",
